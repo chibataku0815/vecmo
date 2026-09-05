@@ -1,0 +1,9 @@
+{
+	"mcpServers": {
+		"vector-motion-author": {
+			"type": "stdio",
+			"command": "bun",
+			"args": ["run", "--cwd", "${CLAUDE_PROJECT_DIR:-.}", "mcp:agent"]
+		}
+	}
+}

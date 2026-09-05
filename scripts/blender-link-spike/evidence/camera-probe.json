@@ -1,0 +1,220 @@
+{
+	"probeVersion": 1,
+	"tolerance": 0.001,
+	"axisMatrixRows": [[1, 0, 0], [0, 0, 1], [0, -1, 0]],
+	"axisMapping": "blenderPoint = sceneUnitsPerPixel * (x_vecmo, z_vecmo, -y_vecmo)",
+	"fovConvention": "vertical FOV is authoritative; Blender sensor_fit=VERTICAL with camera.data.angle_y = verticalFovRadians; horizontal FOV follows the render aspect",
+	"screenConvention": "Vecmo Y-down projects to bottom-origin v; +Y_vecmo lands at v < 0.5",
+	"sceneUnitsPerPixel": 0.01,
+	"aspect": 1.7777777777777777,
+	"verticalFovRadians": 0.8726646259971648,
+	"deltaTestScope": "The per-point delta validates the projection convention only. Applying the same proper rotation to camera and points is invariant, so the rotation choice is pinned by the absolute axis assertions and the screen-side chirality checks, not by the deltas.",
+	"focalLengthEvidence": {
+		"claim": "focalLengthMm must not be passed to Blender; verticalFovRadians is authoritative",
+		"vecmoFocalLengthMm": 38.60112456917205,
+		"vecmoSensorWidthMm": 36,
+		"blenderSensorHeightMm": 24,
+		"blenderLensMmUnderVerticalFit": 25.73408317565918,
+		"lensRatio": 1.4999999924490521,
+		"verticalFovIfFocalLengthWerePassedRadians": 0.602801627526685,
+		"verticalFovIfFocalLengthWerePassedDegrees": 34.537989140896116,
+		"requestedVerticalFovDegrees": 50
+	},
+	"assertions": [
+		{
+			"id": "det-is-plus-one",
+			"detail": "det(M) = 1",
+			"pass": true
+		},
+		{
+			"id": "vecmo-up-maps-to-blender-z-up",
+			"detail": "M @ (0,-1,0) = {\"x\":0,\"y\":0,\"z\":1}",
+			"pass": true
+		},
+		{
+			"id": "vecmo-depth-maps-to-blender-plus-y",
+			"detail": "M @ (0,0,1) = {\"x\":0,\"y\":1,\"z\":0}",
+			"pass": true
+		},
+		{
+			"id": "vecmo-right-maps-to-blender-plus-x",
+			"detail": "M @ (1,0,0) = {\"x\":1,\"y\":0,\"z\":0}",
+			"pass": true
+		},
+		{
+			"id": "blender-uses-same-axis-matrix",
+			"detail": "[[1,0,0],[0,0,1],[0,-1,0]]",
+			"pass": true
+		},
+		{
+			"id": "sensor-fit-vertical",
+			"detail": "VERTICAL",
+			"pass": true
+		},
+		{
+			"id": "angle-y-round-trip-within-float32",
+			"detail": "error = 4.415890653142185e-9 rad; float32 relative eps = 5.960464477539063e-8; lens readback = 25.73408317565918 mm",
+			"pass": true
+		},
+		{
+			"id": "effective-vertical-fov-matches-request",
+			"detail": "effective = 0.8726646221409238, requested = 0.8726646259971648",
+			"pass": true
+		},
+		{
+			"id": "effective-horizontal-fov-follows-non-square-aspect",
+			"detail": "effective = 1.3843406849597566, expected = 1.3843406825850273",
+			"pass": true
+		},
+		{
+			"id": "camera-basis-not-transposed",
+			"detail": "forward error = 8.33000234328132e-8",
+			"pass": true
+		},
+		{
+			"id": "square-pixel-aspect",
+			"detail": "1 / 1",
+			"pass": true
+		},
+		{
+			"id": "scene-units-per-pixel-agree",
+			"detail": "0.01 vs 0.01",
+			"pass": true
+		},
+		{
+			"id": "focal-length-mm-would-be-wrong",
+			"detail": "Vecmo 38.601mm vs Blender VERTICAL-fit 25.734mm (ratio 1.5000); passing it would give 34.538 deg instead of 50 deg",
+			"pass": true
+		}
+	],
+	"points": [
+		{
+			"id": "on-axis",
+			"expect": "visible",
+			"expectedU": 0.5,
+			"expectedV": 0.5,
+			"observedU": 0.5,
+			"observedV": 0.49999991059303284,
+			"deltaU": 0,
+			"deltaV": 8.940696716308594e-8,
+			"observedCameraDepth": 9.114822387695312,
+			"comparedCoordinates": true,
+			"chiralityRule": {
+				"u": null,
+				"v": null
+			},
+			"chiralityPass": true,
+			"classificationAgrees": true,
+			"pass": true
+		},
+		{
+			"id": "quadrant-right-up",
+			"expect": "visible",
+			"expectedU": 0.7099118986765445,
+			"expectedV": 0.7456504344548619,
+			"observedU": 0.7099119424819946,
+			"observedV": 0.7456503510475159,
+			"deltaU": 4.3805450156142456e-8,
+			"deltaV": 8.340734602985123e-8,
+			"observedCameraDepth": 8.544322967529297,
+			"comparedCoordinates": true,
+			"chiralityRule": {
+				"u": "greater",
+				"v": "greater"
+			},
+			"chiralityPass": true,
+			"classificationAgrees": true,
+			"pass": true
+		},
+		{
+			"id": "quadrant-left-down",
+			"expect": "visible",
+			"expectedU": 0.3703072400145968,
+			"expectedV": 0.3350236911284733,
+			"observedU": 0.37030723690986633,
+			"observedV": 0.33502358198165894,
+			"deltaU": 3.104730472713868e-9,
+			"deltaV": 1.0914681436435814e-7,
+			"observedCameraDepth": 10.786824226379395,
+			"comparedCoordinates": true,
+			"chiralityRule": {
+				"u": "less",
+				"v": "less"
+			},
+			"chiralityPass": true,
+			"classificationAgrees": true,
+			"pass": true
+		},
+		{
+			"id": "chirality-plus-x",
+			"expect": "visible",
+			"expectedU": 0.7784523704467601,
+			"expectedV": 0.49420692871996985,
+			"observedU": 0.7784523963928223,
+			"observedV": 0.49420681595802307,
+			"deltaU": 2.5946062187642838e-8,
+			"deltaV": 1.1276194678000451e-7,
+			"observedCameraDepth": 8.588207244873047,
+			"comparedCoordinates": true,
+			"chiralityRule": {
+				"u": "greater",
+				"v": null
+			},
+			"chiralityPass": true,
+			"classificationAgrees": true,
+			"pass": true
+		},
+		{
+			"id": "chirality-plus-y-is-screen-down",
+			"expect": "visible",
+			"expectedU": 0.5,
+			"expectedV": 0.04864703175254487,
+			"observedU": 0.5,
+			"observedV": 0.04864688217639923,
+			"deltaU": 0,
+			"deltaV": 1.4957614563604338e-7,
+			"observedCameraDepth": 9.465898513793945,
+			"comparedCoordinates": true,
+			"chiralityRule": {
+				"u": null,
+				"v": "less"
+			},
+			"chiralityPass": true,
+			"classificationAgrees": true,
+			"pass": true
+		},
+		{
+			"id": "behind-camera",
+			"expect": "behind",
+			"expectedBehind": true,
+			"observedBehind": true,
+			"observedCameraDepth": -5.69621467590332,
+			"expectedClipW": -569.6215875554119,
+			"comparedCoordinates": false,
+			"pass": true
+		}
+	],
+	"frameMapping": [
+		{
+			"expectedBlenderFrame": 1,
+			"identity": true,
+			"observedBlenderFrame": 1,
+			"vecmoFrame": 0
+		},
+		{
+			"expectedBlenderFrame": 24,
+			"identity": true,
+			"observedBlenderFrame": 24,
+			"vecmoFrame": 23
+		},
+		{
+			"expectedBlenderFrame": 48,
+			"identity": true,
+			"observedBlenderFrame": 48,
+			"vecmoFrame": 47
+		}
+	],
+	"frameMappingPass": true,
+	"maxAbsoluteDelta": 1.4957614563604338e-7,
+	"verdict": "pass"
+}

@@ -1,0 +1,16 @@
+{
+	"contractVersion": 1,
+	"adapter": "blender",
+	"linkId": "s4probe",
+	"source": { "displayName": "s4-probe.blend" },
+	"frame": { "fps": 24, "durationFrames": 120, "blenderFrameStart": 1 },
+	"camera": {
+		"mode": "vecmo-shot-camera",
+		"sceneCameraRigId": "probeRig",
+		"verticalFovRadians": 0.6632251157578453,
+		"sceneUnitsPerPixel": 0.01,
+		"sensorFit": "VERTICAL"
+	},
+	"outputProfile": "rendered-rgba-sequence",
+	"controls": []
+}

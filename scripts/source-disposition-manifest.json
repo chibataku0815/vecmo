@@ -1,0 +1,162 @@
+{
+	"version": 1,
+	"runtimeRoots": [
+		{
+			"path": "src/features/export/model/runtime-sampler-entry.ts",
+			"owner": "features/export",
+			"entry": "gen:runtime-sampler",
+			"freshness": "check:runtime-sampler"
+		},
+		{
+			"path": "src/features/export/model/runtime-sampler-core-entry.ts",
+			"owner": "features/export",
+			"entry": "gen:runtime-sampler",
+			"freshness": "check:runtime-sampler"
+		},
+		{
+			"path": "src/features/export/model/runtime-sampler-lean-entry.ts",
+			"owner": "features/export",
+			"entry": "gen:runtime-sampler",
+			"freshness": "check:runtime-sampler"
+		},
+		{
+			"path": "src/features/export/model/runtime-sampler-flat-entry.ts",
+			"owner": "features/export",
+			"entry": "gen:runtime-sampler",
+			"freshness": "check:runtime-sampler"
+		},
+		{
+			"path": "src/features/export/model/webgl-player-entry.ts",
+			"owner": "features/export",
+			"entry": "generated Motion / Code WebGL player",
+			"freshness": "check:webgl-player"
+		},
+		{
+			"path": "src/shared/cache/browser-cache-worker.ts",
+			"owner": "shared/cache",
+			"entry": "browser Worker URL",
+			"freshness": "check:source-disposition"
+		}
+	],
+	"rules": [
+		{
+			"pattern": "src/features/export/model/runtime-sampler-api-contract.ts",
+			"disposition": "compatibility",
+			"owner": "features/export",
+			"entry": "compile-time-only RuntimeSamplerApi contract check (tsc -b project include; deliberately never imported, see the file's own doc comment) — includeDependencies covers its type-only import of runtime-sampler-api.ts",
+			"includeDependencies": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/*comparison-packet.ts",
+			"disposition": "evidence",
+			"owner": "motion-study evidence",
+			"entry": "comparison packet generators and retained review packets",
+			"evidencePath": "docs/knowledge/motion-studies/pilot-technical-gate-contracts.md",
+			"includeDependencies": true,
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/follow-through-candidate-fixture.ts",
+			"disposition": "evidence",
+			"owner": "motion-study evidence",
+			"entry": "follow-through comparison packet generator",
+			"evidencePath": "docs/progress/residual-closure-register.json",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/interference-v1.ts",
+			"disposition": "evidence",
+			"owner": "motion-study residual closure",
+			"entry": "interference residual record",
+			"evidencePath": "docs/progress/residual-closure-register.json",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/parallax-v1.ts",
+			"disposition": "evidence",
+			"owner": "motion-study residual closure",
+			"entry": "parallax residual record",
+			"evidencePath": "docs/progress/residual-closure-register.json",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/symmetry-v1.ts",
+			"disposition": "evidence",
+			"owner": "motion-study residual closure",
+			"entry": "symmetry residual record",
+			"evidencePath": "docs/progress/residual-closure-register.json",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/arrangement-alternate-candidate-fixture.ts",
+			"disposition": "evidence",
+			"owner": "motion-study evidence",
+			"entry": "generate-arrangement-alternate-comparison-packet.ts",
+			"evidencePath": "docs/knowledge/motion-studies/pilot-technical-gate-contracts.md",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/cycle-candidate-fixture.ts",
+			"disposition": "evidence",
+			"owner": "motion-study evidence",
+			"entry": "generate-cycle-comparison-packet.ts",
+			"evidencePath": "docs/knowledge/motion-studies/pilot-technical-gate-contracts.md",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/cycle-path-window-authoring.ts",
+			"disposition": "evidence",
+			"owner": "motion-study evidence",
+			"entry": "cycle comparison packet authoring proof",
+			"evidencePath": "docs/knowledge/motion-studies/pilot-technical-gate-contracts.md",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/inverse-proportion-candidate-fixture.ts",
+			"disposition": "evidence",
+			"owner": "motion-study evidence",
+			"entry": "generate-inverse-proportion-comparison-packet.ts",
+			"evidencePath": "docs/knowledge/motion-studies/inverse-proportion-source-law-packet.md",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/parallax-candidate-fixture.ts",
+			"disposition": "evidence",
+			"owner": "motion-study evidence",
+			"entry": "generate-parallax-comparison-packet.ts",
+			"evidencePath": "docs/progress/residual-closure-register.json",
+			"optional": true
+		},
+		{
+			"pattern": "src/entities/motion-grammar/model/symmetry-candidate-fixture.ts",
+			"disposition": "evidence",
+			"owner": "motion-study evidence",
+			"entry": "generate-symmetry-comparison-packet.ts",
+			"evidencePath": "docs/progress/residual-closure-register.json",
+			"optional": true
+		},
+		{
+			"pattern": "src/features/export/adapters/job.ts",
+			"disposition": "deferred",
+			"owner": "features/export",
+			"entry": "backend-only server export workflow",
+			"capability": "CAP-NR-004",
+			"includeDependencies": true
+		},
+		{
+			"pattern": "src/features/export/adapters/raster.ts",
+			"disposition": "deferred",
+			"owner": "features/export",
+			"entry": "raster intent contract without renderer",
+			"capability": "CAP-NR-002"
+		},
+		{
+			"pattern": "src/app/ext/*/register.ts",
+			"disposition": "compatibility",
+			"owner": "app",
+			"entry": "app route-extension module, loaded at runtime by src/app/extensions.ts via import.meta.glob (a Vite transform this checker's static import graph cannot follow) — includeDependencies covers the commercial pages it lazily mounts. Absent from the public (AGPL) tree, which ships without src/app/ext/cloud/ and the private pages/ slices; optional so the checker still passes there.",
+			"includeDependencies": true,
+			"optional": true
+		}
+	]
+}

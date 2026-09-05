@@ -1,0 +1,35 @@
+{
+	"alphaAwareComparison": {
+		"maxDeltaAmongVisuallyRelevantPixels_0to255": 0,
+		"visuallyRelevantDifferingPixelCount": 0,
+		"visuallyRelevantDifferingPixelFraction": 0.0
+	},
+	"bitExactLossless": false,
+	"bitExactLosslessWhereVisuallyRelevant": true,
+	"independentCwebpCliCrossCheck": {
+		"bitExactLosslessWhereVisuallyRelevant": true,
+		"cliDecodedPngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-cwebp-cli-lossless-crosscheck-decoded.png",
+		"cliWebpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-cwebp-cli-lossless-crosscheck.webp",
+		"cliWebpSizeBytes": 526360,
+		"maxDeltaAmongVisuallyRelevantPixels_0to255": 0,
+		"naiveDifferingByteCount": 1449876,
+		"note": "Independent cross-check using the standalone cwebp/-lossless CLI (not Blender's bpy WEBP writer) on the SAME source PNG, to confirm the alpha-aware bit-exactness finding is a property of WebP lossless (VP8L) encoding in general, not an artifact of Blender's particular WEBP writer.",
+		"totalBytes": 8294400,
+		"totalPixels": 2073600,
+		"visuallyRelevantDifferingPixelCount": 0
+	},
+	"naiveAllChannelComparison": {
+		"differingByteCount": 1449876,
+		"differingByteFraction": 0.1748017939814815,
+		"maxPerChannelDelta_0to255": 255,
+		"meanAbsDeltaOverDifferingBytes": 114.6672177482764,
+		"note": "Overcounts: includes RGB-under-alpha=0 'don't-care' pixels that WebP-lossless canonicalizes to (0,0,0) even though the source PNG had nonzero RGB residue there (EEVEE transparent-film artifact, itself visually irrelevant since alpha=0 means the pixel contributes nothing under straight-alpha OR premultiplied compositing)."
+	},
+	"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-005.png",
+	"sampleFrame": 5,
+	"size": [1920, 1080],
+	"totalBytes": 8294400,
+	"totalPixels": 2073600,
+	"verdict": "WEBP quality=100 is bit-exact lossless for every VISUALLY RELEVANT pixel (alpha != 0 on either side): 0 differing pixels there. The only byte differences (1449876/8294400 bytes, 17.48%) are confined to fully-transparent (alpha=0 both sides) pixels, where WebP-lossless canonicalizes RGB to (0,0,0) regardless of the source's arbitrary under-alpha RGB noise. This is expected VP8L lossless behavior, not lossy quantization -- confirmed by an independent cwebp -lossless re-encode of the same PNG producing an identical diff pattern (see this same file's 'independentCwebpCliCrossCheck' field, appended below).",
+	"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-005.webp"
+}

@@ -1,0 +1,73 @@
+{
+	"results": {
+		"admitRealPackage": {
+			"ok": true,
+			"packageBytes": 4043810,
+			"frameHrefCount": 120,
+			"declaredFrameCount": 120,
+			"hrefCountEqualsFrameCount": true,
+			"distinctHrefs": 120,
+			"cacheTotalBytes": 4043810,
+			"totalBytesEqualsPackageBytes": true,
+			"addressedIndex": 60,
+			"addressedBlenderFrame": 61,
+			"addressedHrefIsDistinct": true,
+			"roundTripped": true
+		},
+		"evictionFires": {
+			"budget": 6065715,
+			"bytesAfterFirst": 4043810,
+			"secondAdmitted": true,
+			"firstStillResident": false,
+			"secondResident": true,
+			"bytesAfterSecond": 4043810,
+			"evictionObserved": true,
+			"withinBudget": true
+		},
+		"quotaExhausted": {
+			"expected": "production-cache-quota-exhausted",
+			"actual": "production-cache-quota-exhausted",
+			"pass": true,
+			"pinnedSurvived": true,
+			"bytesUnchanged": true
+		},
+		"perKeyCeiling": {
+			"expected": "production-cache-package-exceeds-key-budget",
+			"actual": "production-cache-package-exceeds-key-budget",
+			"pass": true,
+			"nothingAllocated": true
+		},
+		"incompletePackage": {
+			"shortExpected": "production-cache-package-incomplete",
+			"shortActual": "production-cache-package-incomplete",
+			"byteMismatchExpected": "production-cache-package-incomplete",
+			"byteMismatchActual": "production-cache-package-incomplete",
+			"pass": true,
+			"nothingAllocated": true
+		},
+		"staleUsageGate": {
+			"currentBuild": "exact",
+			"lastGoodStale": "frame-package-stale-exact-export-blocked",
+			"notReproducible": "frame-package-not-reproducible",
+			"pass": true
+		},
+		"profileSwitchIdentity": {
+			"linkIdPreserved": true,
+			"linkId": "s4probe",
+			"controlIdsPreserved": true,
+			"controlIds": ["swirl", "burst"],
+			"controlCount": 2,
+			"publishedControlDigestPreserved": true,
+			"publishedControlDigest": "94c429a8900450a746bd107afcf3f0d255281cf97464010f4cc8ed0473b91356",
+			"cameraDigestPreserved": true,
+			"frameContractPreserved": true,
+			"outputProfileDiffers": true,
+			"buildKeyMoves": true,
+			"renderedKeyDerived": true,
+			"glbKeyDerived": true,
+			"bothProfilesDeriveAKey": true,
+			"pass": true
+		}
+	},
+	"failureCount": 0
+}

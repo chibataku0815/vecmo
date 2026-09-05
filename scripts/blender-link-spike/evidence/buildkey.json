@@ -1,0 +1,62 @@
+{
+	"run1": {
+		"buildKey": "ea51086c103f5b5d0e6a4cf21926260eecff13265647479e1c4823dd6dfc9155",
+		"fields": {
+			"sourceDigest": "611d4acd3e0c7f73ed9c6e47aeeefcf8f42cb477bcb5ff59faa92b69993a70af",
+			"contractVersion": 1,
+			"adapterVersion": "blender-link-spike-0.1.0",
+			"blenderVersion": "5.2.0 LTS",
+			"outputProfile": "interactive-glb",
+			"frameContract": "fb1ac335b4e418e7efaa7b7a7be8709055bbfb67a38e8ff2a1ae14342de9a567",
+			"cameraDigest": "22a2350b6460a6bc6f0c67adec3e297fa2b9637bfd694a78bb7655b214fd92e6",
+			"publishedControlDigest": "94320108f4d4d5191459095262364e3679ec5f423530ed073a4a416126af7e85",
+			"renderSettingsDigest": "d514e6f1a21cc6d4f009681a13c2649c3383458d38c36bcfaeb036f0317e2c8c",
+			"environmentDigest": "230608943c4ab609bcd4243d0cadd8a6956e2433e359c8e6ab16190ab7622fbd"
+		},
+		"outputProfileVerdict": {
+			"outputProfile": "interactive-glb",
+			"verdict": "eligible-interactive-glb",
+			"provisional": true,
+			"verdictScope": "Representability signals only. This verdict does not verify that keyframed object animation round-trips through io_scene_gltf2 into a named, seekable Babylon animation group, nor that the Principled BSDF survives glTF material lowering. An eligible verdict is provisional until those are measured (S1).",
+			"deferredVerifications": [
+				"object-level location action -> glTF animation channel round-trip (spike source has actionCount 1, no armature, no NLA track)",
+				"glTF animation -> named Babylon animation group addressable by explicit seek from the Vecmo frame",
+				"Principled BSDF base color + metallic -> glTF PBR material lowering fidelity"
+			],
+			"reasonCodes": [],
+			"nonDisqualifyingSignals": []
+		},
+		"reproducible": true
+	},
+	"run2": {
+		"buildKey": "ea51086c103f5b5d0e6a4cf21926260eecff13265647479e1c4823dd6dfc9155",
+		"fields": {
+			"sourceDigest": "611d4acd3e0c7f73ed9c6e47aeeefcf8f42cb477bcb5ff59faa92b69993a70af",
+			"contractVersion": 1,
+			"adapterVersion": "blender-link-spike-0.1.0",
+			"blenderVersion": "5.2.0 LTS",
+			"outputProfile": "interactive-glb",
+			"frameContract": "fb1ac335b4e418e7efaa7b7a7be8709055bbfb67a38e8ff2a1ae14342de9a567",
+			"cameraDigest": "22a2350b6460a6bc6f0c67adec3e297fa2b9637bfd694a78bb7655b214fd92e6",
+			"publishedControlDigest": "94320108f4d4d5191459095262364e3679ec5f423530ed073a4a416126af7e85",
+			"renderSettingsDigest": "d514e6f1a21cc6d4f009681a13c2649c3383458d38c36bcfaeb036f0317e2c8c",
+			"environmentDigest": "230608943c4ab609bcd4243d0cadd8a6956e2433e359c8e6ab16190ab7622fbd"
+		},
+		"outputProfileVerdict": {
+			"outputProfile": "interactive-glb",
+			"verdict": "eligible-interactive-glb",
+			"provisional": true,
+			"verdictScope": "Representability signals only. This verdict does not verify that keyframed object animation round-trips through io_scene_gltf2 into a named, seekable Babylon animation group, nor that the Principled BSDF survives glTF material lowering. An eligible verdict is provisional until those are measured (S1).",
+			"deferredVerifications": [
+				"object-level location action -> glTF animation channel round-trip (spike source has actionCount 1, no armature, no NLA track)",
+				"glTF animation -> named Babylon animation group addressable by explicit seek from the Vecmo frame",
+				"Principled BSDF base color + metallic -> glTF PBR material lowering fidelity"
+			],
+			"reasonCodes": [],
+			"nonDisqualifyingSignals": []
+		},
+		"reproducible": true
+	},
+	"stable": true,
+	"note": "Both runs hash the same saved .blend. Blender does not write byte-identical .blend files across saves of an identical scene, so sourceDigest is stable per saved file, not across re-saves."
+}

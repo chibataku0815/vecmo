@@ -1,0 +1,66 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+.playwright-cli
+output/playwright
+.wrangler
+.dev.vars*
+.vma-tmp
+tmp
+
+# Private/reconstructive After Effects evidence (raw trees, expressions, media,
+# and reference renders). Compact redacted dossiers live under docs/ instead.
+out/aep-evidence/
+
+# Reproducible camera-runtime browser harness bundles are generated locally.
+# Keep only the compact verification decision/metrics as repository evidence.
+artifacts/camera-runtime-verification/*
+!artifacts/camera-runtime-verification/browser-verification.json
+
+# Local agent ⇄ editor bridge discovery handshake (port + token), written by the
+# relay at runtime. Never commit: it carries a per-session loopback token.
+.vma-agent-bridge
+
+# Local Program Surface companion discovery. It is token-free, but still
+# session-local process metadata and must not be committed.
+.vma-program-surface-bridge
+
+# iOS/TestFlight local signing and fastlane outputs. Keep all App Store Connect
+# private keys, generated API-key JSON, archives, and reports out of git.
+ios/fastlane/AuthKey_*.p8
+ios/fastlane/api_key*.json
+ios/fastlane/*.json
+ios/fastlane/report.xml
+ios/fastlane/Preview.html
+ios/fastlane/screenshots
+ios/fastlane/test_output
+ios/.bundle
+ios/build
+ios/vendor/bundle
+ios/*.ipa
+ios/*.xcarchive
+
+# Claude Code local settings (also in global gitignore; listed here so Biome's
+# useIgnoreFile skips it — Biome does not read the global gitignore)
+.claude/settings.local.json
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

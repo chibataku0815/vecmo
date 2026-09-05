@@ -1,0 +1,69 @@
+{
+	"camera": {
+		"angleYRadians": 0.6632250547409058,
+		"applied": true,
+		"axisMatrixRows": [[1.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, -1.0, 0.0]],
+		"lensMm": 34.85053253173828,
+		"poseCount": 4,
+		"sensorFit": "VERTICAL"
+	},
+	"codec": "webp-lossless",
+	"controls": {
+		"resolvedCount": 0,
+		"unresolved": []
+	},
+	"frameCount": 4,
+	"frameStart": 1,
+	"frames": [
+		{
+			"blenderFrame": 1,
+			"byteLength": 4542,
+			"fileName": "frame-00000.webp",
+			"index": 0
+		},
+		{
+			"blenderFrame": 2,
+			"byteLength": 4560,
+			"fileName": "frame-00001.webp",
+			"index": 1
+		},
+		{
+			"blenderFrame": 3,
+			"byteLength": 4564,
+			"fileName": "frame-00002.webp",
+			"index": 2
+		},
+		{
+			"blenderFrame": 4,
+			"byteLength": 4722,
+			"fileName": "frame-00003.webp",
+			"index": 3
+		}
+	],
+	"height": 180,
+	"jobVersion": 1,
+	"seed": {
+		"particleSystems": [],
+		"requested": null
+	},
+	"settings": {
+		"colorDepth": "8",
+		"colorMode": "RGBA",
+		"displayDevice": "sRGB",
+		"engine": "BLENDER_EEVEE",
+		"fileFormat": "WEBP",
+		"filmTransparent": true,
+		"fps": 24,
+		"fpsBase": 1.0,
+		"pngCompression": null,
+		"resolutionPercentage": 100,
+		"resolutionX": 320,
+		"resolutionY": 180,
+		"useFileExtension": false,
+		"useStamp": false,
+		"viewTransform": "Standard",
+		"webpQuality": 100
+	},
+	"simulationFeatures": [],
+	"width": 320
+}

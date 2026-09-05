@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>S4 rendered frame band probe (throwaway QA harness)</title>
+		<style>
+			html,
+			body {
+				margin: 0;
+				background: #303030;
+			}
+			body {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+				padding: 16px;
+				font: 12px monospace;
+				color: #eee;
+			}
+			canvas {
+				width: 640px;
+				height: 360px;
+				display: block;
+				background: #303030;
+			}
+			#status {
+				white-space: pre-wrap;
+				word-break: break-all;
+			}
+		</style>
+	</head>
+	<body>
+		<!--
+			Throwaway, dev-only QA harness (S4-C rendered frame band). Not part of the
+			product build: nothing links here and no vite build entry references it.
+			Serve the frame package with `bun qa/s4-frame-band-serve.ts <dir> [port]`,
+			then open this page.
+		-->
+		<canvas id="probe-canvas" width="640" height="360"></canvas>
+		<div id="status">loading…</div>
+		<script type="module" src="/qa/s4-frame-band-probe.ts"></script>
+	</body>
+</html>

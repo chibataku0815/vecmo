@@ -1,0 +1,125 @@
+{
+	"blender": {
+		"buildDate": "2026-07-14",
+		"buildHash": "fbe6228777e7",
+		"buildPlatform": "Darwin",
+		"version": [5, 2, 0],
+		"versionString": "5.2.0 LTS"
+	},
+	"environment": {
+		"enabledAddons": [
+			"bl_pkg",
+			"cycles",
+			"io_anim_bvh",
+			"io_curve_svg",
+			"io_mesh_uv_layout",
+			"io_scene_fbx",
+			"io_scene_gltf2",
+			"pose_library"
+		],
+		"factoryStartup": true
+	},
+	"externalDependencies": {
+		"contentDigests": [],
+		"count": 0,
+		"missingCount": 0,
+		"packedCount": 0,
+		"resolvedCount": 0
+	},
+	"gltfSignals": {
+		"hasDrivers": false,
+		"hasNla": false,
+		"hasParticleSystems": false,
+		"hasPhysics": false,
+		"hasShapeKeys": false,
+		"hasSimulationNodes": false,
+		"imageTextureNodeCount": 0,
+		"proceduralTextureNodeCount": 0,
+		"unknownSignals": [],
+		"usesProceduralTexturesOnly": false
+	},
+	"host": {
+		"machine": "arm64",
+		"platform": "Darwin",
+		"pythonVersion": "3.13.13"
+	},
+	"linkedLibraryCount": 0,
+	"manifestVersion": 1,
+	"objectInventory": {
+		"actionCount": 1,
+		"countsByType": {
+			"LIGHT": 1,
+			"MESH": 1
+		},
+		"materialCount": 1,
+		"meshCount": 1,
+		"total": 2
+	},
+	"publishedControlCandidates": [
+		{
+			"default": 0.0,
+			"defaultIsAmbiguous": true,
+			"name": "heroLift",
+			"ownerName": "SpikeHero",
+			"ownerType": "Object",
+			"rangeDeclared": false,
+			"type": "float",
+			"uiMetadataPresent": true,
+			"value": 0.35
+		},
+		{
+			"default": 60.0,
+			"defaultIsAmbiguous": false,
+			"max": 240.0,
+			"min": 0.0,
+			"name": "impactFrame",
+			"ownerName": "SpikeScene",
+			"ownerType": "Scene",
+			"rangeDeclared": true,
+			"soft_max": 240.0,
+			"soft_min": 0.0,
+			"type": "float",
+			"uiMetadataPresent": true,
+			"value": 60.0
+		}
+	],
+	"rejectedControlCandidates": [
+		{
+			"name": "spikeDebugFlag",
+			"ownerName": "SpikeHero",
+			"ownerType": "Object",
+			"reason": "boolean-not-v1-numeric",
+			"type": "boolean"
+		}
+	],
+	"render": {
+		"colorManagement": {
+			"displayDevice": "sRGB",
+			"exposure": 0.0,
+			"gamma": 1.0,
+			"look": "None",
+			"sequencerColorspace": "sRGB",
+			"viewTransform": "AgX"
+		},
+		"engine": "BLENDER_EEVEE",
+		"filmTransparent": false,
+		"pixelAspectX": 1.0,
+		"pixelAspectY": 1.0,
+		"resolutionPercentage": 100,
+		"resolutionX": 1920,
+		"resolutionY": 1080,
+		"useMotionBlur": false
+	},
+	"scene": {
+		"durationFrames": 48,
+		"fps": 24.0,
+		"fpsDenominator": 1.0,
+		"fpsNumerator": 24,
+		"frameEnd": 48,
+		"frameStart": 1,
+		"frameStep": 1,
+		"hasActiveCamera": false,
+		"name": "SpikeScene",
+		"sceneCount": 1
+	}
+}

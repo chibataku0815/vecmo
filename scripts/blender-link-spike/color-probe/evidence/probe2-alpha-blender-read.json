@@ -1,0 +1,78 @@
+{
+	"emissionColor": [1.0, 0.0, 0.0],
+	"emissionStrength": 0.5,
+	"full": {
+		"alphaInput": 1.0,
+		"expectedEmissionLinear": [0.5, 0.0, 0.0],
+		"expectedEmissionSrgbEncodedIfPremultiplied": [
+			0.7353569830524495, 0.0, 0.0
+		],
+		"expectedEmissionSrgbEncodedIfStraightAlpha": [
+			0.7353569830524495, 0.0, 0.0
+		],
+		"exr": {
+			"centerPixelRGBA_asReadByBpyPixels": [0.5, 0.0, 0.0, 1.0],
+			"colorspaceName": "Linear Rec.709",
+			"isFloat": true,
+			"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe2-alpha-full.exr",
+			"size": [128, 128]
+		},
+		"png": {
+			"centerPixelRGBA_asReadByBpyPixels": [0.7333333492279053, 0.0, 0.0, 1.0],
+			"colorspaceName": "sRGB",
+			"isFloat": false,
+			"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe2-alpha-full.png",
+			"size": [128, 128]
+		},
+		"tag": "full"
+	},
+	"half": {
+		"alphaInput": 0.5,
+		"expectedEmissionLinear": [0.5, 0.0, 0.0],
+		"expectedEmissionSrgbEncodedIfPremultiplied": [
+			0.5370987304831942, 0.0, 0.0
+		],
+		"expectedEmissionSrgbEncodedIfStraightAlpha": [
+			0.7353569830524495, 0.0, 0.0
+		],
+		"exr": {
+			"centerPixelRGBA_asReadByBpyPixels": [0.25, 0.0, 0.0, 0.5],
+			"colorspaceName": "Linear Rec.709",
+			"isFloat": true,
+			"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe2-alpha-half.exr",
+			"size": [128, 128]
+		},
+		"png": {
+			"centerPixelRGBA_asReadByBpyPixels": [
+				0.7333333492279053, 0.0, 0.0, 0.501960813999176
+			],
+			"colorspaceName": "sRGB",
+			"isFloat": false,
+			"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe2-alpha-half.png",
+			"size": [128, 128]
+		},
+		"tag": "half"
+	},
+	"note": "bpy.data.images.load + .pixels ALWAYS returns Blender's internal linear float representation regardless of source file encoding (sRGB PNG bytes are decoded to linear on load unless colorspace is overridden). This means the 'png' verdict here characterizes what Blender's own PNG *reader* reconstructs, not the raw file bytes. The raw file-byte convention is checked independently by probe2_alpha_convention_external_png_parse.py.",
+	"resolution": 128,
+	"verdictPerFormat_asReadByBpy": {
+		"exr": {
+			"distanceIfPremultipliedHypothesis": 0.0,
+			"distanceIfStraightHypothesis": 0.25,
+			"format": "exr",
+			"fullR": 0.5,
+			"halfAlpha": 0.5,
+			"halfR": 0.25,
+			"verdict": "premultiplied"
+		},
+		"png": {
+			"distanceIfPremultipliedHypothesis": 0.36666667461395264,
+			"distanceIfStraightHypothesis": 0.0,
+			"format": "png",
+			"fullR": 0.7333333492279053,
+			"halfAlpha": 0.501960813999176,
+			"halfR": 0.7333333492279053,
+			"verdict": "straight"
+		}
+	}
+}

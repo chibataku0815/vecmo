@@ -1,0 +1,206 @@
+{
+	"coldWarmComparison": {
+		"buildKeyIdentical": true,
+		"codecIdentical": true,
+		"differingFrameCount": 0,
+		"differingFrames": [],
+		"manifestMetadataIdentical": true,
+		"metadataDiffKeys": []
+	},
+	"packages": [
+		{
+			"allFrameSizesMatchManifest": true,
+			"alphaSamples": [
+				{
+					"fullyOpaqueFraction": 0.35583333333333333,
+					"fullyTransparentFraction": 0.6113151041666667,
+					"index": 0,
+					"partialFraction": 0.0328515625
+				},
+				{
+					"fullyOpaqueFraction": 0.3298394097222222,
+					"fullyTransparentFraction": 0.6337282986111111,
+					"index": 15,
+					"partialFraction": 0.036432291666666665
+				},
+				{
+					"fullyOpaqueFraction": 0.37603732638888887,
+					"fullyTransparentFraction": 0.5922569444444444,
+					"index": 30,
+					"partialFraction": 0.03170572916666667
+				},
+				{
+					"fullyOpaqueFraction": 0.32513454861111113,
+					"fullyTransparentFraction": 0.6392578125,
+					"index": 45,
+					"partialFraction": 0.03560763888888889
+				},
+				{
+					"fullyOpaqueFraction": 0.3580685763888889,
+					"fullyTransparentFraction": 0.6120616319444444,
+					"index": 60,
+					"partialFraction": 0.029869791666666666
+				},
+				{
+					"fullyOpaqueFraction": 0.34801215277777775,
+					"fullyTransparentFraction": 0.6209157986111111,
+					"index": 75,
+					"partialFraction": 0.03107204861111111
+				},
+				{
+					"fullyOpaqueFraction": 0.3267795138888889,
+					"fullyTransparentFraction": 0.6390755208333333,
+					"index": 90,
+					"partialFraction": 0.03414496527777778
+				},
+				{
+					"fullyOpaqueFraction": 0.37465711805555557,
+					"fullyTransparentFraction": 0.5938975694444445,
+					"index": 105,
+					"partialFraction": 0.0314453125
+				}
+			],
+			"barBandSpreadMax": 2,
+			"byteLengthMatchCount": 120,
+			"declaredFrameCount": 120,
+			"digestMatchCount": 120,
+			"directory": "out-cold",
+			"distinctFrameDigests": 120,
+			"frameCount": 120,
+			"frameNumberChecks": [
+				{
+					"decodedRed": 1,
+					"expectedBlenderFrame": 1,
+					"index": 0,
+					"match": true,
+					"uniform": false
+				},
+				{
+					"decodedRed": 41,
+					"expectedBlenderFrame": 41,
+					"index": 40,
+					"match": true,
+					"uniform": false
+				},
+				{
+					"decodedRed": 61,
+					"expectedBlenderFrame": 61,
+					"index": 60,
+					"match": true,
+					"uniform": false
+				},
+				{
+					"decodedRed": 120,
+					"expectedBlenderFrame": 120,
+					"index": 119,
+					"match": true,
+					"uniform": false
+				}
+			],
+			"frameNumberMatchCount": 120,
+			"frameNumberMismatches": [],
+			"presentCount": 120,
+			"sizeMatchCount": 120,
+			"sizeMismatches": [],
+			"totalBytes": 4043810,
+			"transparentAlphaPresent": true
+		},
+		{
+			"allFrameSizesMatchManifest": true,
+			"alphaSamples": [
+				{
+					"fullyOpaqueFraction": 0.35583333333333333,
+					"fullyTransparentFraction": 0.6113151041666667,
+					"index": 0,
+					"partialFraction": 0.0328515625
+				},
+				{
+					"fullyOpaqueFraction": 0.3298394097222222,
+					"fullyTransparentFraction": 0.6337282986111111,
+					"index": 15,
+					"partialFraction": 0.036432291666666665
+				},
+				{
+					"fullyOpaqueFraction": 0.37603732638888887,
+					"fullyTransparentFraction": 0.5922569444444444,
+					"index": 30,
+					"partialFraction": 0.03170572916666667
+				},
+				{
+					"fullyOpaqueFraction": 0.32513454861111113,
+					"fullyTransparentFraction": 0.6392578125,
+					"index": 45,
+					"partialFraction": 0.03560763888888889
+				},
+				{
+					"fullyOpaqueFraction": 0.3580685763888889,
+					"fullyTransparentFraction": 0.6120616319444444,
+					"index": 60,
+					"partialFraction": 0.029869791666666666
+				},
+				{
+					"fullyOpaqueFraction": 0.34801215277777775,
+					"fullyTransparentFraction": 0.6209157986111111,
+					"index": 75,
+					"partialFraction": 0.03107204861111111
+				},
+				{
+					"fullyOpaqueFraction": 0.3267795138888889,
+					"fullyTransparentFraction": 0.6390755208333333,
+					"index": 90,
+					"partialFraction": 0.03414496527777778
+				},
+				{
+					"fullyOpaqueFraction": 0.37465711805555557,
+					"fullyTransparentFraction": 0.5938975694444445,
+					"index": 105,
+					"partialFraction": 0.0314453125
+				}
+			],
+			"barBandSpreadMax": 2,
+			"byteLengthMatchCount": 120,
+			"declaredFrameCount": 120,
+			"digestMatchCount": 120,
+			"directory": "out-warm",
+			"distinctFrameDigests": 120,
+			"frameCount": 120,
+			"frameNumberChecks": [
+				{
+					"decodedRed": 1,
+					"expectedBlenderFrame": 1,
+					"index": 0,
+					"match": true,
+					"uniform": false
+				},
+				{
+					"decodedRed": 41,
+					"expectedBlenderFrame": 41,
+					"index": 40,
+					"match": true,
+					"uniform": false
+				},
+				{
+					"decodedRed": 61,
+					"expectedBlenderFrame": 61,
+					"index": 60,
+					"match": true,
+					"uniform": false
+				},
+				{
+					"decodedRed": 120,
+					"expectedBlenderFrame": 120,
+					"index": 119,
+					"match": true,
+					"uniform": false
+				}
+			],
+			"frameNumberMatchCount": 120,
+			"frameNumberMismatches": [],
+			"presentCount": 120,
+			"sizeMatchCount": 120,
+			"sizeMismatches": [],
+			"totalBytes": 4043810,
+			"transparentAlphaPresent": true
+		}
+	]
+}

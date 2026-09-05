@@ -1,0 +1,232 @@
+{
+	"worktreeMarker": "gpu-look-alpha-2026-07-31",
+	"generatedAt": "2026-07-31T11:44:50.374Z",
+	"variants": [
+		{
+			"key": "v1-repro",
+			"label": "V1 repro — transparent artboard + full look graph",
+			"frame": 0,
+			"width": 1280,
+			"height": 720,
+			"completedPassIds": ["svg-raster", "gpu-raster"],
+			"alphaZero": 0,
+			"alphaPartial": 0,
+			"alphaOpaque": 921600,
+			"partialMin": null,
+			"partialMax": null,
+			"partialMean": null,
+			"topPartialAlphaValues": [],
+			"pngSha256": "8b73fa09ff5bf12ff55f2698c50bec9e01778f7c38e442e552f7a1bf4f040d18",
+			"issues": [
+				{
+					"severity": "warning",
+					"category": "approximated",
+					"code": "vec-core-recipe-svg-approximated",
+					"message": "Frame Look graph (6 nodes) was rendered as an SVG filter; deferred (not rendered): Bend Warp, Colorama, Wave Warp (wave-warp, colorama, bend-warp). Per-node fidelity and the canonical graph are exported beside the SVG as .recipe.json.",
+					"fallback": "local-raster-required"
+				}
+			]
+		},
+		{
+			"key": "v2-control",
+			"label": "V2 control — transparent artboard, colorama removed",
+			"frame": 0,
+			"width": 1280,
+			"height": 720,
+			"completedPassIds": ["svg-raster", "gpu-raster"],
+			"alphaZero": 218102,
+			"alphaPartial": 602312,
+			"alphaOpaque": 101186,
+			"partialMin": 1,
+			"partialMax": 254,
+			"partialMean": 141.85870611908777,
+			"topPartialAlphaValues": [
+				{ "alpha": 254, "count": 30663 },
+				{ "alpha": 253, "count": 19814 },
+				{ "alpha": 1, "count": 18648 },
+				{ "alpha": 252, "count": 13772 },
+				{ "alpha": 2, "count": 11064 },
+				{ "alpha": 251, "count": 10994 },
+				{ "alpha": 250, "count": 8982 },
+				{ "alpha": 3, "count": 8351 }
+			],
+			"pngSha256": "03ed49085fcc0251098c78d5b9176e654b31271d154ee710249fd485e08a9fdc",
+			"issues": [
+				{
+					"severity": "warning",
+					"category": "approximated",
+					"code": "vec-core-recipe-svg-approximated",
+					"message": "Frame Look graph (5 nodes) was rendered as an SVG filter; deferred (not rendered): Bend Warp, Wave Warp (wave-warp, bend-warp). Per-node fidelity and the canonical graph are exported beside the SVG as .recipe.json.",
+					"fallback": "local-raster-required"
+				}
+			]
+		},
+		{
+			"key": "v3-no-look",
+			"label": "V3 no-look — transparent artboard, no look graph",
+			"frame": 0,
+			"width": 1280,
+			"height": 720,
+			"completedPassIds": ["svg-raster"],
+			"alphaZero": 612001,
+			"alphaPartial": 2888,
+			"alphaOpaque": 306711,
+			"partialMin": 64,
+			"partialMax": 191,
+			"partialMean": 128.16274238227146,
+			"topPartialAlphaValues": [
+				{ "alpha": 128, "count": 1161 },
+				{ "alpha": 191, "count": 874 },
+				{ "alpha": 64, "count": 853 }
+			],
+			"pngSha256": "8cdf5f3ff7a693837a2e2312295b82c4ed80256e02a52d820ca42e9d9203ba38",
+			"issues": []
+		},
+		{
+			"key": "v4-blur-only",
+			"label": "V4 blur-only — transparent artboard, source->blur->output",
+			"frame": 0,
+			"width": 1280,
+			"height": 720,
+			"completedPassIds": ["svg-raster"],
+			"alphaZero": 344225,
+			"alphaPartial": 526551,
+			"alphaOpaque": 50824,
+			"partialMin": 1,
+			"partialMax": 254,
+			"partialMean": 122.25122352820524,
+			"topPartialAlphaValues": [
+				{ "alpha": 1, "count": 28202 },
+				{ "alpha": 254, "count": 18150 },
+				{ "alpha": 2, "count": 16675 },
+				{ "alpha": 3, "count": 11690 },
+				{ "alpha": 253, "count": 11675 },
+				{ "alpha": 252, "count": 9008 },
+				{ "alpha": 4, "count": 8910 },
+				{ "alpha": 251, "count": 7599 }
+			],
+			"pngSha256": "74b2445e5da73a89c38eb82b67b703d88f74125bb0fbeea417d911cd11c8ee16",
+			"issues": [],
+			"note": "completedPassIds has NO 'gpu-raster' entry -- sceneNeedsGpuSurface() returned false for this chain (blur is not in GPU_RASTER_KINDS in src/entities/scene/model/look-graph-raster.ts; it is an SVG-filter-only node), so no lensSurface was created and the GPU-compositing code path (video.ts ~310-323) never ran for this variant. V4's difference from V3 is 100% a single browser-native SVG feGaussianBlur (stdDeviation=30) and is NOT evidence of double-compositing."
+		},
+		{
+			"key": "v5-opaque-full",
+			"label": "V5 opaque+full — opaque solid background + full look graph",
+			"frame": 0,
+			"width": 1280,
+			"height": 720,
+			"completedPassIds": ["svg-raster", "gpu-raster"],
+			"alphaZero": 0,
+			"alphaPartial": 0,
+			"alphaOpaque": 921600,
+			"partialMin": null,
+			"partialMax": null,
+			"partialMean": null,
+			"topPartialAlphaValues": [],
+			"pngSha256": "611d389e7f6a8926cf4e87e54b2de48b3196c16adc79aae58c4ca79922be638a",
+			"issues": [
+				{
+					"severity": "warning",
+					"category": "approximated",
+					"code": "vec-core-recipe-svg-approximated",
+					"message": "Frame Look graph (6 nodes) was rendered as an SVG filter; deferred (not rendered): Bend Warp, Colorama, Wave Warp (wave-warp, colorama, bend-warp). Per-node fidelity and the canonical graph are exported beside the SVG as .recipe.json.",
+					"fallback": "local-raster-required"
+				}
+			]
+		},
+		{
+			"key": "v6-gradient",
+			"label": "V6 gradient — gradient-filled artboard + full look graph",
+			"frame": 0,
+			"width": 1280,
+			"height": 720,
+			"completedPassIds": ["svg-raster", "gpu-raster"],
+			"alphaZero": 0,
+			"alphaPartial": 0,
+			"alphaOpaque": 921600,
+			"partialMin": null,
+			"partialMax": null,
+			"partialMean": null,
+			"topPartialAlphaValues": [],
+			"pngSha256": "611d389e7f6a8926cf4e87e54b2de48b3196c16adc79aae58c4ca79922be638a",
+			"issues": [
+				{
+					"severity": "warning",
+					"category": "approximated",
+					"code": "vec-core-recipe-svg-approximated",
+					"message": "Frame Look graph (6 nodes) was rendered as an SVG filter; deferred (not rendered): Bend Warp, Colorama, Wave Warp (wave-warp, colorama, bend-warp). Per-node fidelity and the canonical graph are exported beside the SVG as .recipe.json.",
+					"fallback": "local-raster-required"
+				}
+			]
+		},
+		{
+			"key": "v7-gpu-identity",
+			"label": "V7 GPU identity — transparent artboard, source->wave-warp(height:0)->output",
+			"frame": 0,
+			"width": 1280,
+			"height": 720,
+			"completedPassIds": ["svg-raster", "gpu-raster"],
+			"alphaZero": 611194,
+			"alphaPartial": 3643,
+			"alphaOpaque": 306763,
+			"partialMin": 1,
+			"partialMax": 254,
+			"partialMean": 147.41970903101839,
+			"topPartialAlphaValues": [
+				{ "alpha": 64, "count": 79 },
+				{ "alpha": 1, "count": 41 },
+				{ "alpha": 241, "count": 40 },
+				{ "alpha": 239, "count": 38 },
+				{ "alpha": 232, "count": 38 },
+				{ "alpha": 243, "count": 37 },
+				{ "alpha": 223, "count": 37 },
+				{ "alpha": 234, "count": 36 }
+			],
+			"pngSha256": "0b4898768f97a3485268874e71900dc38e04b2efa930bcb371514fac695cc896",
+			"issues": [
+				{
+					"severity": "warning",
+					"category": "unsupported",
+					"code": "vec-core-recipe-svg-unsupported",
+					"message": "Frame Look graph (3 nodes) could not be rendered as an SVG filter because the output path has no SVG-renderable primitives; deferred (not rendered): Wave Warp (wave-warp). Per-node fidelity and the canonical graph are exported beside the SVG as .recipe.json.",
+					"fallback": "local-raster-required"
+				}
+			],
+			"note": "STEP 0 (pre-fix) result. Wave-warp at height:0 is a geometric identity (see buildGpuIdentityLookGraph's doc comment), isolating the full-frame GPU-composite step itself from any node's own alpha-changing behaviour. completedPassIds confirms 'gpu-raster' ran. NOT bin-identical to V3 (pngSha256 differs; alphaPartial 2888 -> 3643, alphaOpaque 306711 -> 306763, partialMax 191 -> 254). V3's 3 discrete antialiasing levels (64/128/191, i.e. 0.251/0.502/0.749) are exactly what a straight-edge SVG raster produces; under the source-over double-composite formula 2a-a^2 (a_top == a_bottom, both derived from the same SVG raster) those map to ~112/~192/~239. Observed V7 top partial values cluster at 239/241/243/232/234/223 -- matching the a=0.749(191)->0.937(239) prediction -- while the low end (64, count 79) and near-zero (1, count 41) partly survive, and partialMax reaches 254 (near-saturating). This matches 'partial alphas shifted toward 2a-a^2' -- CONCLUSION: the double-composite defect is REAL. STEP 3 required."
+		}
+	],
+	"supplementalEvidence": {
+		"note": "Collected via javascript_tool console calls against the running dev server (not part of runAlphaProbe()'s own output), to explain the completedPassIds/histogram differences above.",
+		"gpuRasterKindClassification": {
+			"description": "src/entities/scene/model/look-graph-raster.ts's GPU_RASTER_KINDS set determines which Look nodes run on the GPU raster surface vs. render purely as an SVG filter. 'blur' is NOT in that set (it is SVG-filter-only, feGaussianBlur); 'colorama', 'wave-warp', 'bend-warp' ARE in that set (GPU-only, no SVG equivalent).",
+			"consequence": "V4 (source->blur->output) needs no GPU surface at all: sceneNeedsGpuSurface() is false, completedPassIds is ['svg-raster'] only, and the GPU-compositing code path in video.ts (~282-324, the code the task's 'second suspected defect' concerns) never executes for V4. V4 vs V3 therefore is NOT evidence of the double-composite defect -- it is a legitimate single SVG Gaussian blur.",
+			"correctedEvidenceVariant": "V2 (blur->wave-warp->bend-warp, colorama removed) is the variant that actually exercises the GPU-compositing path with non-forced alpha: completedPassIds includes 'gpu-raster', and its issues array confirms wave-warp+bend-warp were GPU-deferred while blur was SVG-approximated -- i.e. the SAME already-blurred SVG raster is both (a) drawn directly to the base canvas AND (b) re-rasterized as the GPU pass's own source texture, processed by wave-warp+bend-warp, then composited via default source-over on top of (a). This is the code-structure argument for the double-composite defect (no clearRect between the two drawImage calls in video.ts); it is unverified whether the GPU pass's own SVG->texture upload inherits the emitted <filter> a second time (would need to be checked in src/shared/gpu-lens/surface.ts's SVG->texture path) -- flagged as inference, not confirmed."
+		},
+		"svgFrameLookApproximation": {
+			"description": "renderSceneSvgWithIssues(..., deferGpuRasterEffects: true) still emits an SVG <filter> approximating the Look graph's blur node (the only node in the chain with an SVG equivalent) and applies it to the base raster BEFORE any GPU pass runs, for every variant whose Look graph contains a blur node (V1, V2, V5, V6). wave-warp/colorama/bend-warp are correctly deferred (not SVG-approximated) -- confirmed via each variant's 'vec-core-recipe-svg-approximated' issue message.",
+			"v1FilterEmitted": "<filter id=\"vecmo-frame-look-alpha-probe-artboard\" filterUnits=\"userSpaceOnUse\" x=\"-90\" y=\"-90\" width=\"1460\" height=\"900\"><feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"30\" result=\"look-1-blur\" /><feMerge><feMergeNode in=\"look-1-blur\" /></feMerge></filter>",
+			"v1IssueMessage": "Frame Look graph (6 nodes) was rendered as an SVG filter; deferred (not rendered): Bend Warp, Colorama, Wave Warp (wave-warp, colorama, bend-warp). Per-node fidelity and the canonical graph are exported beside the SVG as .recipe.json."
+		},
+		"backgroundTransparencyPredicates": {
+			"svgRenderer_resolvePaints_renderArtboardBackground": {
+				"v1_transparent_fills_empty_array": { "hasBackgroundRect": false },
+				"v5_opaque_fills_omitted_legacy_fallback": {
+					"hasBackgroundRect": true,
+					"rect": "fill=\"#000000\""
+				},
+				"v6_opaque_gradient_fills": {
+					"hasBackgroundRect": true,
+					"rect": "fill=\"url(#paint-artboard-alpha-probe-artboard-background-0)\""
+				},
+				"verdict": "Correctly transparency-aware: emits no background rect only when artboard.fills is an explicit empty array (src/entities/scene/model/style-resolve.ts's resolvePaints treats an explicit [] as 'no paint', distinct from an omitted list which falls back to the legacy solid color); a present gradient paint (opaque stops) is correctly classified opaque and gets a rect. Decided in src/features/export/model/svg.ts's renderArtboardBackground (~line 834-861)."
+			},
+			"gpuRasterAdapter_artboardClipColor": {
+				"v1_transparent": [0, 0, 0],
+				"v5_opaque_solid": [0, 0, 0],
+				"v6_opaque_gradient": [0, 0, 0],
+				"verdict": "NOT transparency-aware at all (src/entities/scene/model/gpu-raster-adapter.ts ~line 211-216): always parses the scalar artboard.background hex, completely ignoring artboard.fills. Returns the identical clip color for the transparent (V1), opaque-solid (V5), and opaque-gradient (V6) artboards -- it has no 'is this artboard actually transparent' predicate; it is only ever used as a deterministic opaque cutout-fill color for effects that need one, on the (here false, for V1) assumption the artboard is opaque."
+			}
+		},
+		"v5v6IdenticalPngShaExplanation": "V5 and V6 share the exact same pngSha256 because colorama's inputPhase:\"alpha\" + mix:1 replaces src.rgb entirely with the ramp-mapped color for the whole frame (forced-opaque, full mix) -- once colorama owns the frame, the underlying artboard background paint (solid vs. gradient) has zero visible effect on the final composited pixels, confirming colorama's alpha-mode output is the sole source of content for V1/V5/V6."
+	}
+}

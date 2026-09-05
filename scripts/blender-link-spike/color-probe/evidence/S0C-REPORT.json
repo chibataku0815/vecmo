@@ -1,0 +1,179 @@
+{
+	"1_eeveeHeadlessStopCondition": {
+		"availableRenderEngines": ["BLENDER_EEVEE"],
+		"cyclesDeviceUsed": "GPU",
+		"cyclesElapsedSeconds": 92.70883202552795,
+		"cyclesFallbackSucceeded": true,
+		"eeveeElapsedSeconds": 0.8234050273895264,
+		"eeveeEngine": "BLENDER_EEVEE",
+		"eeveeSucceeded": true,
+		"stopConditionRef": "docs/plans/active/blender-vecmo-integrated-motion-plan.html#s0 S0c Stop: 'headless EEVEE/GPU \u304c --background \u3067 motion blur+DOF render \u306b\u4f7f\u3048\u306a\u3044'",
+		"stopConditionTriggered": false,
+		"verdict": "PASS: headless EEVEE renders motion blur + DOF successfully; no stop condition."
+	},
+	"2_alphaConvention": {
+		"conclusion": "PNG output = STRAIGHT alpha (cross-checked two independent ways: Blender's own linearizing image reader, and a from-scratch external PNG byte parser with zero color management). OpenEXR output = PREMULTIPLIED/associated alpha. These are DIFFERENT conventions from the SAME render result -- any pipeline step that treats one file format's bytes with the other format's compositing formula will reproduce the historical 2a-a^2 double-composite class of bug documented in src/features/export/adapters/video.ts:462-469.",
+		"methodology": "Rendered the same 50%-emission-strength red surface at Alpha=1.0 ('full') and Alpha=0.5 ('half') over film_transparent=True, saved to PNG (8-bit) and OpenEXR (32-bit float linear) from the SAME render result, then compared full-vs-half R channel: straight alpha => unchanged RGB; premultiplied alpha => RGB scaled by alpha in linear space.",
+		"openExr": {
+			"fullR": 0.5,
+			"halfAlpha": 0.5,
+			"halfR": 0.25,
+			"note": "halfR == fullR * halfAlpha exactly (0.25 == 0.5*0.5): confirms premultiplied/associated alpha.",
+			"verdict_asReadByBpy": "premultiplied"
+		},
+		"png": {
+			"crossCheckAgrees": true,
+			"fullR": 188,
+			"halfAlpha": 128,
+			"halfR": 188,
+			"verdict_asReadByBpy": "straight",
+			"verdict_externalRawFileBytes": "straight"
+		}
+	},
+	"2b_displayTransformAndColorLegalValues": {
+		"colorManagementInconsistencyAcrossThisSpike": "probe2 (alpha convention) forced View Transform='Standard' explicitly, to keep straight-vs-premultiplied arithmetic exact. probe1/probe3/probe4 used the factory-default View Transform ('AgX', a filmic-like tone-mapping curve). This does NOT invalidate any conclusion in this report: alpha is a separate channel the View Transform never touches (so probe2's alpha verdict stands), and Display Device='sRGB' identically in every case (so the final encoded transfer function / primaries this section declares apply uniformly). It DOES mean the absolute RGB pixel VALUES in probe1/3/4 are AgX-tonemapped and not directly numerically comparable to probe2's plain-gamma values -- stated explicitly here rather than left as a silent trap for whoever reads this next.",
+		"defaultDisplayDevice": "sRGB",
+		"defaultViewTransform": "AgX",
+		"eotf": {
+			"conclusion": "sRGB chunk present (readers should use the exact sRGB piecewise transfer function); gAMA chunk present as a compatibility fallback implying ~2.2 gamma. Display Device='sRGB' for every PNG this spike rendered (constant across both the AgX and Standard View Transform settings used in different probes -- see viewTransformVsDisplayDeviceFinding).",
+			"gAMA_impliedGammaExponent": 2.1999780002199976,
+			"sRGBChunkPresent": true,
+			"sRGBRenderingIntent": {
+				"renderingIntent": 3,
+				"renderingIntentName": "Absolute colorimetric"
+			}
+		},
+		"ocioConfigPath": "/Applications/Blender.app/Contents/Resources/5.2/datafiles/colormanagement/config.ocio",
+		"planRef": "S0c bullet 2 / Exit criterion: primaries, EOTF, view transform, alpha mode, SDR-only, frame addressability must be declared as manifest LEGAL VALUES, not buried in renderSettingsDigest.",
+		"primaries": {
+			"conclusion": "BT.709/sRGB primaries and D65 white point, confirmed from the actual cHRM chunk bytes of a rendered PNG (not assumed from the format name).",
+			"matchesBt709SrgbReference": true,
+			"measured_cHRM": {
+				"blueX": 0.15,
+				"blueY": 0.06,
+				"greenX": 0.3,
+				"greenY": 0.6,
+				"redX": 0.64,
+				"redY": 0.33,
+				"whiteX": 0.3127,
+				"whiteY": 0.329
+			}
+		},
+		"sdrOnly": {
+			"bitDepth": 8,
+			"conclusion": "No HDR-signaling chunks (checked for ('cICP', 'mDCv', 'cLLi')) present; found: none. 8-bit depth: True.",
+			"hdrSignalingChunksPresent": []
+		},
+		"viewTransformVsDisplayDeviceFinding": "probe1/probe3/probe4 rendered under the factory DEFAULT View Transform 'AgX' (a filmic-like tone-mapping curve applied to scene-linear values), NOT the 'Standard' (plain-gamma) transform probe2 forced. This means their absolute pixel VALUES are AgX-tonemapped, unlike probe2's alpha-convention frames. However: Display Device = 'sRGB' in BOTH cases (View Transform and Display Device are separate legal fields in Blender's color pipeline -- View Transform is a tone-mapping curve applied BEFORE the final Display Device encode; Display Device is the final transfer-function + primaries encode actually baked into the file bytes). So the FINAL ENCODING TRANSFER FUNCTION and PRIMARIES declared by every PNG this spike produced are identical (sRGB OETF, BT.709-equivalent primaries per the sRGB display_colorspace in Blender's bundled OCIO config) regardless of which View Transform tone-mapped the scene-linear values beforehand. probe4's size/webp-lossless/determinism conclusions are therefore unaffected by the View Transform difference from probe2 -- but the absolute PIXEL VALUES in probe1/3/4 vs probe2 are NOT directly comparable to each other (AgX-tonemapped vs plain-gamma), which is why probe2 deliberately forced Standard to keep its straight-vs-premultiplied arithmetic exact and legible."
+	},
+	"2c_perFormatLegalValuesTable": {
+		"openExr": {
+			"alphaConvention": "Premultiplied/associated (measured, probe2: halfR == fullR * halfAlpha exactly)",
+			"bounded": "UNBOUNDED / not SDR-clamped: 32-bit float, values may exceed 1.0 (HDR-range-capable even though this spike's own test values stayed within 0..1)",
+			"declaresOwnColorMetadata": "Partial -- OpenEXR format supports chromaticities/whiteLuminance attributes, but this spike did not verify whether Blender's EXR writer actually populates them; bpy's own colorspaceName read ('Linear Rec.709') is a strong signal but was not independently cross-checked against the raw EXR header the way PNG's cHRM/gAMA/sRGB chunks were byte-parsed externally. Flagged as unverified, not asserted true.",
+			"eotf": "Linear (scene-referred light values, no display transfer function applied)",
+			"primaries": "BT.709 (bpy colorspaceName='Linear Rec.709' on load, per probe2-alpha-blender-read.json)",
+			"referred": "Scene-referred (pre view-transform, pre Display Device encode -- NOT the same referred-space as PNG)",
+			"trapThisRowGuardsAgainst": "A consumer that reads BOTH PNG and EXR outputs from this pipeline and applies the SAME referred-space assumption (e.g. clamps EXR to 0..1 assuming display-referred, or applies straight-alpha compositing to EXR's premultiplied values) will silently corrupt output -- this is the display-referred/scene-referred and bounded/unbounded pairing, in addition to the already-documented alpha-convention pairing, that S0c bullet 2 exists to force into the open."
+		},
+		"png": {
+			"alphaConvention": "Straight (measured, probe2, two independent methods)",
+			"bounded": "SDR, 0..1 range, 8-bit-per-channel (no HDR-signaling chunks present)",
+			"declaresOwnColorMetadata": true,
+			"eotf": "sRGB piecewise transfer function (sRGB chunk present; gAMA~2.2 fallback)",
+			"primaries": "BT.709/sRGB (measured, cHRM chunk)",
+			"referred": "Display-referred (post view-transform, post Display Device encode)"
+		},
+		"purpose": "The 'primaries'/'eotf'/'sdrOnly' fields in 2b above were measured from a PNG only. This table makes each output format's legal color values explicit side by side, including the ones this spike's own recommended V1 candidate (WebP) and the alpha-convention EXR CANNOT declare in their own bytes -- per S0c bullet 2's explicit requirement, those must then be manifest-declared instead of silently assumed.",
+		"webpLossless": {
+			"alphaConvention": "Straight (bit-exact inheritance from the source PNG's straight-alpha RGBA, confirmed for every visually-relevant pixel)",
+			"bounded": "SDR, 0..1 range, 8-bit-per-channel (inherited from source; WebP-lossless via Blender's writer is 8-bit RGBA only, no 16-bit path found in ImageFormatSettings RNA)",
+			"declaresOwnColorMetadata": false,
+			"eotf": "NOT self-declared (no EXIF/XMP color-metadata chunk) -- same inheritance as primaries",
+			"manifestObligation": "Because WebP's own bytes declare NOTHING about primaries/EOTF (verified on two independent samples, not assumed), the S0c manifest's legal-value set for a WebP-lossless output profile MUST explicitly state primaries=BT.709/sRGB and eotf=sRGB, carried over from the Display Device setting of the render that produced it -- a consumer relying on 'browsers assume sRGB for untagged images' is relying on an ambient default, not a manifest-legal contract, which is exactly the renderSettingsDigest-burial failure mode this bullet exists to prevent.",
+			"primaries": "NOT self-declared (no ICCP chunk) -- inherited from the SAME Display Device='sRGB' pipeline that produced the PNG, per probe7-webp-riff-chunks.json's two-sample RIFF walk (a 320x320 opaque frame and a 1920x1080 real-alpha frame, both a bare VP8L chunk, zero color-metadata chunks)",
+			"referred": "Display-referred (bit-exact copy of the PNG's display-referred RGBA values, confirmed lossless where alpha != 0, per probe4-webp-fidelity-check.json)",
+			"riffChunkEvidence": {
+				"allSamplesAgreeNoColorMetadata": true,
+				"conclusion": "Neither sample (a 320x320 opaque frame, nor a 1920x1080 RGBA-with-real-alpha frame) contains any color-metadata RIFF chunk (ICCP/EXIF/XMP) -- both are a single bare VP8L chunk. WebP output from this Blender build therefore carries NO embedded primaries/EOTF declaration of its own; any consumer gets correct color only by ASSUMING sRGB for untagged WebP (the near-universal browser default), which is an assumption, not a declaration the file makes. This means primaries/EOTF for the WebP output profile MUST be declared in the manifest (inherited from the same Display Device='sRGB' pipeline that produced the PNG's cHRM/gAMA/sRGB chunks -- see probe7-display-transform.json), per S0c bullet 2's explicit requirement not to let this be silently assumed.",
+				"samplesChecked": [
+					"/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-static-run1.webp",
+					"/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-005.webp"
+				]
+			}
+		}
+	},
+	"3_determinism": {
+		"conclusion": "PNG: both variants are PIXEL-DATA byte-identical across fresh, separate Blender processes (0 differing decoded RGBA bytes in either case). The only whole-file byte difference is Blender's own embedded 'Date'/'RenderTime' tEXt metadata (render wall-clock time), which scene.render.use_stamp=False does NOT suppress on this build (verified empirically, contrary to the initial assumption) -- so PNG determinism must be judged on decoded pixel bytes, not whole-file bytes. WebP: BOTH variants are fully WHOLE-FILE byte-identical across fresh processes -- stronger than PNG's result, because Blender's WEBP writer embeds no metadata chunk at all (verified by walking the RIFF container: a single VP8L chunk, no EXIF/XMP). The motion-blur variant's determinism claim was further confirmed non-vacuous via the liveness check above. No non-determinism was found anywhere in this spike's renders on this machine/build.",
+		"motionBlurLivenessCheck": {
+			"blurConfirmedLive": true,
+			"differingByteCount": 8317,
+			"maxPerChannelDelta_0to255": 160,
+			"note": "Confirms the 'motionblur' determinism result is not vacuous: rendering the same scene/frame with motion blur forced off produces a materially different image (8317 differing bytes, max per-channel delta 160/255), proving the stochastic motion-blur sampling path was genuinely exercised in the determinism test above."
+		},
+		"motionblur": {
+			"fileByteIdentical": false,
+			"pixelDataByteIdentical": true
+		},
+		"motionblurWebp": {
+			"fileByteIdentical": true
+		},
+		"static": {
+			"fileByteIdentical": false,
+			"pixelDataByteIdentical": true
+		},
+		"staticWebp": {
+			"fileByteIdentical": true
+		}
+	},
+	"4_frameCostAndStorage": {
+		"benchmarkEnvelopeFrames": 120,
+		"comparisonTable": [
+			{
+				"120frameMB": 153.7,
+				"format": "PNG (8-bit RGBA)",
+				"meanKB": 1311.4
+			},
+			{
+				"120frameMB": 58.4,
+				"format": "WebP lossless (quality=100)",
+				"meanKB": 498.6
+			}
+		],
+		"framesRendered": 10,
+		"meanRenderSecondsPerFrame": 0.30806832313537597,
+		"png": {
+			"extrapolated120FrameTotalMB": 153.67737579345703,
+			"maxBytesPerFrame": 1461857,
+			"meanBytesPerFrame": 1342853.4,
+			"minBytesPerFrame": 1188856
+		},
+		"resolution": [1920, 1080],
+		"webpQuality100": {
+			"bitExactWhereVisuallyRelevant": true,
+			"extrapolated120FrameTotalMB": 58.427146911621094,
+			"independentCliCrossCheckAgrees": true,
+			"losslessVerification": "WEBP quality=100 is bit-exact lossless for every VISUALLY RELEVANT pixel (alpha != 0 on either side): 0 differing pixels there. The only byte differences (1449876/8294400 bytes, 17.48%) are confined to fully-transparent (alpha=0 both sides) pixels, where WebP-lossless canonicalizes RGB to (0,0,0) regardless of the source's arbitrary under-alpha RGB noise. This is expected VP8L lossless behavior, not lossy quantization -- confirmed by an independent cwebp -lossless re-encode of the same PNG producing an identical diff pattern (see this same file's 'independentCwebpCliCrossCheck' field, appended below).",
+			"maxBytesPerFrame": 589584,
+			"meanBytesPerFrame": 510544.2,
+			"minBytesPerFrame": 401782,
+			"sizeRatioVsPng": 0.38019354905010483
+		}
+	},
+	"5_codecRecommendation": {
+		"fullAnalysisFile": "evidence/probe5-codec-candidate-verdict.json",
+		"hardGateNote": "A codec that cannot be strictly, deterministically addressed by frame index is disqualified from candidacy regardless of its other merits.",
+		"runnerUp": "c_vp9WebmViaMediabunny",
+		"runnerUpRationale": "Materially better size ceiling and reuses an already-production WebCodecs/mediabunny decode path, but is disqualified from V1 by this spike's own evidentiary standard: its frame-addressability and read-side alpha convention are desk-analysis findings only, not empirically rendered-and-verified the way PNG and WebP were in probes 2-4. Promote to V1 candidate only after a dedicated follow-up probe that (1) encodes this spike's own animated test frames through mediabunny's actual VP9/WebM encode path, (2) demuxes+decodes them back via VideoSampleSink.getSample at the exact per-frame timestamps, and (3) empirically re-runs the straight-vs-premultiplied alpha methodology from probe2 against the decoded VideoFrame pixels.",
+		"v1Candidate": "b_webpLosslessSequence",
+		"v1Rationale": "Passes the hard frame-addressability gate trivially (same as PNG), carries the SAME empirically-measured straight-alpha convention as PNG with confirmed bit-exact lossless fidelity (independently cross-checked via cwebp CLI, not just Blender's writer), and costs ~2.6x less storage than PNG for identical safety properties. It inherits all of PNG's low-risk properties while meaningfully improving the storage number that gated this whole probe (120-frame PNG sequence ~154MB is a real deployment/bandwidth cost; WebP's ~58MB is far more tractable) without introducing any of VP9/WebM's untested risk surface."
+	},
+	"blenderInvocation": "/opt/homebrew/bin/blender --background --factory-startup",
+	"blenderVersion": "5.2.0 LTS",
+	"overallRuntimeStatus": "Ready (S0c falsification probes complete; VP9/WebM candidate requires a follow-up empirical encode+decode probe before it can be promoted past runner-up status)",
+	"planRef": "docs/plans/active/blender-vecmo-integrated-motion-plan.html#s0",
+	"scope": "S0c color/alpha/determinism/codec falsification probes, owned exclusively by this agent under scripts/blender-link-spike/color-probe/. Does not touch scripts/blender-link-spike/ root (S0a: inspect/buildkey/camera).",
+	"stopConditionsTriggered": {
+		"eeveeHeadlessMotionBlurDof": false
+	}
+}

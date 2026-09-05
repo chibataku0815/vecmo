@@ -1,0 +1,112 @@
+{
+	"manifest": {
+		"buildKey": "b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71",
+		"frameCount": 120,
+		"blenderFrameStart": 1,
+		"codec": "webp-lossless",
+		"width": 640,
+		"height": 360,
+		"reproducible": true
+	},
+	"results": {
+		"placementIdentityAcrossProfileSwitch": {
+			"ok": true,
+			"glbPlacementCount": 1,
+			"renderedPlacementCount": 1,
+			"glbOrder": ["node-s4probe"],
+			"renderedOrder": ["node-s4probe"],
+			"identity": {
+				"nodeId": "node-s4probe",
+				"sourceNodeId": "node-s4probe",
+				"assetId": "asset-s4probe",
+				"artboardId": "artboard-s4probe",
+				"worldMatrix": [360, 0, 0, 0, 0, 360, 0, 0, 0, 0, 1, 0, 360, 200, 0, 1],
+				"opacity": 1,
+				"visible": true,
+				"pickable": true
+			},
+			"identical": true,
+			"glbSourceVariant": "model",
+			"renderedSourceVariant": "frame-sequence",
+			"glbHasAnimation": true,
+			"renderedHasAnimation": false
+		},
+		"frameAddressing": {
+			"ok": true,
+			"samples": [
+				{
+					"vecmoFrame": 0,
+					"frameIndex": 0,
+					"blenderFrame": 1,
+					"uri": "blob:probe/b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71/0",
+					"expectedHref": "blob:probe/b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71/0"
+				},
+				{
+					"vecmoFrame": 1,
+					"frameIndex": 1,
+					"blenderFrame": 2,
+					"uri": "blob:probe/b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71/1",
+					"expectedHref": "blob:probe/b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71/1"
+				},
+				{
+					"vecmoFrame": 59,
+					"frameIndex": 59,
+					"blenderFrame": 60,
+					"uri": "blob:probe/b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71/59",
+					"expectedHref": "blob:probe/b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71/59"
+				},
+				{
+					"vecmoFrame": 119,
+					"frameIndex": 119,
+					"blenderFrame": 120,
+					"uri": "blob:probe/b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71/119",
+					"expectedHref": "blob:probe/b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71/119"
+				}
+			]
+		},
+		"outOfWindowHold": {
+			"ok": true,
+			"requestedVecmoFrame": 160,
+			"heldFrameIndex": 119,
+			"lastPackageIndex": 119,
+			"moduloWouldHaveGiven": 40
+		},
+		"shortPackageFailsClosed": {
+			"ok": true,
+			"placementCount": 0,
+			"codes": ["runtime-3d-frame-package-frame-unavailable"]
+		},
+		"disagreeingOriginFailsClosed": {
+			"ok": true,
+			"placementCount": 0,
+			"codes": ["runtime-3d-frame-package-frame-unavailable"]
+		},
+		"unavailableIsTyped": {
+			"ok": true,
+			"placementCount": 0,
+			"codes": ["runtime-3d-linked-production-unavailable"]
+		},
+		"exactnessDowngrades": {
+			"ok": true,
+			"staleExact": false,
+			"staleCodes": ["runtime-3d-linked-production-stale"],
+			"notReproducibleExact": false,
+			"notReproducibleCodes": ["runtime-3d-frame-package-not-reproducible"],
+			"stalePlacementCount": 1,
+			"notReproduciblePlacementCount": 1
+		},
+		"noResolverStillReports": {
+			"ok": true,
+			"placementCount": 0,
+			"codes": ["runtime-3d-linked-production-unavailable"]
+		},
+		"glbLinkKeepsDurableSourceWithoutResolver": {
+			"ok": true,
+			"placementCount": 1,
+			"variant": "model",
+			"uri": "https://example.invalid/s4probe.glb",
+			"codes": []
+		}
+	},
+	"failureCount": 0
+}

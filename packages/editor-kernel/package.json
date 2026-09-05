@@ -1,0 +1,21 @@
+{
+	"name": "@motion-surface/editor-kernel",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		".": "./src/index.ts",
+		"./actions": "./src/actions.ts",
+		"./geometry": "./src/geometry.ts",
+		"./gesture": "./src/gesture.ts",
+		"./grid": "./src/grid.ts",
+		"./history": "./src/history.ts",
+		"./input": "./src/input.ts",
+		"./measurement": "./src/measurement.ts",
+		"./save": "./src/save.ts",
+		"./shortcuts": "./src/shortcuts.ts",
+		"./snapping": "./src/snapping.ts",
+		"./tidy": "./src/tidy.ts"
+	}
+}

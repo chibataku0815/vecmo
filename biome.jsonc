@@ -1,0 +1,61 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false,
+		// Committed generated/exported artifacts — esbuild bundles of the editor's
+		// motion sampler and webgl player embedded into the motion/code export
+		// runtime, saved scene backups, and the tutorial gallery's "View export
+		// result" demo pages (genuine `gen:reference-scenes` export-pipeline
+		// output, byte-exact as emitted) — are not hand-authored source, so
+		// format/lint/organize do not apply.
+		"includes": [
+			"**",
+			"!artifacts",
+			"!**/runtime-sampler.generated.ts",
+			"!**/runtime-sampler-core.generated.ts",
+			"!**/runtime-sampler-lean.generated.ts",
+			"!**/runtime-sampler-flat.generated.ts",
+			"!**/webgl-player.generated.ts",
+			"!**/*.vecmo-backup.json",
+			"!public/tutorial-exports",
+			// Native iOS host — the only Biome-visible files under ios/ are
+			// Xcode-owned asset-catalog manifests (Assets.xcassets Contents.json),
+			// which Xcode regenerates. They are not hand-authored web-app source,
+			// so format/lint/organize must not touch them.
+			"!ios"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "recommended"
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
+}

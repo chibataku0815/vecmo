@@ -1,0 +1,27 @@
+{
+	"defaultState_usedByProbes_1_3_4": {
+		"displayDevice": "sRGB",
+		"exposure": 0.0,
+		"gamma": 1.0,
+		"look": "None",
+		"note": "Factory-startup DEFAULT color management state -- i.e. what probe1/probe3/probe4's renders actually used, since none of those scripts touch scene.view_settings.",
+		"ocioEnvVar": "/Applications/Blender.app/Contents/Resources/5.2/datafiles/colormanagement/config.ocio",
+		"ocioSource": "OCIO environment variable set (external config)",
+		"viewTransform": "AgX"
+	},
+	"forcedState_usedByProbe2_alphaConvention": {
+		"exposure": 0.0,
+		"gamma": 1.0,
+		"look": "None",
+		"note": "What probe2_alpha_convention_blender.py explicitly set before rendering the alpha-convention frames (PNG straight / EXR premultiplied verdicts in probe2-*.json). Alpha is unaffected by view transform -- the view transform only maps scene-linear RGB to display-encoded RGB, never touching the alpha channel -- so the alpha verdict is valid regardless of this difference from the default state above. Recorded explicitly so the two measurements are never silently conflated.",
+		"viewTransform": "Standard"
+	},
+	"sdrOnlyDeclaration": {
+		"basis": "Blender's PNG writer targets a fixed 0..1 8-bit-per-channel display-referred range with the sRGB/BT.709 OETF baked in -- this holds REGARDLESS of which View Transform tone-mapped the scene-linear values beforehand (AgX, the factory default used by probes 1/3/4, or Standard, forced by probe2), because Display Device='sRGB' is constant across both and is what actually determines the final encode transfer function (see viewTransformVsDisplayDeviceDistinction above -- View Transform and Display Device are separate legal fields, and only the latter governs the bytes written to disk). No HDR-signaling chunks (cICP, mDCv, cLLi -- the PNG extensions used to declare HDR transfer functions / mastering metadata) are present; see probe7-png-color-chunks.json for the enumerated chunk list from an actual rendered PNG, produced independently of this script (external, no bpy).",
+		"claim": "SDR-only"
+	},
+	"viewTransformVsDisplayDeviceDistinction": {
+		"finding": "probe1/probe3/probe4 rendered under the factory DEFAULT View Transform 'AgX' (a filmic-like tone-mapping curve applied to scene-linear values), NOT the 'Standard' (plain-gamma) transform probe2 forced. This means their absolute pixel VALUES are AgX-tonemapped, unlike probe2's alpha-convention frames. However: Display Device = 'sRGB' in BOTH cases (View Transform and Display Device are separate legal fields in Blender's color pipeline -- View Transform is a tone-mapping curve applied BEFORE the final Display Device encode; Display Device is the final transfer-function + primaries encode actually baked into the file bytes). So the FINAL ENCODING TRANSFER FUNCTION and PRIMARIES declared by every PNG this spike produced are identical (sRGB OETF, BT.709-equivalent primaries per the sRGB display_colorspace in Blender's bundled OCIO config) regardless of which View Transform tone-mapped the scene-linear values beforehand. probe4's size/webp-lossless/determinism conclusions are therefore unaffected by the View Transform difference from probe2 -- but the absolute PIXEL VALUES in probe1/3/4 vs probe2 are NOT directly comparable to each other (AgX-tonemapped vs plain-gamma), which is why probe2 deliberately forced Standard to keep its straight-vs-premultiplied arithmetic exact and legible.",
+		"ocioConfigEvidence": "Blender's bundled config.ocio (path in ocioEnvVar above) sRGB display section lists: '!<View> {name: Standard, view_transform: Standard, display_colorspace: sRGB}' and '!<View> {name: AgX, view_transform: AgX Base Rec.1886, display_colorspace: sRGB}' -- both views target the SAME display_colorspace (sRGB), confirming the final encode target is identical; only the pre-encode tone-mapping curve differs."
+	}
+}

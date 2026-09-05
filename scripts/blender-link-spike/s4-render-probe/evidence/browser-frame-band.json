@@ -1,0 +1,48 @@
+{
+	"probe": "qa/s4-frame-band-probe.ts",
+	"runAt": "2026-08-06",
+	"host": "second vite dev server on 127.0.0.1:6252 (the session's 6250 server wedged; NOT restarted, to protect the S3v seed tab)",
+	"framesOrigin": "http://127.0.0.1:6251 (qa/s4-frame-band-serve.ts over out-cold)",
+	"manifest": {
+		"buildKey": "b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71",
+		"frameCount": 120,
+		"blenderFrameStart": 1,
+		"codec": "webp-lossless",
+		"width": 640,
+		"height": 360
+	},
+	"verdict": "FAIL — the rendered band draws with correct alpha and correct silhouette but every RGB channel is 0.",
+	"control_browserDecodeIsCorrect": {
+		"note": "Same object-URL blob, decoded with createImageBitmap({premultiplyAlpha:'none',colorSpaceConversion:'none'}) and read through a 2D canvas, bypassing Babylon entirely.",
+		"frameIndex": 59,
+		"expectedBlenderFrame": 60,
+		"medianRed": 60,
+		"minRed": 59,
+		"maxRed": 61,
+		"opaqueSampleCount": 2496,
+		"alphaValuesInBand": [255],
+		"decodedSize": [640, 360]
+	},
+	"babylonReadback": {
+		"note": "The SAME frame, after createBabylonRuntimeSurface().renderFrame(), read back off the preserved drawing buffer.",
+		"canvasSize": [640, 360],
+		"opaquePixels": 74867,
+		"semiTransparentPixels": 8559,
+		"fullyTransparentPixels": 146974,
+		"maxOpaqueRed": 0,
+		"maxOpaqueGreen": 0,
+		"maxOpaqueBlue": 0
+	},
+	"reading": [
+		"Alpha survives: the transparent/semi/opaque split reproduces the package's measured ~70% transparency, so the texture reached the GPU and the quad is placed and sized correctly.",
+		"Colour does not survive: no opaque pixel carries any non-zero channel, so the band renders as a black cutout of the right shape.",
+		"The frame-number bar therefore decodes as red 0 for EVERY frame (0, 1, 59, 119, and on repeat/backwards reads), which is why all 7 readings failed.",
+		"Because the control above decodes the identical blob correctly, the defect is inside the Babylon material/upload path in createFrameSequencePlacement, not in the frames, the cache lane, the object URLs, or the frame addressing."
+	],
+	"readOrder": [0, 1, 59, 119, 59, 0, 119],
+	"failureCount": 7,
+	"notProven": [
+		"That frame N on screen is frame N. The addressing was proven at the compiler level (evidence/placement-identity.json) but CANNOT be confirmed by pixels until the colour defect is fixed, because every frame reads identically black.",
+		"Any export run. No WebM export of a rendered band was performed."
+	]
+}

@@ -1,0 +1,25 @@
+Vecmo -- vector motion editor
+Copyright (C) 2026 Takumi Chiba (fores-tone)
+
+Three license components apply:
+
+  1. AGPL-3.0-only -- the editor itself: src/, scripts/, docs/, and every file
+     not covered below. Text: LICENSES/AGPL-3.0-only.txt
+  2. MIT -- the developer layer: the agent/CLI toolkit, the agent entity model,
+     the runtime player control and declarations, the runtime manifest and
+     React template, and packages/editor-kernel. The authoritative file list is
+     REUSE.toml. Text: LICENSES/MIT.txt
+  3. Vecmo Runtime Output Exception v1.0 -- an AGPL section 7 additional
+     permission over all AGPL-licensed files: artifacts you export from Vecmo
+     (*.runtime.js, webgl-player.js, their generated *.d.ts, and scene, motion,
+     or *.vecmo-backup.json documents) may be embedded in your own sites and
+     applications and conveyed under terms of your choice, including
+     proprietary terms. Text:
+     LICENSES/LicenseRef-Vecmo-Runtime-Output-Exception.txt
+
+Third-party components: see package.json dependencies. Notable: Babylon.js
+(Apache-2.0), GSAP (no-charge license, not OSI-approved), React (MIT).
+
+Security contact: security@vecmo.dev  [TODO confirm]
+
+LEGAL REVIEW IS RECOMMENDED BEFORE PUBLICATION. Not reviewed by counsel.

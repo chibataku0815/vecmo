@@ -1,0 +1,123 @@
+{
+	"results": {
+		"baseline": {
+			"expected": "ACCEPTED",
+			"actual": "ACCEPTED",
+			"pass": true
+		},
+		"missingFrame": {
+			"expected": "frame-package-frame-missing",
+			"actual": "frame-package-frame-missing",
+			"pass": true
+		},
+		"partialTable": {
+			"expected": "frame-package-frame-count-mismatch",
+			"actual": "frame-package-frame-count-mismatch",
+			"pass": true
+		},
+		"duplicateFrame": {
+			"expected": "frame-package-frame-duplicate",
+			"actual": "frame-package-frame-duplicate",
+			"pass": true
+		},
+		"outOfOrderFrame": {
+			"expected": "frame-package-frame-out-of-order",
+			"actual": "frame-package-frame-out-of-order",
+			"pass": true
+		},
+		"frameMappingOffsetByOne": {
+			"expected": "frame-package-frame-mapping-invalid",
+			"actual": "frame-package-frame-mapping-invalid",
+			"pass": true
+		},
+		"absentColorDeclaration": {
+			"expected": "frame-package-color-declaration-invalid",
+			"actual": "frame-package-color-declaration-invalid",
+			"pass": true
+		},
+		"absentViewTransform": {
+			"expected": "frame-package-color-declaration-invalid",
+			"actual": "frame-package-color-declaration-invalid",
+			"pass": true
+		},
+		"unknownPrimaries": {
+			"expected": "frame-package-color-declaration-invalid",
+			"actual": "frame-package-color-declaration-invalid",
+			"pass": true
+		},
+		"premultipliedAlphaOnWebp": {
+			"expected": "frame-package-color-declaration-invalid",
+			"actual": "frame-package-color-declaration-invalid",
+			"pass": true
+		},
+		"sixteenBitOnWebp": {
+			"expected": "frame-package-color-declaration-invalid",
+			"actual": "frame-package-color-declaration-invalid",
+			"pass": true
+		},
+		"unknownCodec": {
+			"expected": "frame-package-codec-unsupported",
+			"actual": "frame-package-codec-unsupported",
+			"pass": true
+		},
+		"absolutePathInFrameName": {
+			"expected": "frame-package-frame-entry-invalid",
+			"actual": "frame-package-frame-entry-invalid",
+			"pass": true
+		},
+		"traversalInFrameName": {
+			"expected": "frame-package-frame-entry-invalid",
+			"actual": "frame-package-frame-entry-invalid",
+			"pass": true
+		},
+		"malformedDigest": {
+			"expected": "frame-package-frame-entry-invalid",
+			"actual": "frame-package-frame-entry-invalid",
+			"pass": true
+		},
+		"schemaVersionBump": {
+			"expected": "frame-package-schema-unsupported",
+			"actual": "frame-package-schema-unsupported",
+			"pass": true
+		},
+		"emptyFramePayloadClaim": {
+			"expected": "frame-package-frame-entry-invalid",
+			"actual": "frame-package-frame-entry-invalid",
+			"pass": true
+		},
+		"admissionWithCorrectKey": {
+			"expected": "admitted",
+			"actual": "admitted",
+			"pass": true
+		},
+		"admissionWithStaleKey": {
+			"expected": "frame-package-build-key-mismatch",
+			"actual": "frame-package-build-key-mismatch",
+			"pass": true
+		},
+		"admissionWithWrongDuration": {
+			"expected": "frame-package-frame-contract-mismatch",
+			"actual": "frame-package-frame-contract-mismatch",
+			"pass": true
+		},
+		"crossCodecComparison": {
+			"expected": "incomparable",
+			"actual": "incomparable",
+			"pass": true
+		},
+		"addressing": {
+			"firstIndexBlenderFrame": 1,
+			"lastIndexBlenderFrame": 120,
+			"beyondLastIsUndefined": true,
+			"negativeIsUndefined": true,
+			"fractionalIsUndefined": true,
+			"totalByteLength": 4043810
+		},
+		"frameByteAdmission": {
+			"intact": "verified",
+			"truncated": "incomplete",
+			"empty": "incomplete"
+		}
+	},
+	"failureCount": 0
+}

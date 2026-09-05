@@ -1,0 +1,39 @@
+{
+	"cHRM_decoded": {
+		"blueX": 0.15,
+		"blueY": 0.06,
+		"greenX": 0.3,
+		"greenY": 0.6,
+		"redX": 0.64,
+		"redY": 0.33,
+		"whiteX": 0.3127,
+		"whiteY": 0.329
+	},
+	"cHRM_matchesBt709SrgbReference": true,
+	"chunkTypesPresent": [
+		"IDAT",
+		"IEND",
+		"IHDR",
+		"cHRM",
+		"eXIf",
+		"gAMA",
+		"oFFs",
+		"pHYs",
+		"sRGB",
+		"tEXt"
+	],
+	"gAMA_decoded": {
+		"decoded": 0.45455,
+		"raw": 45455
+	},
+	"gAMA_impliesGammaExponent": 2.1999780002199976,
+	"hdrSignalingChunksPresent": [],
+	"ihdrBitDepth": 8,
+	"ihdrColorType": 6,
+	"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-static-run1.png",
+	"sRGB_chunk": {
+		"renderingIntent": 3,
+		"renderingIntentName": "Absolute colorimetric"
+	},
+	"sdrOnlyEvidence": "No HDR-signaling chunks (checked for ('cICP', 'mDCv', 'cLLi')) present; found: none. 8-bit depth: True."
+}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Alpha readback probe (throwaway QA harness)</title>
+		<style>
+			html,
+			body {
+				margin: 0;
+				background: #808080;
+			}
+			body {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+				padding: 16px;
+				font: 13px monospace;
+				color: #111;
+			}
+			#status {
+				white-space: pre-wrap;
+			}
+			#result {
+				white-space: pre-wrap;
+				background: #f0f0f0;
+				padding: 8px;
+				max-width: 100%;
+				overflow-x: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<!--
+			Throwaway, dev-only QA harness: numeric alpha-readback baseline for the
+			transparent-background raster export regression (see
+			`scripts/generate-alpha-probe-fixtures.ts` and `qa/alpha-probe.ts`). Not
+			part of the product build: nothing links here, and it is not referenced
+			by any `vite.config.ts` build entry. Auto-runs on load; also exposes
+			`window.runAlphaProbe()` for console re-runs.
+		-->
+		<div id="status">loading…</div>
+		<pre id="result"></pre>
+		<script type="module" src="/qa/alpha-probe.ts"></script>
+	</body>
+</html>

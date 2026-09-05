@@ -1,0 +1,38 @@
+{
+	"availableRenderEngines": ["BLENDER_EEVEE"],
+	"blenderVersion": "5.2.0 LTS",
+	"cycles": {
+		"attempted": true,
+		"cyclesComputeDeviceType": "METAL",
+		"cyclesDeviceUsed": "GPU",
+		"cyclesGpuDevicesFound": ["Apple M4 Max (GPU - 32 cores)"],
+		"dofEnabled": true,
+		"elapsedSeconds": 92.70883202552795,
+		"engine": "CYCLES",
+		"engineAfterSet": "CYCLES",
+		"motionBlurEnabled": true,
+		"outputFileSizeBytes": 180388,
+		"outputPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe1-cycles-motionblur-dof.png",
+		"resolution": [640, 360],
+		"stage": "render",
+		"succeeded": true
+	},
+	"cyclesFallbackSucceeded": true,
+	"eevee": {
+		"attempted": true,
+		"dofEnabled": true,
+		"elapsedSeconds": 0.8234050273895264,
+		"engine": "BLENDER_EEVEE",
+		"engineAfterSet": "BLENDER_EEVEE",
+		"motionBlurEnabled": true,
+		"outputFileSizeBytes": 153853,
+		"outputPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe1-eevee-motionblur-dof.png",
+		"resolution": [640, 360],
+		"stage": "render",
+		"succeeded": true
+	},
+	"eeveeHeadlessMotionBlurDofSucceeded": true,
+	"planStopConditionRef": "docs/plans/active/blender-vecmo-integrated-motion-plan.html#s0 S0c Stop: 'headless EEVEE/GPU \u304c --background \u3067 motion blur+DOF render \u306b\u4f7f\u3048\u306a\u3044'",
+	"stopConditionTriggered": false,
+	"verdictSummary": "PASS: headless EEVEE renders motion blur + DOF successfully; no stop condition."
+}

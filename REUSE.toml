@@ -1,0 +1,50 @@
+version = 1
+
+# REUSE 3.x annotations for the Vecmo editor.
+# Paths are relative to this file (apps/vecmo/). Later annotations win, so the
+# MIT override block must stay below the default block.
+#
+# EXCEPTION: everything under the AGPL default is additionally covered by the
+# Vecmo Runtime Output Exception v1.0 (an AGPL section 7 additional
+# permission), full text in LICENSES/LicenseRef-Vecmo-Runtime-Output-Exception
+# .txt. It is deliberately NOT expressed as an SPDX `WITH` operator here: `WITH`
+# expects a registered SPDX exception ID, and a LicenseRef- on the right side
+# does not validate in common tooling. See NOTICE and LICENSING.md.
+#
+# NOTE: packages/editor-kernel is MIT but lives outside this directory, so it
+# cannot be annotated here (REUSE.toml paths may not escape their own tree).
+# It carries a standalone packages/editor-kernel/LICENSE. When this repository
+# is published, move that annotation into the repository-root REUSE.toml as:
+#   path = ["packages/editor-kernel/**"], SPDX-License-Identifier = "MIT"
+#
+# NOTE: worker/, drizzle/, wrangler*.jsonc and the private pages are denylisted
+# at export and do not ship in the public repository, so the ["**"] sweep below
+# never reaches them. Build output (dist/, artifacts/, node_modules/) is
+# likewise excluded at publication time.
+
+[[annotations]]
+path = ["**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright (C) 2026 Takumi Chiba (fores-tone)"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+# Developer layer: MIT so integrators can vendor, fork, and ship these without
+# AGPL obligations. Scoped to files whose own code is self-contained player,
+# manifest, agent-contract or toolkit code. Deliberately excluded: the sampler
+# and player barrels, the *.generated.ts bundles, and the bundler/generator
+# scripts -- those embed or are built directly over AGPL-only sources, so an
+# MIT label on them would relicense AGPL-derived text.
+[[annotations]]
+path = [
+  "scripts/vma-*.ts",
+  "scripts/vmactl.ts",
+  "scripts/agent-bridge-*.ts",
+  "src/features/export/model/runtime-player-declarations.ts",
+  "src/features/export/model/runtime-player-control.ts",
+  "src/features/export/model/runtime-manifest.ts",
+  "src/features/export/model/runtime-react-template.ts",
+  "src/entities/agent/model/**",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "Copyright (C) 2026 Takumi Chiba (fores-tone)"
+SPDX-License-Identifier = "MIT"

@@ -1,0 +1,356 @@
+{
+	"slice": "S0a",
+	"title": "Blender CLI adapter falsification spike",
+	"blenderVersion": "5.2.0 LTS",
+	"manifestStability": {
+		"verdict": "stable",
+		"byteIdentical": true,
+		"comparison": "exact byte comparison; no timestamps are emitted",
+		"runs": ["manifest-run1.json", "manifest-run2.json"]
+	},
+	"buildKeyStability": {
+		"verdict": "stable",
+		"buildKey": "ea51086c103f5b5d0e6a4cf21926260eecff13265647479e1c4823dd6dfc9155",
+		"fields": {
+			"sourceDigest": "611d4acd3e0c7f73ed9c6e47aeeefcf8f42cb477bcb5ff59faa92b69993a70af",
+			"contractVersion": 1,
+			"adapterVersion": "blender-link-spike-0.1.0",
+			"blenderVersion": "5.2.0 LTS",
+			"outputProfile": "interactive-glb",
+			"frameContract": "fb1ac335b4e418e7efaa7b7a7be8709055bbfb67a38e8ff2a1ae14342de9a567",
+			"cameraDigest": "22a2350b6460a6bc6f0c67adec3e297fa2b9637bfd694a78bb7655b214fd92e6",
+			"publishedControlDigest": "94320108f4d4d5191459095262364e3679ec5f423530ed073a4a416126af7e85",
+			"renderSettingsDigest": "d514e6f1a21cc6d4f009681a13c2649c3383458d38c36bcfaeb036f0317e2c8c",
+			"environmentDigest": "230608943c4ab609bcd4243d0cadd8a6956e2433e359c8e6ab16190ab7622fbd"
+		},
+		"reproducible": true,
+		"caveat": "sourceDigest is stable per saved .blend file, not across re-saves of an identical scene; Blender embeds non-reproducible bytes on save.",
+		"resaveDeterminism": {
+			"question": "Does Blender write byte-identical .blend files for an identical scene?",
+			"digests": [
+				"023501a72459fb1f59b7940b5eff352e12fe433c43c865a43b34c452f676affd",
+				"749631b9945ffe654aa960d34bf671ea151614002ca12126881df814ff356281"
+			],
+			"byteIdenticalAcrossSaves": false,
+			"consequence": "sourceDigest is stable per SAVED FILE, not across re-saves of an identical scene. A rebuild must be keyed off the file the user actually saved; re-authoring an equivalent scene changes the build key."
+		}
+	},
+	"cameraMapping": {
+		"verdict": "pass",
+		"axisMatrixRows": [[1, 0, 0], [0, 0, 1], [0, -1, 0]],
+		"axisMapping": "blenderPoint = sceneUnitsPerPixel * (x_vecmo, z_vecmo, -y_vecmo)",
+		"fovConvention": "vertical FOV is authoritative; Blender sensor_fit=VERTICAL with camera.data.angle_y = verticalFovRadians; horizontal FOV follows the render aspect",
+		"deltaTestScope": "The per-point delta validates the projection convention only. Applying the same proper rotation to camera and points is invariant, so the rotation choice is pinned by the absolute axis assertions and the screen-side chirality checks, not by the deltas.",
+		"maxAbsoluteDelta": 1.4957614563604338e-7,
+		"focalLengthEvidence": {
+			"claim": "focalLengthMm must not be passed to Blender; verticalFovRadians is authoritative",
+			"vecmoFocalLengthMm": 38.60112456917205,
+			"vecmoSensorWidthMm": 36,
+			"blenderSensorHeightMm": 24,
+			"blenderLensMmUnderVerticalFit": 25.73408317565918,
+			"lensRatio": 1.4999999924490521,
+			"verticalFovIfFocalLengthWerePassedRadians": 0.602801627526685,
+			"verticalFovIfFocalLengthWerePassedDegrees": 34.537989140896116,
+			"requestedVerticalFovDegrees": 50
+		},
+		"assertions": [
+			{
+				"id": "det-is-plus-one",
+				"detail": "det(M) = 1",
+				"pass": true
+			},
+			{
+				"id": "vecmo-up-maps-to-blender-z-up",
+				"detail": "M @ (0,-1,0) = {\"x\":0,\"y\":0,\"z\":1}",
+				"pass": true
+			},
+			{
+				"id": "vecmo-depth-maps-to-blender-plus-y",
+				"detail": "M @ (0,0,1) = {\"x\":0,\"y\":1,\"z\":0}",
+				"pass": true
+			},
+			{
+				"id": "vecmo-right-maps-to-blender-plus-x",
+				"detail": "M @ (1,0,0) = {\"x\":1,\"y\":0,\"z\":0}",
+				"pass": true
+			},
+			{
+				"id": "blender-uses-same-axis-matrix",
+				"detail": "[[1,0,0],[0,0,1],[0,-1,0]]",
+				"pass": true
+			},
+			{
+				"id": "sensor-fit-vertical",
+				"detail": "VERTICAL",
+				"pass": true
+			},
+			{
+				"id": "angle-y-round-trip-within-float32",
+				"detail": "error = 4.415890653142185e-9 rad; float32 relative eps = 5.960464477539063e-8; lens readback = 25.73408317565918 mm",
+				"pass": true
+			},
+			{
+				"id": "effective-vertical-fov-matches-request",
+				"detail": "effective = 0.8726646221409238, requested = 0.8726646259971648",
+				"pass": true
+			},
+			{
+				"id": "effective-horizontal-fov-follows-non-square-aspect",
+				"detail": "effective = 1.3843406849597566, expected = 1.3843406825850273",
+				"pass": true
+			},
+			{
+				"id": "camera-basis-not-transposed",
+				"detail": "forward error = 8.33000234328132e-8",
+				"pass": true
+			},
+			{
+				"id": "square-pixel-aspect",
+				"detail": "1 / 1",
+				"pass": true
+			},
+			{
+				"id": "scene-units-per-pixel-agree",
+				"detail": "0.01 vs 0.01",
+				"pass": true
+			},
+			{
+				"id": "focal-length-mm-would-be-wrong",
+				"detail": "Vecmo 38.601mm vs Blender VERTICAL-fit 25.734mm (ratio 1.5000); passing it would give 34.538 deg instead of 50 deg",
+				"pass": true
+			}
+		],
+		"points": [
+			{
+				"id": "on-axis",
+				"expect": "visible",
+				"expectedU": 0.5,
+				"expectedV": 0.5,
+				"observedU": 0.5,
+				"observedV": 0.49999991059303284,
+				"deltaU": 0,
+				"deltaV": 8.940696716308594e-8,
+				"observedCameraDepth": 9.114822387695312,
+				"comparedCoordinates": true,
+				"chiralityRule": {
+					"u": null,
+					"v": null
+				},
+				"chiralityPass": true,
+				"classificationAgrees": true,
+				"pass": true
+			},
+			{
+				"id": "quadrant-right-up",
+				"expect": "visible",
+				"expectedU": 0.7099118986765445,
+				"expectedV": 0.7456504344548619,
+				"observedU": 0.7099119424819946,
+				"observedV": 0.7456503510475159,
+				"deltaU": 4.3805450156142456e-8,
+				"deltaV": 8.340734602985123e-8,
+				"observedCameraDepth": 8.544322967529297,
+				"comparedCoordinates": true,
+				"chiralityRule": {
+					"u": "greater",
+					"v": "greater"
+				},
+				"chiralityPass": true,
+				"classificationAgrees": true,
+				"pass": true
+			},
+			{
+				"id": "quadrant-left-down",
+				"expect": "visible",
+				"expectedU": 0.3703072400145968,
+				"expectedV": 0.3350236911284733,
+				"observedU": 0.37030723690986633,
+				"observedV": 0.33502358198165894,
+				"deltaU": 3.104730472713868e-9,
+				"deltaV": 1.0914681436435814e-7,
+				"observedCameraDepth": 10.786824226379395,
+				"comparedCoordinates": true,
+				"chiralityRule": {
+					"u": "less",
+					"v": "less"
+				},
+				"chiralityPass": true,
+				"classificationAgrees": true,
+				"pass": true
+			},
+			{
+				"id": "chirality-plus-x",
+				"expect": "visible",
+				"expectedU": 0.7784523704467601,
+				"expectedV": 0.49420692871996985,
+				"observedU": 0.7784523963928223,
+				"observedV": 0.49420681595802307,
+				"deltaU": 2.5946062187642838e-8,
+				"deltaV": 1.1276194678000451e-7,
+				"observedCameraDepth": 8.588207244873047,
+				"comparedCoordinates": true,
+				"chiralityRule": {
+					"u": "greater",
+					"v": null
+				},
+				"chiralityPass": true,
+				"classificationAgrees": true,
+				"pass": true
+			},
+			{
+				"id": "chirality-plus-y-is-screen-down",
+				"expect": "visible",
+				"expectedU": 0.5,
+				"expectedV": 0.04864703175254487,
+				"observedU": 0.5,
+				"observedV": 0.04864688217639923,
+				"deltaU": 0,
+				"deltaV": 1.4957614563604338e-7,
+				"observedCameraDepth": 9.465898513793945,
+				"comparedCoordinates": true,
+				"chiralityRule": {
+					"u": null,
+					"v": "less"
+				},
+				"chiralityPass": true,
+				"classificationAgrees": true,
+				"pass": true
+			},
+			{
+				"id": "behind-camera",
+				"expect": "behind",
+				"expectedBehind": true,
+				"observedBehind": true,
+				"observedCameraDepth": -5.69621467590332,
+				"expectedClipW": -569.6215875554119,
+				"comparedCoordinates": false,
+				"pass": true
+			}
+		],
+		"frameMappingPass": true,
+		"frameMapping": [
+			{
+				"expectedBlenderFrame": 1,
+				"identity": true,
+				"observedBlenderFrame": 1,
+				"vecmoFrame": 0
+			},
+			{
+				"expectedBlenderFrame": 24,
+				"identity": true,
+				"observedBlenderFrame": 24,
+				"vecmoFrame": 23
+			},
+			{
+				"expectedBlenderFrame": 48,
+				"identity": true,
+				"observedBlenderFrame": 48,
+				"vecmoFrame": 47
+			}
+		],
+		"rotationNegativeControl": {
+			"purpose": "Prove the per-point delta comparison cannot distinguish rotations, so the axis matrix is established by absolute assertions rather than by the deltas.",
+			"axisMatrixRows": [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+			"maxAbsoluteDelta": 7.134504936834318e-8,
+			"allPointsStillPassed": true,
+			"verdict": "fail",
+			"caughtOnlyBy": ["blender-uses-same-axis-matrix"],
+			"behavedAsPredicted": true
+		}
+	},
+	"glbEligibility": {
+		"outputProfile": "interactive-glb",
+		"verdict": "eligible-interactive-glb",
+		"provisional": true,
+		"verdictScope": "Representability signals only. This verdict does not verify that keyframed object animation round-trips through io_scene_gltf2 into a named, seekable Babylon animation group, nor that the Principled BSDF survives glTF material lowering. An eligible verdict is provisional until those are measured (S1).",
+		"deferredVerifications": [
+			"object-level location action -> glTF animation channel round-trip (spike source has actionCount 1, no armature, no NLA track)",
+			"glTF animation -> named Babylon animation group addressable by explicit seek from the Vecmo frame",
+			"Principled BSDF base color + metallic -> glTF PBR material lowering fidelity"
+		],
+		"reasonCodes": [],
+		"nonDisqualifyingSignals": []
+	},
+	"readOnlyGuarantee": {
+		"statement": "inspect.py contains no save-operator call site and asserts at runtime that it contains none. Headless Python always mutates in-memory datablocks, so the guarantee is 'never saves over the user's file', not 'never changes anything'.",
+		"sourceDigestBeforeInspects": "6a0385c4c0053d00613486added23bafbcc4eca0a182db7972d43137d4dc6fad",
+		"sourceDigestAfterInspects": "6a0385c4c0053d00613486added23bafbcc4eca0a182db7972d43137d4dc6fad",
+		"sourceUnchanged": true,
+		"mtimeUnchanged": true,
+		"manifestPathLeakAssertion": "inspect.py fails closed if the manifest contains the source path, its realpath, any non-generic ancestor directory, the home directory, or the OS username."
+	},
+	"apiObservations": [
+		"Blender 5.2 id_properties_ui(key).as_dict() ALWAYS returns min/max/soft_min/soft_max/default. An undeclared range comes back as +/-FLT_MAX (3.4028234663852886e38) and an undeclared default as 0.0, which contradicts the property's own value. inspect.py therefore reports rangeDeclared and defaultIsAmbiguous instead of trusting those keys.",
+		"isinstance(True, int) is True in Python, so a boolean custom property enumerates as numeric unless bool is excluded explicitly. inspect.py rejects it with reason boolean-not-v1-numeric (the spike source carries spikeDebugFlag to keep that branch exercised).",
+		"world_to_camera_view returns z <= 0 for points behind the camera and mirrors u/v for them, so behind-camera points are compared by classification only, never by coordinates.",
+		"mathutils.Matrix(...) takes ROWS while the camera basis vectors are COLUMNS; camera_probe.py asserts matrix_world @ (0,0,-1) == forward immediately after assignment to catch the transpose.",
+		"camera.data.lens is float32, so angle_y cannot round-trip a double better than float32 eps (observed 4.4e-9 rad). sensor_fit must be set BEFORE angle_y so the setter uses sensor_height.",
+		"--factory-startup in Blender 5.2 still enables the bundled add-ons, including io_scene_gltf2 (observed enabledAddons: bl_pkg, cycles, io_anim_bvh, io_curve_svg, io_mesh_uv_layout, io_scene_fbx, io_scene_gltf2, pose_library).",
+		"Blender 5.2 reports render engine BLENDER_EEVEE (not BLENDER_EEVEE_NEXT) and a default view transform of AgX; both are S0c legal-value inputs.",
+		"bpy.ops.wm.save_as_mainfile writes a `.blend1` backup sibling next to its target (observed: generated/spike-source.blend1). The companion must never save near a user's source: doing so would create or overwrite a `.blend1` beside their file, which the 'never saves over the user's file' guarantee does not cover. Temp copies belong in an adapter-owned directory."
+	],
+	"statedLimitations": [
+		"--factory-startup keeps Blender's BUNDLED default add-on set (io_scene_gltf2 included, observed) but drops every user-installed extension, so environmentDigest's enabledAddons set here is the factory set, not necessarily the production adapter's environment. S1+ must digest the adapter's real add-on set.",
+		"Headless EEVEE/GPU motion-blur + DOF render feasibility is NOT covered by S0a; it remains an open S0 stop-condition.",
+		"aperture -> f-stop conversion is declared unresolved; the probe carries no aperture value.",
+		"Color-management legal values (view transform, primaries, EOTF, alpha mode) are reported by inspect.py but are adjudicated in S0c, not here."
+	],
+	"stopConditionsTriggered": [],
+	"runtimeStatus": "Ready",
+	"invocations": [
+		{
+			"label": "make_test_blend",
+			"exitCode": 0,
+			"timedOut": false,
+			"stderrTail": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/make_test_blend.py:70: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0\n  material.use_nodes = True"
+		},
+		{
+			"label": "resave_probe_1",
+			"exitCode": 0,
+			"timedOut": false,
+			"stderrTail": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/make_test_blend.py:70: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0\n  material.use_nodes = True"
+		},
+		{
+			"label": "resave_probe_2",
+			"exitCode": 0,
+			"timedOut": false,
+			"stderrTail": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/make_test_blend.py:70: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0\n  material.use_nodes = True"
+		},
+		{
+			"label": "inspect_run1",
+			"exitCode": 0,
+			"timedOut": false,
+			"stderrTail": ""
+		},
+		{
+			"label": "inspect_run2",
+			"exitCode": 0,
+			"timedOut": false,
+			"stderrTail": ""
+		},
+		{
+			"label": "camera_probe",
+			"exitCode": 0,
+			"timedOut": false,
+			"stderrTail": ""
+		},
+		{
+			"label": "camera-probe-compare",
+			"exitCode": 0,
+			"timedOut": false,
+			"stderrTail": ""
+		},
+		{
+			"label": "camera_probe_negative_control",
+			"exitCode": 0,
+			"timedOut": false,
+			"stderrTail": ""
+		},
+		{
+			"label": "camera-probe-negative-control-compare",
+			"exitCode": 1,
+			"timedOut": false,
+			"stderrTail": ""
+		}
+	]
+}

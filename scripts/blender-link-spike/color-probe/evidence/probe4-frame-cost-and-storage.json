@@ -1,0 +1,135 @@
+{
+	"benchmarkEnvelopeFrames": 120,
+	"frameCount": 10,
+	"perFrame": [
+		{
+			"frame": 1,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-001.png",
+			"pngSaveElapsedSeconds": 0.11427092552185059,
+			"pngSizeBytes": 1188856,
+			"renderElapsedSeconds": 0.5575380325317383,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-001.webp",
+			"webpSaveElapsedSeconds": 0.42725515365600586,
+			"webpSizeBytes": 401782
+		},
+		{
+			"frame": 2,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-002.png",
+			"pngSaveElapsedSeconds": 0.05734610557556152,
+			"pngSizeBytes": 1226732,
+			"renderElapsedSeconds": 0.28074216842651367,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-002.webp",
+			"webpSaveElapsedSeconds": 0.42700982093811035,
+			"webpSizeBytes": 420308
+		},
+		{
+			"frame": 3,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-003.png",
+			"pngSaveElapsedSeconds": 0.056520938873291016,
+			"pngSizeBytes": 1280908,
+			"renderElapsedSeconds": 0.2806210517883301,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-003.webp",
+			"webpSaveElapsedSeconds": 0.44937705993652344,
+			"webpSizeBytes": 462570
+		},
+		{
+			"frame": 4,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-004.png",
+			"pngSaveElapsedSeconds": 0.054978132247924805,
+			"pngSizeBytes": 1313687,
+			"renderElapsedSeconds": 0.2886619567871094,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-004.webp",
+			"webpSaveElapsedSeconds": 0.45969605445861816,
+			"webpSizeBytes": 494650
+		},
+		{
+			"frame": 5,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-005.png",
+			"pngSaveElapsedSeconds": 0.057970285415649414,
+			"pngSizeBytes": 1385727,
+			"renderElapsedSeconds": 0.27770018577575684,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-005.webp",
+			"webpSaveElapsedSeconds": 0.45119500160217285,
+			"webpSizeBytes": 531418
+		},
+		{
+			"frame": 6,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-006.png",
+			"pngSaveElapsedSeconds": 0.057489871978759766,
+			"pngSizeBytes": 1444397,
+			"renderElapsedSeconds": 0.27892589569091797,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-006.webp",
+			"webpSaveElapsedSeconds": 0.4535789489746094,
+			"webpSizeBytes": 573616
+		},
+		{
+			"frame": 7,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-007.png",
+			"pngSaveElapsedSeconds": 0.05869889259338379,
+			"pngSizeBytes": 1461857,
+			"renderElapsedSeconds": 0.2786829471588135,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-007.webp",
+			"webpSaveElapsedSeconds": 0.4513258934020996,
+			"webpSizeBytes": 589584
+		},
+		{
+			"frame": 8,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-008.png",
+			"pngSaveElapsedSeconds": 0.06033468246459961,
+			"pngSizeBytes": 1449161,
+			"renderElapsedSeconds": 0.28094911575317383,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-008.webp",
+			"webpSaveElapsedSeconds": 0.45241498947143555,
+			"webpSizeBytes": 589224
+		},
+		{
+			"frame": 9,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-009.png",
+			"pngSaveElapsedSeconds": 0.058728933334350586,
+			"pngSizeBytes": 1360336,
+			"renderElapsedSeconds": 0.27771592140197754,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-009.webp",
+			"webpSaveElapsedSeconds": 0.437572717666626,
+			"webpSizeBytes": 533922
+		},
+		{
+			"frame": 10,
+			"pngPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-010.png",
+			"pngSaveElapsedSeconds": 0.058931827545166016,
+			"pngSizeBytes": 1316873,
+			"renderElapsedSeconds": 0.2791459560394287,
+			"webpPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-010.webp",
+			"webpSaveElapsedSeconds": 0.4275357723236084,
+			"webpSizeBytes": 508368
+		}
+	],
+	"png": {
+		"extrapolated120FrameTotalBytes": 161142408.0,
+		"extrapolated120FrameTotalMB": 153.67737579345703,
+		"sizeBytesStats": {
+			"max": 1461857,
+			"mean": 1342853.4,
+			"min": 1188856,
+			"sum": 13428534
+		}
+	},
+	"renderTimeSecondsStats": {
+		"max": 0.5575380325317383,
+		"mean": 0.30806832313537597,
+		"min": 0.27770018577575684,
+		"sum": 3.0806832313537598
+	},
+	"resolution": [1920, 1080],
+	"webp": {
+		"extrapolated120FrameTotalBytes": 61265304.0,
+		"extrapolated120FrameTotalMB": 58.427146911621094,
+		"sizeBytesStats": {
+			"max": 589584,
+			"mean": 510544.2,
+			"min": 401782,
+			"sum": 5105442
+		}
+	},
+	"webpLosslessCaveat": "bpy ImageFormatSettings for WEBP exposes only `quality` (lossy, 0-100) and `compression` (encoder effort); there is no `use_lossless` boolean on this Blender build. quality=100 was used as the closest available setting. Empirical lossless verification is in probe4_webp_fidelity_check.py (external, Pillow-based).",
+	"webpToPngSizeRatioMean": 0.38019354905010483
+}

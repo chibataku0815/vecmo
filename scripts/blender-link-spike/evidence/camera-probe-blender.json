@@ -1,0 +1,101 @@
+{
+	"axisMatrixRows": [[1.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, -1.0, 0.0]],
+	"axisOverridden": false,
+	"blenderVersion": "5.2.0 LTS",
+	"cameraReadback": {
+		"angleXRadians": 1.220728874206543,
+		"angleYRadians": 0.8726646304130554,
+		"angleYRoundTripError": 4.415890653142185e-9,
+		"basisForwardError": 8.33000234328132e-8,
+		"basisUp": [-0.0115998899564147, 0.08699911832809448, 0.9961408376693726],
+		"clipEnd": 100.0,
+		"clipStart": 0.009999999776482582,
+		"effectiveFromViewFrame": {
+			"horizontalFovRadians": 1.3843406849597566,
+			"verticalFovRadians": 0.8726646221409238
+		},
+		"lensMm": 25.73408317565918,
+		"requestedVerticalFovRadians": 0.8726646259971648,
+		"sensorFit": "VERTICAL",
+		"sensorHeightMm": 24.0,
+		"sensorWidthMm": 36.0
+	},
+	"frameMapping": [
+		{
+			"expectedBlenderFrame": 1,
+			"identity": true,
+			"observedBlenderFrame": 1,
+			"vecmoFrame": 0
+		},
+		{
+			"expectedBlenderFrame": 24,
+			"identity": true,
+			"observedBlenderFrame": 24,
+			"vecmoFrame": 23
+		},
+		{
+			"expectedBlenderFrame": 48,
+			"identity": true,
+			"observedBlenderFrame": 48,
+			"vecmoFrame": 47
+		}
+	],
+	"points": [
+		{
+			"behindCamera": false,
+			"blenderWorld": [0.0, 0.0, 0.0],
+			"cameraDepth": 9.114822387695312,
+			"id": "on-axis",
+			"u": 0.5,
+			"v": 0.49999991059303284
+		},
+		{
+			"behindCamera": false,
+			"blenderWorld": [3.0, 0.0, 2.0],
+			"cameraDepth": 8.544322967529297,
+			"id": "quadrant-right-up",
+			"u": 0.7099119424819946,
+			"v": 0.7456503510475159
+		},
+		{
+			"behindCamera": false,
+			"blenderWorld": [-2.5, 1.2000000476837158, -1.7999999523162842],
+			"cameraDepth": 10.786824226379395,
+			"id": "quadrant-left-down",
+			"u": 0.37030723690986633,
+			"v": 0.33502358198165894
+		},
+		{
+			"behindCamera": false,
+			"blenderWorld": [4.0, 0.0, 0.0],
+			"cameraDepth": 8.588207244873047,
+			"id": "chirality-plus-x",
+			"u": 0.7784523963928223,
+			"v": 0.49420681595802307
+		},
+		{
+			"behindCamera": false,
+			"blenderWorld": [0.0, 0.0, -4.0],
+			"cameraDepth": 9.465898513793945,
+			"id": "chirality-plus-y-is-screen-down",
+			"u": 0.5,
+			"v": 0.04864688217639923
+		},
+		{
+			"behindCamera": true,
+			"blenderWorld": [0.0, -15.0, 0.0],
+			"cameraDepth": -5.69621467590332,
+			"id": "behind-camera",
+			"u": 0.7099119424819946,
+			"v": 0.7456504106521606
+		}
+	],
+	"probeVersion": 1,
+	"resolution": {
+		"height": 1080,
+		"pixelAspectX": 1.0,
+		"pixelAspectY": 1.0,
+		"width": 1920
+	},
+	"sceneUnitsPerPixel": 0.01
+}

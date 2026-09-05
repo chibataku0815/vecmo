@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Time Delay Motion</title>
+  <style>
+    html, body { margin: 0; min-height: 100%; background: #111; }
+    body { display: grid; place-items: center; min-height: 100vh; }
+    #motion { width: min(100vw, 1280px); }
+    #motion svg { display: block; width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <div id="motion" aria-label="Time Delay Motion motion"></div>
+  <script type="module">
+    import { mountVectorMotion } from "./time-delay-motion.runtime.js";
+
+    await mountVectorMotion(document.getElementById("motion"), {
+      autoplay: true,
+      loop: true
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+Vecmo Runtime Output Exception, version 1.0
+
+Copyright (C) 2026 Takumi Chiba (fores-tone)
+
+This is an additional permission under section 7 of the GNU Affero General
+Public License, version 3 ("AGPL"), granted for the software known as Vecmo
+(the "Program"). It supplements, and does not replace, the AGPL.
+
+0. Definitions.
+
+"The Program" means the Vecmo vector motion editor and its source code, as
+distributed under the AGPL with this Exception attached.
+
+"Export Process" means running the Program on a document to produce output for
+use outside the Program, including any code the Program embeds, generates, or
+copies into that output.
+
+"Exported Artifact" means the output of an Export Process, specifically:
+generated runtime scripts (files named *.runtime.js), the generated WebGL
+player script (webgl-player.js), generated TypeScript declaration files
+(*.d.ts) accompanying either, and document data files, including
+*.vecmo-backup.json and scene or motion JSON documents. An Exported Artifact
+is target output, not Program source, even though the Export Process
+incorporates portions of the Program into it.
+
+"Independent Module" means a source module not itself derived from the
+Program's source code. This is determined at the source level, without regard
+to any Exported Artifact the module loads, links to, embeds, or ships with. A
+website or application authored by a user of the Program is an Independent
+Module.
+
+1. Grant of Additional Permission.
+
+You have permission to convey an Exported Artifact, and to combine an Exported
+Artifact with Independent Modules and convey the resulting work, under terms of
+your choice, including proprietary terms, and without those terms being subject
+to the requirements of the AGPL, provided that you preserve this Exception
+notice in any copy of the Program that you convey.
+
+This permission is granted notwithstanding that the Exported Artifact
+incorporates portions of the Program. It applies whether the Exported Artifact
+was produced by an unmodified or a modified Program. It does not require you to
+release the source of any Independent Module, and it does not by itself
+discharge any AGPL obligation you may have with respect to a modified Program
+that you convey or operate.
+
+2. No Other Rights.
+
+This Exception grants no rights other than those stated in section 1. It does
+not relicense the Program's source code, its export templates, or its
+generators; those remain governed by the AGPL, except for files separately
+marked as MIT-licensed. Nothing here limits any AGPL obligation applying to the
+Program itself, including section 13 (Remote Network Interaction).
+
+3. Removal.
+
+As permitted by AGPL section 7, a licensee may remove this Exception from
+copies of the Program that the licensee has modified, but only for those
+modified versions; the Exception continues to apply to unmodified copies of the
+Program conveyed by that licensee.

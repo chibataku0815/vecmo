@@ -1,0 +1,194 @@
+{
+	"label": "V3 no-look — transparent artboard, no look graph",
+	"frame": 0,
+	"scene": {
+		"schemaVersion": 1,
+		"id": "alpha-probe-v3-no-look",
+		"name": "Alpha probe — v3-no-look",
+		"artboard": {
+			"id": "alpha-probe-artboard",
+			"name": "Alpha Probe",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"width": 1280,
+			"height": 720,
+			"background": "#000000",
+			"fills": [],
+			"fps": 30,
+			"durationFrames": 360,
+			"cameraSpacePolicy": "screen_2d"
+		},
+		"layers": [
+			{
+				"id": "alpha-probe-layer",
+				"name": "Alpha Probe",
+				"visible": true,
+				"locked": false,
+				"nodes": [
+					{
+						"id": "star-a-node",
+						"name": "star-a",
+						"geometry": {
+							"kind": "path",
+							"shape": {
+								"type": "Shape",
+								"closed": true,
+								"vertices": [
+									[2.8166876380389125e-14, -460],
+									[88.16778784387097, -121.35254915624212],
+									[437.4859974957706, -142.1478174124758],
+									[142.65847744427302, 46.35254915624211],
+									[270.3812160545376, 372.14781741247583],
+									[9.184850993605149e-15, 150],
+									[-270.3812160545376, 372.14781741247583],
+									[-142.65847744427302, 46.35254915624213],
+									[-437.4859974957706, -142.14781741247594],
+									[-88.16778784387098, -121.3525491562421]
+								],
+								"inTangents": [
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0]
+								],
+								"outTangents": [
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0]
+								]
+							}
+						},
+						"transform": {
+							"position": {
+								"x": 230,
+								"y": 140
+							},
+							"rotation": 0,
+							"scale": {
+								"x": 1,
+								"y": 1
+							},
+							"anchor": {
+								"x": 0,
+								"y": 0
+							}
+						},
+						"style": {
+							"fill": "none",
+							"stroke": "none",
+							"strokeWidth": 0,
+							"opacity": 1,
+							"fills": [
+								{
+									"kind": "solid",
+									"color": "#ffffff"
+								}
+							]
+						},
+						"visible": true,
+						"locked": false
+					},
+					{
+						"id": "star-b-node",
+						"name": "star-b",
+						"geometry": {
+							"kind": "path",
+							"shape": {
+								"type": "Shape",
+								"closed": true,
+								"vertices": [
+									[2.8166876380389125e-14, -460],
+									[88.16778784387097, -121.35254915624212],
+									[437.4859974957706, -142.1478174124758],
+									[142.65847744427302, 46.35254915624211],
+									[270.3812160545376, 372.14781741247583],
+									[9.184850993605149e-15, 150],
+									[-270.3812160545376, 372.14781741247583],
+									[-142.65847744427302, 46.35254915624213],
+									[-437.4859974957706, -142.14781741247594],
+									[-88.16778784387098, -121.3525491562421]
+								],
+								"inTangents": [
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0]
+								],
+								"outTangents": [
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0]
+								]
+							}
+						},
+						"transform": {
+							"position": {
+								"x": 1050,
+								"y": 580
+							},
+							"rotation": 0,
+							"scale": {
+								"x": 1,
+								"y": 1
+							},
+							"anchor": {
+								"x": 0,
+								"y": 0
+							}
+						},
+						"style": {
+							"fill": "none",
+							"stroke": "none",
+							"strokeWidth": 0,
+							"opacity": 1,
+							"fills": [
+								{
+									"kind": "solid",
+									"color": "#ffffff"
+								}
+							]
+						},
+						"visible": true,
+						"locked": false
+					}
+				]
+			}
+		]
+	},
+	"motion": {
+		"schemaVersion": 1,
+		"fps": 30,
+		"durationFrames": 360,
+		"clips": [],
+		"tracks": [],
+		"lookNodeTracks": []
+	}
+}

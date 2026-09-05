@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title" viewBox="0 0 64 64">
+  <title id="title">Vecmo</title>
+  <rect width="64" height="64" rx="12" fill="#11100f"/>
+  <path d="M14 44 C24 18 40 18 50 44" fill="none" stroke="#2ec4b6" stroke-width="6" stroke-linecap="round"/>
+  <rect x="17" y="17" width="16" height="16" rx="3" fill="#ff5a5f"/>
+  <circle cx="45" cy="24" r="8" fill="#f4c430"/>
+</svg>

@@ -1,0 +1,27 @@
+{
+	"probe": "qa/vector-plane-emissive-probe.ts",
+	"target": "createVectorPlane (src/shared/babylon/runtime.ts)",
+	"method": "Drove the real createBabylonRuntimeSurface adapter with one hand-built Runtime3dFrame carrying a single Runtime3dVectorPlane, rendered it, and read back the median opaque RGB over a centered sample of the viewport.",
+	"knownColor": { "r": 200, "g": 100, "b": 50 },
+	"textureNote": "Probe texture is a solid-fill PNG data URI (canvas.toDataURL), not the production svg-data-url format. createVectorPlane only consumes plane.texture.uri as a generic Texture() source, so the raster format is immaterial to the material/shader defect under test. Substitution was required because this tool's headless browser pane keeps document.visibilityState === 'hidden', under which an SVG data-URI Texture measurably never reached isReady() (timed out at 6000ms) while an otherwise-identical PNG data-URI Texture reached isReady() in <1s (measured via qa/_tmp-isolate.ts, not committed) — an artifact of this automation environment's SVG decode pipeline under a hidden document, unrelated to createVectorPlane or production SVG rasterization.",
+	"before": {
+		"description": "Reading against unfixed createVectorPlane (StandardMaterial with disableLighting=true, no emissiveColor, texture useSRGBBuffer: true) prior to this fix.",
+		"medianR": 0,
+		"medianG": 0,
+		"medianB": 0,
+		"opaqueCount": 20928,
+		"sampleCount": 20928,
+		"matchesKnownColor": false
+	},
+	"after": {
+		"description": "Reading against fixed createVectorPlane (material.emissiveColor = Color3.White() added, texture useSRGBBuffer: true removed).",
+		"medianR": 200,
+		"medianG": 100,
+		"medianB": 50,
+		"opaqueCount": 20928,
+		"sampleCount": 20928,
+		"matchesKnownColor": true
+	},
+	"conclusion": "The unfixed code renders vector-plane pixels as solid black (0,0,0) at full opacity, regardless of the source texture's colour — a black cutout with correct alpha, exactly as the prior session's spot check found (RGB(200,100,50) in, (0,0,0,255) out). The fixed code reproduces the known colour exactly (median match, zero deviation) over 20928 sampled opaque pixels.",
+	"relatedFix": "8400f90c (fix: rendered frame band's StandardMaterial black-cutout defect) — same root cause and same fix shape, applied to createFrameSequencePlacement instead of createVectorPlane."
+}

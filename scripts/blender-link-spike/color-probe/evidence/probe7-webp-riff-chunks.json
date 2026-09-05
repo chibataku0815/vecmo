@@ -1,0 +1,32 @@
+{
+	"allSamplesAgree": true,
+	"conclusion": "Neither sample (a 320x320 opaque frame, nor a 1920x1080 RGBA-with-real-alpha frame) contains any color-metadata RIFF chunk (ICCP/EXIF/XMP) -- both are a single bare VP8L chunk. WebP output from this Blender build therefore carries NO embedded primaries/EOTF declaration of its own; any consumer gets correct color only by ASSUMING sRGB for untagged WebP (the near-universal browser default), which is an assumption, not a declaration the file makes. This means primaries/EOTF for the WebP output profile MUST be declared in the manifest (inherited from the same Display Device='sRGB' pipeline that produced the PNG's cHRM/gAMA/sRGB chunks -- see probe7-display-transform.json), per S0c bullet 2's explicit requirement not to let this be silently assumed.",
+	"samples": [
+		{
+			"colorMetadataChunksChecked": ["ICCP", "EXIF", "XMP "],
+			"colorMetadataChunksPresent": [],
+			"fileSizeBytes": 25220,
+			"hasAnyColorMetadata": false,
+			"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-static-run1.webp",
+			"topLevelRiffChunks": [
+				{
+					"size": 25200,
+					"type": "VP8L"
+				}
+			]
+		},
+		{
+			"colorMetadataChunksChecked": ["ICCP", "EXIF", "XMP "],
+			"colorMetadataChunksPresent": [],
+			"fileSizeBytes": 531418,
+			"hasAnyColorMetadata": false,
+			"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe4-frame-005.webp",
+			"topLevelRiffChunks": [
+				{
+					"size": 531398,
+					"type": "VP8L"
+				}
+			]
+		}
+	]
+}

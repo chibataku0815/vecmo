@@ -1,0 +1,171 @@
+{
+	"worktreeMarker": "gpu-look-alpha-2026-07-31",
+	"generatedAt": "2026-07-31T11:59:08.121Z",
+	"fixApplied": {
+		"step1": "src/shared/gpu-lens/surface.ts -- GpuRasterSurfaceOptions.preserveSourceAlphaThroughGenerators (opt-in), FRAGMENT_SHADER_COLORAMA's outAlpha now (uInputPhase==1 && !uPreserveSourceAlpha) ? 1.0 : src.a. Verified uPreserveSourceAlpha's getUniformLocation is non-null at runtime (temporary console log, removed after verification).",
+		"step2": "src/entities/scene/model/style-resolve.ts -- new exported artboardBackgroundIsTransparent(artboard), built on the same resolvePaints(...).length === 0 decision src/features/export/model/svg.ts's renderArtboardBackground already used (that renderer now calls the shared predicate too, as an explicit early-return alias -- zero behavior change, single source of truth). src/features/export/adapters/video.ts wires preserveSourceAlphaThroughGenerators: <predicate> at all 3 createGpuRasterSurface(...) call sites for the frame lens surface (captureRasterStillFrame, single-artboard video, and sequence video via outputTargets.every(...)). Path-blur surfaces, gpu-lens/canvas/overlay.tsx, webgl-player-runtime.ts, and GsapOrbHero.tsx untouched.",
+		"step3": {
+			"needed": true,
+			"reason": "STEP 0's V7 (GPU-identity, wave-warp height:0) measured pre-fix showed partial alphas shifted toward the 2a-a^2 double-composite signature vs V3 (see qa/alpha-probe-baseline.json's v7-gpu-identity.note) -- confirmed the double-composite defect is real, independent of colorama's alpha-forcing.",
+			"safetyCheck": "Read src/features/export/adapters/video.ts's drawSvgFrame (~214-375). All three full-frame lensSurface draws (scopedGlow ~311-317, tree ~320-321, passes ~323-324) are mutually exclusive (if/else-if/else-if) and their GPU surface's own output is the COMPLETE processed frame meant to REPLACE the crisp/SVG-approximated base raster drawn earlier at ~276-277 (renderScopedGlow's own doc comment: 'the base SVG remains the complete scene... Both meet again inside the canonical linear-light glow compositor' -- i.e. base+effect are already combined inside the GPU kernel for that branch; the tree/passes branches likewise reprocess the SAME svgPrefix end-to-end). Nothing drawn earlier within the same drawSvgFrame call needed preserving across these three draws. The scoped path-blur crop (~350-356, a small non-full-frame region) and the Babylon 3D overlay (~360-366, drawn strictly AFTER these three branches) are unaffected and were left untouched.",
+			"change": "globalCompositeOperation set to \"copy\" immediately before each of the 3 full-frame context.drawImage(lensSurface.canvas, ...) calls, restored to \"source-over\" immediately after each."
+		}
+	},
+	"variants": [
+		{
+			"key": "v1-repro",
+			"label": "V1 repro — transparent artboard + full look graph",
+			"before": {
+				"alphaZero": 0,
+				"alphaPartial": 0,
+				"alphaOpaque": 921600,
+				"pngSha256": "8b73fa09ff5bf12ff55f2698c50bec9e01778f7c38e442e552f7a1bf4f040d18"
+			},
+			"after": {
+				"frame": 0,
+				"width": 1280,
+				"height": 720,
+				"completedPassIds": ["svg-raster", "gpu-raster"],
+				"alphaZero": 423483,
+				"alphaPartial": 466501,
+				"alphaOpaque": 31616,
+				"partialMin": 1,
+				"partialMax": 254,
+				"partialMean": 101.88043326809589,
+				"topPartialAlphaValues": [
+					{ "alpha": 1, "count": 28848 },
+					{ "alpha": 2, "count": 15431 },
+					{ "alpha": 3, "count": 11413 },
+					{ "alpha": 254, "count": 10107 },
+					{ "alpha": 4, "count": 9143 },
+					{ "alpha": 5, "count": 7728 },
+					{ "alpha": 6, "count": 6643 },
+					{ "alpha": 253, "count": 6401 }
+				],
+				"pngSha256": "9473776423b32e3e314d0f45175e76774d429df8cd38e3bd3727065b5a1a0044"
+			},
+			"assertion": "PASS -- V1 now has a real alphaZero population (423483) and graduated partial-edge values, no longer 921600/921600 opaque. Its alpha histogram is now byte-for-count identical to V2's (colorama with preserveSourceAlpha only recolors RGB, never alpha), and differs from V2 only in pngSha256 (RGB differs, as expected)."
+		},
+		{
+			"key": "v2-control",
+			"label": "V2 control — transparent artboard, colorama removed",
+			"before": {
+				"alphaZero": 218102,
+				"alphaPartial": 602312,
+				"alphaOpaque": 101186,
+				"pngSha256": "03ed49085fcc0251098c78d5b9176e654b31271d154ee710249fd485e08a9fdc"
+			},
+			"after": {
+				"alphaZero": 423483,
+				"alphaPartial": 466501,
+				"alphaOpaque": 31616,
+				"pngSha256": "a42d482bd7f791577fc6a7c28913532ba0686b8a987be3716ba2da59880fdfd3"
+			},
+			"assertion": "CHANGED (expected -- STEP 3 applied). V2 has no colorama node, so STEP 1/2's alpha-preservation opt-in has zero effect on it; the entire before/after change is STEP 3's compositing-operator fix eliminating V2's OWN double-composite (V2's completedPassIds already included gpu-raster in the baseline, confirmed the double-composite pattern applied here too, independent of colorama)."
+		},
+		{
+			"key": "v3-no-look",
+			"label": "V3 no-look — transparent artboard, no look graph",
+			"before": {
+				"alphaZero": 612001,
+				"alphaPartial": 2888,
+				"alphaOpaque": 306711,
+				"pngSha256": "8cdf5f3ff7a693837a2e2312295b82c4ed80256e02a52d820ca42e9d9203ba38"
+			},
+			"after": {
+				"alphaZero": 612001,
+				"alphaPartial": 2888,
+				"alphaOpaque": 306711,
+				"pngSha256": "8cdf5f3ff7a693837a2e2312295b82c4ed80256e02a52d820ca42e9d9203ba38"
+			},
+			"assertion": "PASS -- unchanged (sha identical). V3 has no look graph at all; no GPU surface is ever created for it, so neither fix touches this path."
+		},
+		{
+			"key": "v4-blur-only",
+			"label": "V4 blur-only — transparent artboard, source->blur->output",
+			"before": {
+				"alphaZero": 344225,
+				"alphaPartial": 526551,
+				"alphaOpaque": 50824,
+				"pngSha256": "74b2445e5da73a89c38eb82b67b703d88f74125bb0fbeea417d911cd11c8ee16"
+			},
+			"after": {
+				"alphaZero": 344225,
+				"alphaPartial": 526551,
+				"alphaOpaque": 50824,
+				"pngSha256": "74b2445e5da73a89c38eb82b67b703d88f74125bb0fbeea417d911cd11c8ee16"
+			},
+			"assertion": "PASS -- unchanged (sha identical). blur is SVG-filter-only (not in GPU_RASTER_KINDS); completedPassIds stays ['svg-raster'] only, no lensSurface is ever created, so neither fix's code path executes for this variant."
+		},
+		{
+			"key": "v5-opaque-full",
+			"label": "V5 opaque+full — opaque solid background + full look graph",
+			"before": {
+				"alphaZero": 0,
+				"alphaPartial": 0,
+				"alphaOpaque": 921600,
+				"pngSha256": "611d389e7f6a8926cf4e87e54b2de48b3196c16adc79aae58c4ca79922be638a"
+			},
+			"after": {
+				"alphaZero": 0,
+				"alphaPartial": 0,
+				"alphaOpaque": 921600,
+				"pngSha256": "611d389e7f6a8926cf4e87e54b2de48b3196c16adc79aae58c4ca79922be638a"
+			},
+			"assertion": "PASS -- byte-identical to baseline. artboardBackgroundIsTransparent(V5's artboard) is false (fills omitted -> legacy opaque fallback), so preserveSourceAlphaThroughGenerators stays false and colorama keeps forcing outAlpha=1.0 exactly as before (AE-faithful, unchanged). STEP 3's copy vs source-over is also a no-op here because the GPU output is 100% opaque everywhere (replacing vs alpha-blending an alpha=1 source onto anything produces the same result)."
+		},
+		{
+			"key": "v6-gradient",
+			"label": "V6 gradient — gradient-filled artboard + full look graph",
+			"before": {
+				"alphaZero": 0,
+				"alphaPartial": 0,
+				"alphaOpaque": 921600,
+				"pngSha256": "611d389e7f6a8926cf4e87e54b2de48b3196c16adc79aae58c4ca79922be638a"
+			},
+			"after": {
+				"alphaZero": 0,
+				"alphaPartial": 0,
+				"alphaOpaque": 921600,
+				"pngSha256": "611d389e7f6a8926cf4e87e54b2de48b3196c16adc79aae58c4ca79922be638a"
+			},
+			"assertion": "PASS -- byte-identical to baseline, same reasoning as V5 (gradient fills are non-empty -> opaque -> predicate false -> unchanged AE-faithful forced opacity)."
+		},
+		{
+			"key": "v7-gpu-identity",
+			"label": "V7 GPU identity — transparent artboard, source->wave-warp(height:0)->output",
+			"before": {
+				"alphaZero": 611194,
+				"alphaPartial": 3643,
+				"alphaOpaque": 306763,
+				"pngSha256": "0b4898768f97a3485268874e71900dc38e04b2efa930bcb371514fac695cc896"
+			},
+			"after": {
+				"alphaZero": 611271,
+				"alphaPartial": 4351,
+				"alphaOpaque": 305978,
+				"partialMin": 1,
+				"partialMax": 254,
+				"partialMean": 127.87014479430016,
+				"topPartialAlphaValues": [
+					{ "alpha": 254, "count": 54 },
+					{ "alpha": 1, "count": 48 },
+					{ "alpha": 247, "count": 43 },
+					{ "alpha": 239, "count": 40 },
+					{ "alpha": 251, "count": 40 },
+					{ "alpha": 4, "count": 40 },
+					{ "alpha": 11, "count": 37 },
+					{ "alpha": 22, "count": 36 }
+				],
+				"pngSha256": "304b8bbb58e64c56385e37417af8d46161476db56d8c4389e34688803723bd61"
+			},
+			"compareToV3": {
+				"alphaZero": 612001,
+				"alphaPartial": 2888,
+				"alphaOpaque": 306711,
+				"pngSha256": "8cdf5f3ff7a693837a2e2312295b82c4ed80256e02a52d820ca42e9d9203ba38"
+			},
+			"assertion": "PARTIAL -- NOT bin-for-bin identical to V3 (sha differs; alphaOpaque within 0.24% of V3's, alphaPartial 4351 vs V3's 2888, a 1463-pixel/0.16%-of-frame residual). The QUALITATIVE double-composite signature IS gone: pre-fix, topPartialAlphaValues clustered tightly around the values the 2a-a^2 formula predicts from V3's own antialiasing steps (191/0.749 -> ~239, matching the observed 232-243 cluster with counts 36-40 each, all near-saturating). Post-fix, the top values are scattered across many distinct alphas (254:54, 1:48, 247:43, 239:40, 251:40, 4:40, 11:37, 22:36) with no single dominant cluster and much lower per-value counts -- consistent with two INDEPENDENT SVG rasterizers (the browser's native Canvas2D <img> decode for the base layer vs the GPU pass's own SVG-to-WebGL-texture upload for its source) anti-aliasing the same vector edge very slightly differently, not with a systematic compositing bias. This residual is a rasterizer-fidelity gap between two independent SVG rasterization pipelines, not the double-composite defect this task targeted -- STEP 3 (the compositing-operator fix) is confirmed working, but achieving true bit-identical V7==V3 would require unifying (or bit-matching) the GPU surface's own SVG-to-texture rasterization against Canvas2D's native SVG decode, which is out of this task's scope."
+		}
+	]
+}

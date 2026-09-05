@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Babylon PBR/IBL material probe (throwaway QA harness)</title>
+		<style>
+			html,
+			body {
+				margin: 0;
+				background: #808080;
+			}
+			body {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 8px;
+				padding: 16px;
+				font: 13px monospace;
+				color: #111;
+			}
+			canvas {
+				width: 1280px;
+				height: 720px;
+				display: block;
+				background: #808080;
+			}
+			#status {
+				white-space: pre-wrap;
+			}
+		</style>
+	</head>
+	<body>
+		<!--
+			Throwaway, dev-only QA harness (P6-A Babylon PBR/IBL A/B). Not part of the
+			product build: nothing links here, and it is not referenced by any
+			`vite.config.ts` build entry. Open with/without `?babylonPbr=1` to compare
+			the candidate studio-HDR-IBL path against the Hemispheric/Directional
+			baseline through the real `createBabylonRuntimeSurface` adapter.
+		-->
+		<canvas id="probe-canvas" width="1280" height="720"></canvas>
+		<div id="status">loading…</div>
+		<script type="module" src="/qa/babylon-probe.ts"></script>
+	</body>
+</html>

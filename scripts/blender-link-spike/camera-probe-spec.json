@@ -1,0 +1,58 @@
+{
+	"specVersion": 1,
+	"note": "Single source of truth for both camera_probe.py (Blender) and camera-probe.ts (ported Vecmo math). All camera and point coordinates are Vecmo world coordinates: right-handed, X right, Y down, Z scene-depth (camera sits at negative Z behind its target).",
+	"sceneUnitsPerPixel": 0.01,
+	"resolution": { "width": 1920, "height": 1080 },
+	"camera": {
+		"kind": "perspective",
+		"position": { "x": 120, "y": -80, "z": -900 },
+		"target": { "x": 0, "y": 0, "z": 0 },
+		"up": { "x": 0, "y": -1, "z": 0 },
+		"near": 1,
+		"far": 10000,
+		"verticalFovDegrees": 50
+	},
+	"frame": {
+		"blenderFrameStart": 1,
+		"durationFrames": 48,
+		"vecmoFrames": [0, 23, 47]
+	},
+	"probePoints": [
+		{
+			"id": "on-axis",
+			"point": { "x": 0, "y": 0, "z": 0 },
+			"expect": "visible",
+			"chirality": null
+		},
+		{
+			"id": "quadrant-right-up",
+			"point": { "x": 300, "y": -200, "z": 0 },
+			"expect": "visible",
+			"chirality": { "u": "greater", "v": "greater" }
+		},
+		{
+			"id": "quadrant-left-down",
+			"point": { "x": -250, "y": 180, "z": 120 },
+			"expect": "visible",
+			"chirality": { "u": "less", "v": "less" }
+		},
+		{
+			"id": "chirality-plus-x",
+			"point": { "x": 400, "y": 0, "z": 0 },
+			"expect": "visible",
+			"chirality": { "u": "greater", "v": null }
+		},
+		{
+			"id": "chirality-plus-y-is-screen-down",
+			"point": { "x": 0, "y": 400, "z": 0 },
+			"expect": "visible",
+			"chirality": { "u": null, "v": "less" }
+		},
+		{
+			"id": "behind-camera",
+			"point": { "x": 0, "y": 0, "z": -1500 },
+			"expect": "behind",
+			"chirality": null
+		}
+	]
+}

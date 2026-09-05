@@ -1,0 +1,677 @@
+@import "tailwindcss";
+
+@theme {
+	--font-sans:
+		Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", sans-serif;
+	--font-mono: "SF Mono", "Roboto Mono", ui-monospace, monospace;
+}
+
+/*
+ * Semantic design tokens. Layer 2 (@theme inline) bridges the raw values in
+ * :root to Tailwind utilities, so a future .dark / [data-theme] block can
+ * re-theme by overriding the raw vars with zero component edits. Opacity
+ * modifiers (e.g. text-accent/70, bg-scrim/20) work via color-mix in v4.
+ * HARD RULE: never declare raw color values in a plain `@theme {}` block —
+ * keep raw values in :root and reference them here, or Tailwind mints
+ * primitive utilities and reopens direct-value use.
+ */
+@theme inline {
+	--color-accent: var(--accent);
+	--color-accent-fg: var(--accent-fg);
+	--color-accent-surface: var(--accent-surface);
+	--color-accent-strong: var(--accent-strong);
+	--color-warn: var(--warn);
+	--color-warn-fg: var(--warn-fg);
+	--color-warn-surface: var(--warn-surface);
+	--color-danger: var(--danger);
+	--color-danger-fg: var(--danger-fg);
+	--color-danger-surface: var(--danger-surface);
+	--color-fg: var(--fg);
+	--color-fg-secondary: var(--fg-secondary);
+	--color-fg-muted: var(--fg-muted);
+	--color-fg-subtle: var(--fg-subtle);
+	--color-ink: var(--ink);
+	--color-surface: var(--surface);
+	--color-surface-raised: var(--surface-raised);
+	--color-surface-sunken: var(--surface-sunken);
+	--color-surface-light: var(--surface-light);
+	--color-hairline: var(--hairline);
+	--color-scrim: var(--scrim);
+	--color-overlay-accent: var(--overlay-accent);
+	--color-overlay-accent-line: var(--overlay-accent-line);
+	--color-overlay-handle: var(--overlay-handle);
+	--color-overlay-handle-deep: var(--overlay-handle-deep);
+	--color-overlay-handle-disabled: var(--overlay-handle-disabled);
+	--color-overlay-warn: var(--overlay-warn);
+	--color-overlay-ink: var(--overlay-ink);
+	--color-overlay-on-dark: var(--overlay-on-dark);
+	--text-ui: 10px;
+}
+
+:root {
+	--editor-chrome-offset: 8px;
+	/* Mirrors RULER_SIZE_PX in features/guides/canvas/overlay.tsx. The viewport
+	   ruler holds the window's top/left edge, so the floating top chrome is
+	   offset below it (top-bar) to keep the ruler labels readable. */
+	--editor-ruler-size: 18px;
+	--editor-top-bar-top: calc(
+		var(--editor-ruler-size) +
+		var(--editor-chrome-offset)
+	);
+	--editor-fit-gap: 10px;
+	--editor-panel-top: 68px;
+	--editor-panel-bottom: 58px;
+	--editor-action-top: calc(var(--editor-top-bar-top) + 36px);
+	--editor-left-panel-width: 228px;
+	--editor-right-panel-width: 244px;
+	--editor-timeline-bottom: 46px;
+	--editor-timeline-height: clamp(132px, 22svh, 176px);
+	/* Resizable height of the docked timeline in Timeline mode. Written pre-paint
+	   from the persisted store value (EditorPage) and imperatively during a
+	   divider drag; the .timeline-mode rules cap the visual height at 62svh. */
+	--editor-timeline-expanded-height: 460px;
+	--editor-look-workspace-height: 380px;
+	--editor-tool-rail-bottom: 8px;
+
+	/* semantic color primitives (raw values; override in a future theme block) */
+	--accent: #2ec4b6;
+	--accent-fg: #8df1e8;
+	--accent-surface: #123330;
+	--accent-strong: #0f766e;
+	--warn: #f4c430;
+	--warn-fg: #f5d66b;
+	--warn-surface: #332b12;
+	--danger: #ff5a5f;
+	--danger-fg: #ffb0b3;
+	--danger-surface: #321819;
+	--fg: #f3efe4;
+	--fg-secondary: #c9c2b4;
+	--fg-muted: #8f8879;
+	--fg-subtle: #6f6a5e;
+	--ink: #3f3a32;
+	--surface: #191817;
+	--surface-raised: #202020;
+	--surface-sunken: #141312;
+	--surface-light: #f7f4eb;
+	--hairline: #ffffff;
+	--scrim: #000000;
+	/* The infinite canvas desk behind the artboards. Slightly cooler/darker than
+	   the white artboard background so each artboard reads as a floating card. */
+	--canvas-desk: #eef1ed;
+
+	/*
+	 * Canvas interaction overlay palette — deliberately DECOUPLED from the chrome
+	 * accent so handles/marquee stay zoom-stable and high-contrast over arbitrary
+	 * user artwork (tuning these must not be coupled to UI accent). Only consumed
+	 * via className utilities (CSS-property context). NOTE: SVG presentation
+	 * attributes (fill="..."/stroke="...") do NOT resolve var(), so overlay colors
+	 * passed as SVG attributes stay as named hex constants in each feature's
+	 * canvas/overlay.tsx by design — do not "fix" them into var() attributes.
+	 */
+	--overlay-accent: #2ec4b6;
+	--overlay-accent-line: #8df1e8;
+	--overlay-handle: #f7f4eb;
+	--overlay-handle-deep: #102927;
+	--overlay-handle-disabled: #4b4945;
+	--overlay-warn: #f4c430;
+	--overlay-ink: #191817;
+	--overlay-on-dark: #ebe7dd;
+
+	color: #ebe7dd;
+	background: #eef1ed;
+	font-family: var(--font-sans);
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-width: 320px;
+	min-height: 100svh;
+	overflow: hidden;
+}
+
+/*
+ * MUST stay inside @layer base: an unlayered `button,input{font:inherit}` beats
+ * @layer utilities regardless of specificity, so it would clobber the text-ui /
+ * text-* utilities on every button and input (the 16px regression). Keeping it
+ * layered lets utilities win.
+ */
+@layer base {
+	button,
+	input {
+		font: inherit;
+	}
+
+	button {
+		color: inherit;
+	}
+}
+
+#root {
+	min-height: 100svh;
+}
+
+.editor-grid {
+	position: relative;
+	height: 100svh;
+	overflow: hidden;
+	background: #eef1ed;
+}
+
+.top-bar {
+	position: absolute;
+	top: var(--editor-top-bar-top);
+	right: var(--editor-chrome-offset);
+	left: var(--editor-chrome-offset);
+	z-index: 40;
+	pointer-events: none;
+}
+
+.top-bar-wide-label {
+	display: none;
+}
+
+@media (min-width: 2048px) {
+	.top-bar-wide-label {
+		display: inline;
+	}
+}
+
+.tool-rail {
+	position: absolute;
+	bottom: var(--editor-tool-rail-bottom);
+	left: 50%;
+	z-index: 40;
+	transform: translateX(-50%);
+}
+
+.tool-options {
+	position: absolute;
+	bottom: calc(var(--editor-tool-rail-bottom) + 42px);
+	left: 50%;
+	z-index: 41;
+	max-width: calc(100vw - (var(--editor-chrome-offset) * 2));
+	transform: translateX(-50%);
+}
+
+.action-surface {
+	position: absolute;
+	top: var(--editor-action-top);
+	left: 50%;
+	z-index: 45;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.parameter-capture-toggle {
+	position: absolute;
+	top: calc(var(--editor-action-top) + 4px);
+	right: var(--editor-chrome-offset);
+	z-index: 46;
+}
+
+.parameter-capture-callouts {
+	z-index: 34;
+}
+
+.parameter-capture-stage {
+	position: absolute;
+	z-index: 44;
+}
+
+/*
+ * Capture Mode is filmed output, not dense editing chrome. Labels stay on the
+ * editor's flat text-ui scale, while numeric readouts get a stable presentation
+ * size so SNS captures remain legible without zooming the whole browser UI.
+ */
+.parameter-capture-stage .capture-value {
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 18px;
+	letter-spacing: 0;
+}
+
+.layers-panel {
+	position: absolute;
+	top: var(--editor-panel-top);
+	bottom: var(--editor-panel-bottom);
+	left: var(--editor-chrome-offset);
+	z-index: 30;
+	width: var(--editor-left-panel-width);
+}
+
+.canvas-shell {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+}
+
+/*
+ * The infinite-canvas desk: a full-viewport plane the camera pans across. The
+ * artboards float on it as cards (their own fill + drop shadow). There is no
+ * bounded "stage" element — panning simply reveals more desk in every direction.
+ */
+.canvas-desk {
+	background-color: var(--canvas-desk);
+}
+
+/*
+ * Babylon owns eligible GLB/GLTF pixels only after its one shared surface has
+ * rendered every placement. Until then (and on failure), the canonical SVG
+ * preview/placeholder remains visible as the fail-closed fallback.
+ */
+.canvas-desk:has([data-runtime-3d-status="ready"])
+[data-runtime-3d-fallback="babylon"] {
+	visibility: hidden;
+}
+
+.inspector-panel {
+	position: absolute;
+	top: var(--editor-panel-top);
+	right: var(--editor-chrome-offset);
+	bottom: var(--editor-panel-bottom);
+	z-index: 30;
+	width: var(--editor-right-panel-width);
+}
+
+.timeline-panel {
+	position: absolute;
+	right: max(calc(var(--editor-right-panel-width) + 12px), calc(50% - 430px));
+	bottom: var(--editor-timeline-bottom);
+	left: max(calc(var(--editor-left-panel-width) + 12px), calc(50% - 430px));
+	z-index: 35;
+	height: var(--editor-timeline-height);
+}
+
+.look-workspace-panel {
+	position: absolute;
+	right: var(--editor-chrome-offset);
+	bottom: var(--editor-chrome-offset);
+	left: var(--editor-chrome-offset);
+	z-index: 36;
+	height: min(var(--editor-look-workspace-height), 78svh);
+}
+
+/*
+ * Motion Copilot dock (Creator 2, C2-L2): a persistent right-anchored authoring
+ * panel. Bounded width so the canvas stays dominant — it never blankets the
+ * canvas. Sits above the inspector's z so, when both are open, the Copilot
+ * dodges left of the inspector column (`.inspector-open` rule) rather than
+ * overlapping it.
+ */
+.motion-copilot-panel {
+	position: absolute;
+	top: var(--editor-panel-top);
+	right: var(--editor-chrome-offset);
+	bottom: var(--editor-panel-bottom);
+	z-index: 31;
+	width: var(--editor-motion-copilot-width);
+}
+
+.editor-grid.inspector-open .motion-copilot-panel {
+	right: calc(
+		var(--editor-right-panel-width) +
+		var(--editor-chrome-offset) +
+		12px
+	);
+}
+
+/*
+ * When the Motion Copilot dock is open, the expanded Timeline shrinks its right
+ * edge to clear it (mirroring how it reserves the inspector column), so the
+ * dock's own action row (Approve / Undo / Open in Graph) stays clickable rather
+ * than being occluded by the higher-z timeline. With the inspector also open the
+ * Copilot sits left of it, so reserve both widths.
+ */
+.editor-grid.motion-copilot-open .timeline-panel {
+	right: max(
+		calc(
+			var(--editor-motion-copilot-width) +
+			var(--editor-chrome-offset) +
+			12px
+		),
+		calc(50% - 430px)
+	);
+}
+
+.editor-grid.motion-copilot-open.inspector-open .timeline-panel {
+	right: max(
+		calc(
+			var(--editor-right-panel-width) +
+			var(--editor-motion-copilot-width) +
+			var(--editor-chrome-offset) +
+			24px
+		),
+		calc(50% - 430px)
+	);
+}
+
+.editor-grid.ipad-authoring-mode {
+	--editor-fit-gap: 12px;
+}
+
+.editor-grid.ipad-authoring-mode .top-bar,
+.editor-grid.ipad-authoring-mode .tool-rail,
+.editor-grid.ipad-authoring-mode .tool-options,
+.editor-grid.ipad-authoring-mode .layers-panel,
+.editor-grid.ipad-authoring-mode .inspector-panel,
+.editor-grid.ipad-authoring-mode .timeline-panel,
+.editor-grid.ipad-authoring-mode .look-workspace-panel,
+.editor-grid.ipad-authoring-mode .motion-copilot-panel,
+.editor-grid.ipad-authoring-mode .floating-inspector,
+.editor-grid.ipad-authoring-mode .parameter-capture-toggle,
+.editor-grid.ipad-authoring-mode .parameter-capture-stage {
+	display: none;
+}
+
+.editor-grid.ipad-authoring-mode .action-surface-strip {
+	display: none;
+}
+
+/*
+ * Reference-session tutorial guide (`widgets/tutorial-guide`). Left-anchored at
+ * the SAME x-offset the docked timeline uses (`.timeline-panel`'s own `left`
+ * formula), so it never overlaps the Layers panel, and bottom-anchored at the
+ * default panel baseline so it clears the tool rail when the timeline is
+ * closed. The `.timeline-open`/`.timeline-mode` overrides below mirror
+ * `.tool-options`'s own reflow rules so the guide always sits above whichever
+ * timeline geometry is active instead of overlapping it.
+ *
+ * `max-height` is REQUIRED, not cosmetic: the panel's own `bottom` anchor moves
+ * up a lot in `.timeline-mode` (the expanded dock can claim up to 62svh), which
+ * can leave less room above it than the panel's content wants — without a cap
+ * tied to that same shrinking budget, the card would grow past the top of the
+ * viewport instead of scrolling internally. `--editor-panel-top` matches the
+ * clearance every other floating/docked panel already reserves under the top
+ * bar, so the guide never grows into that chrome either.
+ */
+.tutorial-guide {
+	position: absolute;
+	bottom: var(--editor-panel-bottom);
+	left: max(calc(var(--editor-left-panel-width) + 12px), calc(50% - 430px));
+	z-index: 30;
+	max-height: calc(
+		100svh -
+		var(--editor-panel-top) -
+		var(--editor-panel-bottom)
+	);
+}
+
+.editor-grid.timeline-open:not(.timeline-mode) .tutorial-guide {
+	bottom: calc(
+		var(--editor-timeline-bottom) +
+		var(--editor-timeline-height) +
+		var(--editor-fit-gap)
+	);
+	max-height: calc(
+		100svh -
+		var(--editor-panel-top) -
+		var(--editor-timeline-bottom) -
+		var(--editor-timeline-height) -
+		var(--editor-fit-gap)
+	);
+}
+
+/*
+ * Timeline Mode squeezes the Layers/Inspector/tool-rail into one thin band
+ * just above the full-width docked timeline (see the `.timeline-mode
+ * .layers-panel, .inspector-panel, .tool-rail` rule above) — there is no
+ * remaining floating slot wide enough for the full guide card without
+ * crowding the relocated tool rail. `TutorialGuide` responds by forcing
+ * itself into its collapsed pill for this mode (see the component); this rule
+ * only repositions that pill to the TOP-left corner, which stays clear in
+ * every timeline layout, instead of trying to keep the tall card's `bottom`
+ * anchor working in the tightest state.
+ */
+.editor-grid.timeline-mode .tutorial-guide {
+	top: var(--editor-panel-top);
+	bottom: auto;
+}
+
+/*
+ * Timeline mode (Motion workspace): a RESERVED, tall, full-width docked timeline.
+ * The class lands on `.editor-grid` only when `timelineOpen && timelineExpanded`.
+ * One resizable var (`--editor-timeline-expanded-height`, written imperatively
+ * during a divider drag) simultaneously drives the timeline height, the side-
+ * panel bottom clearance, and the tool-rail relocation — so all three reflow in
+ * the same frame with zero React re-render. The `min(…, 62svh)` cap keeps the
+ * canvas visible (split-rebalance, never full-screen) even when a tall persisted
+ * height loads on a short viewport. Higher specificity than the base rule and
+ * the ≤1080px block, so it wins at every breakpoint.
+ */
+.editor-grid.timeline-mode .timeline-panel {
+	right: var(--editor-chrome-offset);
+	bottom: var(--editor-chrome-offset);
+	left: var(--editor-chrome-offset);
+	height: min(var(--editor-timeline-expanded-height), 62svh);
+}
+
+/*
+ * In Timeline Mode the docked timeline is full-width; when the Motion Copilot
+ * dock is also open it must still clear the dock's right column so the dock's
+ * action row (e.g. Open in Graph / Undo) is not occluded by the higher-z
+ * timeline. Higher specificity than the plain `.timeline-mode .timeline-panel`
+ * rule above, so it wins. With the inspector also open the Copilot sits left of
+ * it — reserve both widths.
+ */
+.editor-grid.timeline-mode.motion-copilot-open .timeline-panel {
+	right: calc(
+		var(--editor-motion-copilot-width) +
+		var(--editor-chrome-offset) +
+		var(--editor-fit-gap)
+	);
+}
+
+.editor-grid.timeline-mode.motion-copilot-open.inspector-open .timeline-panel {
+	right: calc(
+		var(--editor-right-panel-width) +
+		var(--editor-motion-copilot-width) +
+		var(--editor-chrome-offset) +
+		var(--editor-fit-gap) +
+		12px
+	);
+}
+
+.editor-grid.timeline-mode .layers-panel,
+.editor-grid.timeline-mode .inspector-panel,
+.editor-grid.timeline-mode .tool-rail {
+	bottom: calc(
+		var(--editor-chrome-offset) +
+		min(var(--editor-timeline-expanded-height), 62svh) +
+		var(--editor-fit-gap)
+	);
+}
+
+.editor-grid.timeline-open:not(.timeline-mode) .tool-options {
+	bottom: calc(
+		var(--editor-timeline-bottom) +
+		var(--editor-timeline-height) +
+		var(--editor-fit-gap)
+	);
+}
+
+.editor-grid.timeline-mode .tool-options {
+	bottom: calc(
+		var(--editor-chrome-offset) +
+		min(var(--editor-timeline-expanded-height), 62svh) +
+		var(--editor-fit-gap) +
+		42px
+	);
+}
+
+.editor-grid.look-workspace-mode .layers-panel,
+.editor-grid.look-workspace-mode .inspector-panel,
+.editor-grid.look-workspace-mode .tool-rail {
+	bottom: calc(
+		var(--editor-chrome-offset) +
+		min(var(--editor-look-workspace-height), 78svh) +
+		var(--editor-fit-gap)
+	);
+}
+
+.editor-grid.look-workspace-mode .tool-options {
+	bottom: calc(
+		var(--editor-chrome-offset) +
+		min(var(--editor-look-workspace-height), 78svh) +
+		var(--editor-fit-gap) +
+		42px
+	);
+}
+
+.checkerboard {
+	background-color: #fbfaf6;
+	background-image:
+		linear-gradient(45deg, rgba(78, 73, 65, 0.04) 25%, transparent 25%),
+		linear-gradient(-45deg, rgba(78, 73, 65, 0.04) 25%, transparent 25%),
+		linear-gradient(45deg, transparent 75%, rgba(78, 73, 65, 0.04) 75%),
+		linear-gradient(-45deg, transparent 75%, rgba(78, 73, 65, 0.04) 75%);
+	background-position:
+		0 0,
+		0 8px,
+		8px -8px,
+		-8px 0;
+	background-size: 16px 16px;
+}
+
+/*
+ * Fine-tiled checkerboard for the color picker's alpha track and swatch chips.
+ * The 16px .checkerboard shows only a single check inside a thin h-3 track,
+ * which reads as a flat fill; a 7px tile with a more legible contrast renders
+ * 2+ checks so partial opacity is unmistakable on the dark popup.
+ */
+.checkerboard-fine {
+	background-color: #d9d4c9;
+	background-image:
+		linear-gradient(45deg, rgba(58, 54, 48, 0.26) 25%, transparent 25%),
+		linear-gradient(-45deg, rgba(58, 54, 48, 0.26) 25%, transparent 25%),
+		linear-gradient(45deg, transparent 75%, rgba(58, 54, 48, 0.26) 75%),
+		linear-gradient(-45deg, transparent 75%, rgba(58, 54, 48, 0.26) 75%);
+	background-position:
+		0 0,
+		0 3.5px,
+		3.5px -3.5px,
+		-3.5px 0;
+	background-size: 7px 7px;
+}
+
+.timeline-ruler {
+	background-image: repeating-linear-gradient(
+		90deg,
+		rgba(235, 231, 221, 0.18) 0,
+		rgba(235, 231, 221, 0.18) 1px,
+		transparent 1px,
+		transparent 48px
+	);
+}
+
+.chrome-scrollbar-thin,
+.timeline-scroll-region {
+	--chrome-scrollbar-height: 6px;
+	--chrome-scrollbar-thumb: color-mix(in srgb, var(--fg) 22%, transparent);
+	--chrome-scrollbar-thumb-hover: color-mix(
+		in srgb,
+		var(--fg) 34%,
+		transparent
+	);
+	--chrome-scrollbar-width: 6px;
+
+	overscroll-behavior: contain;
+	scrollbar-color: var(--chrome-scrollbar-thumb) transparent;
+	scrollbar-width: thin;
+}
+
+.timeline-scroll-region {
+	--chrome-scrollbar-height: 0;
+}
+
+.inspector-scroll-region,
+.layers-scroll-region {
+	--chrome-scrollbar-height: 0;
+	--chrome-scrollbar-thumb: color-mix(
+		in srgb,
+		var(--fg-muted) 46%,
+		transparent
+	);
+	--chrome-scrollbar-thumb-hover: color-mix(
+		in srgb,
+		var(--accent) 34%,
+		var(--fg-muted) 28%
+	);
+	--chrome-scrollbar-width: 7px;
+
+	scrollbar-gutter: stable;
+}
+
+.chrome-scrollbar-thin::-webkit-scrollbar,
+.timeline-scroll-region::-webkit-scrollbar {
+	width: var(--chrome-scrollbar-width);
+	height: var(--chrome-scrollbar-height);
+}
+
+.chrome-scrollbar-thin::-webkit-scrollbar-track,
+.chrome-scrollbar-thin::-webkit-scrollbar-corner,
+.timeline-scroll-region::-webkit-scrollbar-track,
+.timeline-scroll-region::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+.chrome-scrollbar-thin::-webkit-scrollbar-thumb,
+.timeline-scroll-region::-webkit-scrollbar-thumb {
+	background: var(--chrome-scrollbar-thumb);
+	background-clip: content-box;
+	border: 2px solid transparent;
+	border-radius: 999px;
+}
+
+.chrome-scrollbar-thin::-webkit-scrollbar-thumb:hover,
+.timeline-scroll-region::-webkit-scrollbar-thumb:hover {
+	background: var(--chrome-scrollbar-thumb-hover);
+	background-clip: content-box;
+}
+
+@media (pointer: coarse) {
+	.tool-rail,
+	.tool-options,
+	.layers-panel,
+	.inspector-panel {
+		display: none;
+	}
+}
+
+@media (max-width: 1080px) {
+	:root {
+		--editor-chrome-offset: 6px;
+		--editor-fit-gap: 8px;
+		--editor-timeline-bottom: 42px;
+		--editor-timeline-height: clamp(118px, 24svh, 156px);
+		--editor-look-workspace-height: 320px;
+		--editor-tool-rail-bottom: 6px;
+	}
+
+	body {
+		overflow: hidden;
+	}
+
+	.editor-grid {
+		min-height: 100svh;
+		height: 100svh;
+	}
+
+	.layers-panel,
+	.inspector-panel {
+		display: none;
+	}
+
+	.timeline-panel {
+		right: var(--editor-chrome-offset);
+		left: var(--editor-chrome-offset);
+	}
+}

@@ -1,0 +1,89 @@
+{
+	"probe": "qa/s4-frame-band-probe.ts",
+	"runAt": "2026-08-06",
+	"host": "second vite dev server on 127.0.0.1:6252 (session's 6250 server wedged; NOT restarted, to protect the S3v seed tab)",
+	"framesOrigin": "http://127.0.0.1:6251 (qa/s4-frame-band-serve.ts over out-cold)",
+	"priorEvidence": "browser-frame-band.json (FAIL: maxOpaqueRed/Green/Blue all 0)",
+	"manifest": {
+		"buildKey": "b5d785957c266cbdd3b33f6481a2327145d44d9dc73f14a7323cd846f288cf71",
+		"frameCount": 120,
+		"blenderFrameStart": 1,
+		"codec": "webp-lossless",
+		"width": 640,
+		"height": 360
+	},
+	"rootCause": [
+		"Bug 1 (colour absent entirely): `createFrameSequencePlacement`'s StandardMaterial sets `disableLighting = true` without setting `emissiveColor`. Traced through @babylonjs/core's actual default.fragment shader (Shaders/default.fragment.js) and materialHelper.functions.js: `PrepareDefinesForLights` skips the light loop unconditionally when `disableLighting` is true, so `diffuseBase` stays vec3(0) forever. `finalDiffuse = clamp(diffuseBase*diffuseColor + emissiveColor + vAmbientColor, 0, 1) * baseColor.rgb`; with `emissiveColor` (material default Color3(0,0,0)) and `ambientColor` (material default Color3(0,0,0)) both unset, the additive term is 0, zeroing colour regardless of diffuseColor/diffuseTexture. Fix: set `material.emissiveColor = Color3.White()`, which makes the additive term exactly 1 so `baseColor.rgb` (the diffuse texture's own decoded colour) passes through unlit and unattenuated.",
+		"Bug 2 (colour present but numerically wrong, uncovered only after fixing bug 1): the frame texture set `useSRGBBuffer: true`. This scene's default ImageProcessingConfiguration has no active tonemap/exposure/contrast, so the material compiles without the `IMAGEPROCESSING` shader define — nothing re-encodes a linearized sample back to sRGB before the framebuffer write. `useSRGBBuffer: true` makes the GPU auto-decode sRGB->linear on sample, and that linear value then gets written out unconverted, silently re-grading pixels Blender already finished (verified analytically: sRGB(60/255)->linear->*255 ~= 11.4, sRGB(120/255)->linear->*255 ~= 47.9, both match the measured post-bug-1-fix readings of 12 and 48 exactly). Fix: remove `useSRGBBuffer: true` from the frame texture's options so the shader's `baseColor.rgb` equals the decoded bytes unmodified, consistent with `decodeFrameBitmap`'s existing 'must not re-grade' contract (`colorSpaceConversion: none`)."
+	],
+	"verdict": "PASS after both fixes. failureCount 0/7.",
+	"afterFix_babylonReadback_frame59": {
+		"note": "Full-canvas readback off the preserved drawing buffer for a separate render of frame index 59, same technique as the original evidence file.",
+		"canvasSize": [640, 360],
+		"opaquePixels": 83648,
+		"semiTransparentPixels": 6818,
+		"fullyTransparentPixels": 139934,
+		"maxOpaqueRed": 255,
+		"maxOpaqueGreen": 255,
+		"maxOpaqueBlue": 255,
+		"reading": "Alpha/silhouette still correct (opaque/semi/transparent all present, matching a real partially-transparent render) and colour is now populated (non-zero, including full white where the source frame has a bright highlight)."
+	},
+	"probeRun": {
+		"readOrder": [0, 1, 59, 119, 59, 0, 119],
+		"readings": [
+			{
+				"frameIndex": 0,
+				"expectedBlenderFrame": 1,
+				"decodedRed": 1,
+				"ok": true
+			},
+			{
+				"frameIndex": 1,
+				"expectedBlenderFrame": 2,
+				"decodedRed": 2,
+				"ok": true
+			},
+			{
+				"frameIndex": 59,
+				"expectedBlenderFrame": 60,
+				"decodedRed": 60,
+				"ok": true
+			},
+			{
+				"frameIndex": 119,
+				"expectedBlenderFrame": 120,
+				"decodedRed": 120,
+				"ok": true
+			},
+			{
+				"frameIndex": 59,
+				"expectedBlenderFrame": 60,
+				"decodedRed": 60,
+				"ok": true
+			},
+			{
+				"frameIndex": 0,
+				"expectedBlenderFrame": 1,
+				"decodedRed": 1,
+				"ok": true
+			},
+			{
+				"frameIndex": 119,
+				"expectedBlenderFrame": 120,
+				"decodedRed": 120,
+				"ok": true
+			}
+		],
+		"failureCount": 0,
+		"reading": "The frame-number bar now decodes exactly (median red == expected Blender frame, min/max within +/-1 of the encoded value, consistent with the WebP-lossless codec's exact round trip). The non-monotonic read order (including two backward repeats) all decoded correctly, so this is pixel-level proof of exact frame addressing, not just a forward sweep that could hide a one-frame lag."
+	},
+	"vectorPlaneFinding": {
+		"claim": "The identical missing-emissiveColor defect (Bug 1 above) is PROVEN present in `createVectorPlane`, unmodified, in production code. NOT a vector-plane-lane guess — measured directly.",
+		"method": "Rendered a real `createBabylonRuntimeSurface` frame with a single `vectorPlanes` entry whose texture was a hand-built solid RGB(200,100,50) opaque PNG data URL (bypassing the SVG rasterizer, but going through the real `createVectorPlane` + real StandardMaterial + real render pass). Read back the center pixel of the preserved drawing buffer.",
+		"expectedRGB": [200, 100, 50],
+		"measuredCenterPixelRGBA": [0, 0, 0, 255],
+		"conclusion": "createVectorPlane's material renders solid black regardless of source texture colour, for the same shader-level reason as Bug 1 above (disableLighting=true, emissiveColor never set). Alpha (255, fully opaque) is correct, matching the same 'alpha survives, colour does not' signature originally observed on the frame-sequence lane before this fix.",
+		"scopeNote": "createVectorPlane ALSO sets `useSRGBBuffer: true` on its diffuse texture identically to the frame-sequence lane's pre-fix Bug 2, so it likely carries that darkening defect too once/if Bug 1 is ever fixed there — not measured directly here since Bug 1 alone already fully explains the all-black reading (dominates: 0 in, 0 out regardless of any subsequent gamma handling).",
+		"actionTaken": "NONE. Per task scope this is reported as a finding only; `createVectorPlane` was not modified."
+	}
+}

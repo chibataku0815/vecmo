@@ -1,0 +1,61 @@
+{
+	"motionBlurLivenessCheck": {
+		"blurConfirmedLive": true,
+		"differingByteCount": 8317,
+		"maxPerChannelDelta_0to255": 160,
+		"note": "If differingByteCount were 0, the 'motionblur' variant's determinism result would be vacuous (nothing to be non-deterministic ABOUT, since the shutter sample landed on a static pose). A nonzero delta here proves the stochastic motion-blur sampling path was actually exercised.",
+		"withBlurPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-motionblur-run1.png",
+		"withoutBlurPath": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-motionblur-noblur-check.png"
+	},
+	"motionblur": {
+		"differingByteCount": 0,
+		"differingByteFraction": 0.0,
+		"fileByteIdentical": false,
+		"maxDeltaByteIndex": -1,
+		"maxPerChannelDelta_0to255": 0,
+		"meanAbsDeltaOverDifferingBytes": 0,
+		"note": "fileByteIdentical compares the ENTIRE PNG file including metadata chunks. Blender embeds a wall-clock 'Date' tEXt chunk (render timestamp) that necessarily differs between two separate process runs even when the image content is identical, so fileByteIdentical=false does not by itself mean the render is non-deterministic. pixelDataByteIdentical (decoded RGBA bytes only, metadata stripped) is the determinism signal that matters.",
+		"pixelDataByteIdentical": true,
+		"run1": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-motionblur-run1.png",
+		"run2": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-motionblur-run2.png",
+		"totalByteCount": 409600,
+		"variant": "motionblur"
+	},
+	"motionblurWebp": {
+		"fileByteIdentical": true,
+		"note": "use_stamp=False was set for both renders, so unlike the PNG comparison there is no volatile timestamp metadata to confound a raw file-byte comparison -- fileByteIdentical here directly answers the determinism question with no decode needed.",
+		"run1": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-motionblur-run1.webp",
+		"run2": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-motionblur-run2.webp",
+		"variant": "motionblur"
+	},
+	"static": {
+		"differingByteCount": 0,
+		"differingByteFraction": 0.0,
+		"fileByteIdentical": false,
+		"maxDeltaByteIndex": -1,
+		"maxPerChannelDelta_0to255": 0,
+		"meanAbsDeltaOverDifferingBytes": 0,
+		"note": "fileByteIdentical compares the ENTIRE PNG file including metadata chunks. Blender embeds a wall-clock 'Date' tEXt chunk (render timestamp) that necessarily differs between two separate process runs even when the image content is identical, so fileByteIdentical=false does not by itself mean the render is non-deterministic. pixelDataByteIdentical (decoded RGBA bytes only, metadata stripped) is the determinism signal that matters.",
+		"pixelDataByteIdentical": true,
+		"run1": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-static-run1.png",
+		"run2": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-static-run2.png",
+		"totalByteCount": 409600,
+		"variant": "static"
+	},
+	"staticWebp": {
+		"fileByteIdentical": true,
+		"note": "use_stamp=False was set for both renders, so unlike the PNG comparison there is no volatile timestamp metadata to confound a raw file-byte comparison -- fileByteIdentical here directly answers the determinism question with no decode needed.",
+		"run1": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-static-run1.webp",
+		"run2": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe3-static-run2.webp",
+		"variant": "static"
+	},
+	"summary": {
+		"motionBlurConfirmedLive": true,
+		"motionblurFileByteIdentical": false,
+		"motionblurPixelDataByteIdentical": true,
+		"motionblurWebpFileByteIdentical": true,
+		"staticFileByteIdentical": false,
+		"staticPixelDataByteIdentical": true,
+		"staticWebpFileByteIdentical": true
+	}
+}

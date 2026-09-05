@@ -1,0 +1,41 @@
+{
+	"distanceIfPremultipliedHypothesis_approx": 93.6313725490196,
+	"distanceIfStraightHypothesis": 0,
+	"full": {
+		"centerPixelRGBA_rawFileBytes_0to255": [188, 0, 0, 255],
+		"centerPixelRGBA_rawFileBytes_normalized": [
+			0.7372549019607844, 0.0, 0.0, 1.0
+		],
+		"ihdr": {
+			"bitDepth": 8,
+			"colorType": 6,
+			"compression": 0,
+			"filterMethod": 0,
+			"height": 128,
+			"interlace": 0,
+			"width": 128
+		},
+		"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe2-alpha-full.png"
+	},
+	"fullR_raw8bit": 188,
+	"half": {
+		"centerPixelRGBA_rawFileBytes_0to255": [188, 0, 0, 128],
+		"centerPixelRGBA_rawFileBytes_normalized": [
+			0.7372549019607844, 0.0, 0.0, 0.5019607843137255
+		],
+		"ihdr": {
+			"bitDepth": 8,
+			"colorType": 6,
+			"compression": 0,
+			"filterMethod": 0,
+			"height": 128,
+			"interlace": 0,
+			"width": 128
+		},
+		"path": "/Users/chibatakumi/.codex/worktrees/a2ba/vector-motion-author/scripts/blender-link-spike/color-probe/generated/probe2-alpha-half.png"
+	},
+	"halfAlpha_raw8bit": 128,
+	"halfR_raw8bit": 188,
+	"method": "Pure-Python PNG chunk parse + zlib inflate + scanline defilter, no color management applied at all -- reads the literal stored byte values, exactly as any external decoder (browser <img>, WebCodecs, etc.) would see them.",
+	"verdict": "straight"
+}

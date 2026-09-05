@@ -1,0 +1,61 @@
+{
+	"planRef": "docs/plans/active/blender-vecmo-integrated-motion-plan.html#s0 S0c bullets 3-4: frame addressability is a HARD GATE (not a comparison axis); remaining candidates ranked by browser decode, size, determinism.",
+	"hardGate_frameAddressability": {
+		"rule": "A codec that cannot be strictly, deterministically addressed by frame index is disqualified from candidacy regardless of its other merits.",
+		"candidateA_pngSequence": {
+			"passesGate": true,
+			"reason": "File-per-frame by construction (probe4-frame-NNN.png); frame index IS the filename. No decoder ambiguity possible."
+		},
+		"candidateB_webpLosslessSequence": {
+			"passesGate": true,
+			"reason": "Same file-per-frame construction as PNG; frame index is the filename. Confirmed empirically lossless where visually relevant (probe4-webp-fidelity-check.json) and independently corroborated via the standalone cwebp/-lossless CLI, not just Blender's own writer."
+		},
+		"candidateC_vp9WebmViaMediabunny": {
+			"passesGate": "conditional",
+			"reason": "Frame addressability here is NOT file-per-frame; it depends on (1) an encoder that assigns exact, drift-free per-frame presentation timestamps (feasible: this spike's own render loop already computes timeSeconds = frame / fps, matching src/features/export/adapters/video.ts's existing frame-driven encode loop) and (2) a demuxer/decoder path that can retrieve the sample for an EXACT queried timestamp without off-by-one selection at frame boundaries. mediabunny's VideoSampleSink.getSample(timestamp) resolves this via 'last sample with start timestamp <= the given timestamp' (mediabunny.d.ts:4849-4857), which is exact-match-safe PROVIDED the caller queries with the same timestamp basis the encoder used (no float drift) -- this spike did not empirically encode+decode a VP9/WebM roundtrip through mediabunny to verify; it is a desk-level API-surface finding only, unlike PNG/WebP which were empirically rendered, byte-compared, and cross-checked in this same spike.",
+			"keyframeIntervalCaveat": "EncodedPacketSink.getKeyPacket(timestamp) (mediabunny.d.ts:1637-1672) exists specifically because seeking to an arbitrary (non-keyframe) timestamp requires decoding forward from the preceding keyframe; this affects SEEK COST (proportional to keyframe interval), not frame-address CORRECTNESS, given exact timestamp round-tripping. Keyframe interval must still be tuned for scrubbing performance in S4 UI, but is not itself a gate failure."
+		}
+	},
+	"rankingCriteria": [
+		"alphaCorrectness",
+		"frameAddressability",
+		"determinism",
+		"browserDecodeReality",
+		"size"
+	],
+	"candidates": {
+		"a_pngSequence": {
+			"alphaCorrectness": "MEASURED straight alpha (probe2-alpha-external-png-parse.json + probe2-alpha-blender-read.json cross-check): RGB unaffected by coverage, alpha channel carries coverage independently. Matches this spike's Emission/Alpha-input construction and is the least ambiguous convention to consume.",
+			"frameAddressability": "Trivial (file-per-frame).",
+			"determinism": "Pixel-data byte-identical across fresh Blender processes for both static and motion-blur renders (probe3-determinism.json); only Blender's embedded wall-clock 'Date' tEXt metadata chunk differs file-byte-wise (disable via scene.render.use_stamp=False, already applied in probe4's build_scene, to get true whole-file byte-identity too).",
+			"browserDecodeReality": "Universally supported via <img>/fetch+decode/ImageBitmap; zero codec risk.",
+			"size": "Mean 1.343 MB/frame at 1920x1080 RGBA (probe4-frame-cost-and-storage.json); 120-frame envelope extrapolates to ~154 MB.",
+			"verdict": "Safe, simple, frame-accurate by construction. Worst size of the three candidates."
+		},
+		"b_webpLosslessSequence": {
+			"alphaCorrectness": "Not independently re-measured for straight-vs-premultiplied (WebP inherits whatever RGBA convention the source PNG had, confirmed bit-exact for every pixel where alpha != 0 -- see probe4-webp-fidelity-check.json). Since it round-trips the PNG's straight-alpha RGBA exactly (visually relevant pixels), it carries the SAME straight-alpha convention as candidate (a).",
+			"frameAddressability": "Trivial (file-per-frame), identical construction to PNG.",
+			"determinism": "MEASURED (probe3-determinism.json 'staticWebp'/'motionblurWebp'): byte-for-byte fileByteIdentical=true across fresh, separate Blender processes for both the static and motion-blur variants. Stronger result than PNG's: WebP embeds no volatile Date/RenderTime metadata at all on this build (single VP8L RIFF chunk, no EXIF/XMP -- verified by walking the RIFF container), so whole-file bytes are identical, not just decoded pixels.",
+			"browserDecodeReality": "WebP is a mature, broadly supported browser image format (universal in evergreen browsers); lower risk than a video-codec bitstream.",
+			"size": "Mean 511 KB/frame (38.0% of PNG's size) at 1920x1080 RGBA (probe4-frame-cost-and-storage.json); 120-frame envelope extrapolates to ~58 MB.",
+			"verdict": "Same safety profile as PNG (file-per-frame, same alpha convention, empirically confirmed lossless) at ~2.6x less storage. Best size/risk tradeoff among the two file-sequence candidates. IMPORTANT: Blender's own bpy WEBP writer exposes no `use_lossless` boolean -- quality=100 was used and empirically verified lossless where visually relevant; this is a fragile-looking API surface that should be pinned/tested again on any Blender upgrade, or lossless WebP encoding should be done via a dedicated library (e.g. cwebp -lossless, or a JS libwebp binding) rather than relying on bpy's quality=100 convention holding forever."
+		},
+		"c_vp9WebmViaMediabunny": {
+			"alphaCorrectness": "NOT measured in this spike. video.ts already asserts `alpha: \"keep\"` at both the capability probe (canEncodeVideo, video.ts:182) and the actual CanvasSource construction (video.ts:256) for VP9-in-WebM, and the codebase's own historical bug (video.ts:462-469 comment, 'source-over double-composite... 2a-a^2') shows this exact pipeline has already been burned by an alpha-compositing mistake once. `alpha:\"keep\"` is a WebCodecs ENCODE-side promise, not proof of what convention the decoded VideoFrame carries on the read side; that would need its own empirical probe (out of scope here -- flagged as a residual risk for S4, not resolved by this spike).",
+			"frameAddressability": "Conditional -- see hard-gate note above. Passes on desk analysis (mediabunny.d.ts API surface exists: Input at line 2164, InputVideoTrack at line 2626, VideoSampleSink.getSample at lines 4846-4857, EncodedPacketSink.getPacket/getKeyPacket at lines 1637-1672), but UNLIKE (a)/(b), this spike did not render this spike's own frames through an actual VP9/WebM encode+mediabunny-decode roundtrip to empirically confirm exact per-frame retrieval. This is the weakest evidentiary standing of the three candidates.",
+			"determinism": "Not tested in this spike. VP9 encode determinism across encoder invocations was not measured; this is an open question distinct from Blender's own render determinism (which WAS measured and found sound).",
+			"browserDecodeReality": "The product already ships this exact decode path in production (features/export/adapters/video.ts's WebCodecs alpha:\"keep\" VP9-in-WebM decode, per project memory 'GPU Look 透明背景 export alpha 欠陥' precedent) -- so browser-decode risk is the LOWEST of the three candidates in the sense that it is already load-bearing production code, not a new integration.",
+			"size": "Not measured in this spike (would require an actual encode of the animated 10-frame or 120-frame test sequence through mediabunny/WebCodecs, which is outside color-probe's remit -- Blender-side rendering only). Established prior art (project memory, embeddable-motion-artifact-export gallery pieces) suggests VP9/WebM is dramatically smaller than either image-sequence candidate for real animated content, per the plan's own framing ('サイズ最良').",
+			"mediabunnyAudioApiDeskCheck": "mediabunny.d.ts also exposes full audio demux/mux surface (InputAudioTrack:2273, AudioSampleSink.getSample:427-438, OutputAudioTrack:3507, MkvOutputFormat/WebMOutputFormat:3145/5192) -- WebM audio+video mux is API-supported for a future S5a audio requirement, at the desk-check level requested by the plan's S0c bullet 5. Not implemented or tested here.",
+			"verdict": "Best size potential and lowest NEW integration risk (already production code), but the ONLY candidate with an unresolved, untested frame-addressability claim and an unresolved alpha-convention-on-read claim. Cannot be promoted to V1 default without closing those two gaps empirically."
+		}
+	},
+	"recommendation": {
+		"v1Candidate": "b_webpLosslessSequence",
+		"v1Rationale": "Passes the hard frame-addressability gate trivially (same as PNG), carries the SAME empirically-measured straight-alpha convention as PNG with confirmed bit-exact lossless fidelity (independently cross-checked via cwebp CLI, not just Blender's writer), and costs ~2.6x less storage than PNG for identical safety properties. It inherits all of PNG's low-risk properties while meaningfully improving the storage number that gated this whole probe (120-frame PNG sequence ~154MB is a real deployment/bandwidth cost; WebP's ~58MB is far more tractable) without introducing any of VP9/WebM's untested risk surface.",
+		"runnerUp": "c_vp9WebmViaMediabunny",
+		"runnerUpRationale": "Materially better size ceiling and reuses an already-production WebCodecs/mediabunny decode path, but is disqualified from V1 by this spike's own evidentiary standard: its frame-addressability and read-side alpha convention are desk-analysis findings only, not empirically rendered-and-verified the way PNG and WebP were in probes 2-4. Promote to V1 candidate only after a dedicated follow-up probe that (1) encodes this spike's own animated test frames through mediabunny's actual VP9/WebM encode path, (2) demuxes+decodes them back via VideoSampleSink.getSample at the exact per-frame timestamps, and (3) empirically re-runs the straight-vs-premultiplied alpha methodology from probe2 against the decoded VideoFrame pixels.",
+		"explicitlyRejectedForV1": "a_pngSequence",
+		"explicitlyRejectedRationale": "Not unsafe -- it is the SAFEST candidate on every axis -- and NOT strictly dominated: this spike only exercised 8-bit RGBA, where WebP-lossless matches PNG's alpha convention and frame-addressability at ~38% of the size. PNG retains a real, undominated advantage this spike did not need but a future requirement might: 16-bit-per-channel color depth (Blender's WEBP writer, per this spike's RNA introspection of ImageFormatSettings, has no 16-bit path, only 8-bit RGBA), which matters if a later slice needs higher color precision than 8bpc (e.g. HDR-adjacent grading, banding-sensitive gradients). Given this spike's actual 8-bit scope, WebP-lossless is still the correct V1 pick on size; PNG is kept as a documented fallback for either a future 16-bit requirement or a Blender/browser WebP regression, not because it is worse in every respect."
+	}
+}

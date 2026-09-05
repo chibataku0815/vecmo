@@ -1,0 +1,765 @@
+{
+	"camera": {
+		"angleYRadians": null,
+		"applied": false,
+		"axisMatrixRows": [[1.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, -1.0, 0.0]],
+		"lensMm": null,
+		"poseCount": 0,
+		"sensorFit": null
+	},
+	"codec": "webp-lossless",
+	"controls": {
+		"resolvedCount": 0,
+		"unresolved": []
+	},
+	"frameCount": 120,
+	"frameStart": 1,
+	"frames": [
+		{
+			"blenderFrame": 1,
+			"byteLength": 32568,
+			"fileName": "frame-00000.webp",
+			"index": 0
+		},
+		{
+			"blenderFrame": 2,
+			"byteLength": 33096,
+			"fileName": "frame-00001.webp",
+			"index": 1
+		},
+		{
+			"blenderFrame": 3,
+			"byteLength": 33312,
+			"fileName": "frame-00002.webp",
+			"index": 2
+		},
+		{
+			"blenderFrame": 4,
+			"byteLength": 33996,
+			"fileName": "frame-00003.webp",
+			"index": 3
+		},
+		{
+			"blenderFrame": 5,
+			"byteLength": 33850,
+			"fileName": "frame-00004.webp",
+			"index": 4
+		},
+		{
+			"blenderFrame": 6,
+			"byteLength": 33994,
+			"fileName": "frame-00005.webp",
+			"index": 5
+		},
+		{
+			"blenderFrame": 7,
+			"byteLength": 33956,
+			"fileName": "frame-00006.webp",
+			"index": 6
+		},
+		{
+			"blenderFrame": 8,
+			"byteLength": 33336,
+			"fileName": "frame-00007.webp",
+			"index": 7
+		},
+		{
+			"blenderFrame": 9,
+			"byteLength": 32920,
+			"fileName": "frame-00008.webp",
+			"index": 8
+		},
+		{
+			"blenderFrame": 10,
+			"byteLength": 32698,
+			"fileName": "frame-00009.webp",
+			"index": 9
+		},
+		{
+			"blenderFrame": 11,
+			"byteLength": 32360,
+			"fileName": "frame-00010.webp",
+			"index": 10
+		},
+		{
+			"blenderFrame": 12,
+			"byteLength": 31922,
+			"fileName": "frame-00011.webp",
+			"index": 11
+		},
+		{
+			"blenderFrame": 13,
+			"byteLength": 32390,
+			"fileName": "frame-00012.webp",
+			"index": 12
+		},
+		{
+			"blenderFrame": 14,
+			"byteLength": 32320,
+			"fileName": "frame-00013.webp",
+			"index": 13
+		},
+		{
+			"blenderFrame": 15,
+			"byteLength": 32166,
+			"fileName": "frame-00014.webp",
+			"index": 14
+		},
+		{
+			"blenderFrame": 16,
+			"byteLength": 32124,
+			"fileName": "frame-00015.webp",
+			"index": 15
+		},
+		{
+			"blenderFrame": 17,
+			"byteLength": 32104,
+			"fileName": "frame-00016.webp",
+			"index": 16
+		},
+		{
+			"blenderFrame": 18,
+			"byteLength": 33100,
+			"fileName": "frame-00017.webp",
+			"index": 17
+		},
+		{
+			"blenderFrame": 19,
+			"byteLength": 32740,
+			"fileName": "frame-00018.webp",
+			"index": 18
+		},
+		{
+			"blenderFrame": 20,
+			"byteLength": 33060,
+			"fileName": "frame-00019.webp",
+			"index": 19
+		},
+		{
+			"blenderFrame": 21,
+			"byteLength": 32926,
+			"fileName": "frame-00020.webp",
+			"index": 20
+		},
+		{
+			"blenderFrame": 22,
+			"byteLength": 33212,
+			"fileName": "frame-00021.webp",
+			"index": 21
+		},
+		{
+			"blenderFrame": 23,
+			"byteLength": 32978,
+			"fileName": "frame-00022.webp",
+			"index": 22
+		},
+		{
+			"blenderFrame": 24,
+			"byteLength": 33150,
+			"fileName": "frame-00023.webp",
+			"index": 23
+		},
+		{
+			"blenderFrame": 25,
+			"byteLength": 33588,
+			"fileName": "frame-00024.webp",
+			"index": 24
+		},
+		{
+			"blenderFrame": 26,
+			"byteLength": 34168,
+			"fileName": "frame-00025.webp",
+			"index": 25
+		},
+		{
+			"blenderFrame": 27,
+			"byteLength": 34142,
+			"fileName": "frame-00026.webp",
+			"index": 26
+		},
+		{
+			"blenderFrame": 28,
+			"byteLength": 33732,
+			"fileName": "frame-00027.webp",
+			"index": 27
+		},
+		{
+			"blenderFrame": 29,
+			"byteLength": 34386,
+			"fileName": "frame-00028.webp",
+			"index": 28
+		},
+		{
+			"blenderFrame": 30,
+			"byteLength": 34468,
+			"fileName": "frame-00029.webp",
+			"index": 29
+		},
+		{
+			"blenderFrame": 31,
+			"byteLength": 34764,
+			"fileName": "frame-00030.webp",
+			"index": 30
+		},
+		{
+			"blenderFrame": 32,
+			"byteLength": 34342,
+			"fileName": "frame-00031.webp",
+			"index": 31
+		},
+		{
+			"blenderFrame": 33,
+			"byteLength": 34728,
+			"fileName": "frame-00032.webp",
+			"index": 32
+		},
+		{
+			"blenderFrame": 34,
+			"byteLength": 33546,
+			"fileName": "frame-00033.webp",
+			"index": 33
+		},
+		{
+			"blenderFrame": 35,
+			"byteLength": 33388,
+			"fileName": "frame-00034.webp",
+			"index": 34
+		},
+		{
+			"blenderFrame": 36,
+			"byteLength": 33004,
+			"fileName": "frame-00035.webp",
+			"index": 35
+		},
+		{
+			"blenderFrame": 37,
+			"byteLength": 32646,
+			"fileName": "frame-00036.webp",
+			"index": 36
+		},
+		{
+			"blenderFrame": 38,
+			"byteLength": 32206,
+			"fileName": "frame-00037.webp",
+			"index": 37
+		},
+		{
+			"blenderFrame": 39,
+			"byteLength": 32820,
+			"fileName": "frame-00038.webp",
+			"index": 38
+		},
+		{
+			"blenderFrame": 40,
+			"byteLength": 32600,
+			"fileName": "frame-00039.webp",
+			"index": 39
+		},
+		{
+			"blenderFrame": 41,
+			"byteLength": 32356,
+			"fileName": "frame-00040.webp",
+			"index": 40
+		},
+		{
+			"blenderFrame": 42,
+			"byteLength": 32544,
+			"fileName": "frame-00041.webp",
+			"index": 41
+		},
+		{
+			"blenderFrame": 43,
+			"byteLength": 32720,
+			"fileName": "frame-00042.webp",
+			"index": 42
+		},
+		{
+			"blenderFrame": 44,
+			"byteLength": 33124,
+			"fileName": "frame-00043.webp",
+			"index": 43
+		},
+		{
+			"blenderFrame": 45,
+			"byteLength": 33436,
+			"fileName": "frame-00044.webp",
+			"index": 44
+		},
+		{
+			"blenderFrame": 46,
+			"byteLength": 33338,
+			"fileName": "frame-00045.webp",
+			"index": 45
+		},
+		{
+			"blenderFrame": 47,
+			"byteLength": 33506,
+			"fileName": "frame-00046.webp",
+			"index": 46
+		},
+		{
+			"blenderFrame": 48,
+			"byteLength": 33660,
+			"fileName": "frame-00047.webp",
+			"index": 47
+		},
+		{
+			"blenderFrame": 49,
+			"byteLength": 33680,
+			"fileName": "frame-00048.webp",
+			"index": 48
+		},
+		{
+			"blenderFrame": 50,
+			"byteLength": 33990,
+			"fileName": "frame-00049.webp",
+			"index": 49
+		},
+		{
+			"blenderFrame": 51,
+			"byteLength": 34464,
+			"fileName": "frame-00050.webp",
+			"index": 50
+		},
+		{
+			"blenderFrame": 52,
+			"byteLength": 34768,
+			"fileName": "frame-00051.webp",
+			"index": 51
+		},
+		{
+			"blenderFrame": 53,
+			"byteLength": 34484,
+			"fileName": "frame-00052.webp",
+			"index": 52
+		},
+		{
+			"blenderFrame": 54,
+			"byteLength": 34902,
+			"fileName": "frame-00053.webp",
+			"index": 53
+		},
+		{
+			"blenderFrame": 55,
+			"byteLength": 35266,
+			"fileName": "frame-00054.webp",
+			"index": 54
+		},
+		{
+			"blenderFrame": 56,
+			"byteLength": 34602,
+			"fileName": "frame-00055.webp",
+			"index": 55
+		},
+		{
+			"blenderFrame": 57,
+			"byteLength": 34524,
+			"fileName": "frame-00056.webp",
+			"index": 56
+		},
+		{
+			"blenderFrame": 58,
+			"byteLength": 34202,
+			"fileName": "frame-00057.webp",
+			"index": 57
+		},
+		{
+			"blenderFrame": 59,
+			"byteLength": 33392,
+			"fileName": "frame-00058.webp",
+			"index": 58
+		},
+		{
+			"blenderFrame": 60,
+			"byteLength": 33232,
+			"fileName": "frame-00059.webp",
+			"index": 59
+		},
+		{
+			"blenderFrame": 61,
+			"byteLength": 33174,
+			"fileName": "frame-00060.webp",
+			"index": 60
+		},
+		{
+			"blenderFrame": 62,
+			"byteLength": 32960,
+			"fileName": "frame-00061.webp",
+			"index": 61
+		},
+		{
+			"blenderFrame": 63,
+			"byteLength": 32726,
+			"fileName": "frame-00062.webp",
+			"index": 62
+		},
+		{
+			"blenderFrame": 64,
+			"byteLength": 33272,
+			"fileName": "frame-00063.webp",
+			"index": 63
+		},
+		{
+			"blenderFrame": 65,
+			"byteLength": 32860,
+			"fileName": "frame-00064.webp",
+			"index": 64
+		},
+		{
+			"blenderFrame": 66,
+			"byteLength": 33128,
+			"fileName": "frame-00065.webp",
+			"index": 65
+		},
+		{
+			"blenderFrame": 67,
+			"byteLength": 33542,
+			"fileName": "frame-00066.webp",
+			"index": 66
+		},
+		{
+			"blenderFrame": 68,
+			"byteLength": 33332,
+			"fileName": "frame-00067.webp",
+			"index": 67
+		},
+		{
+			"blenderFrame": 69,
+			"byteLength": 33332,
+			"fileName": "frame-00068.webp",
+			"index": 68
+		},
+		{
+			"blenderFrame": 70,
+			"byteLength": 33668,
+			"fileName": "frame-00069.webp",
+			"index": 69
+		},
+		{
+			"blenderFrame": 71,
+			"byteLength": 33426,
+			"fileName": "frame-00070.webp",
+			"index": 70
+		},
+		{
+			"blenderFrame": 72,
+			"byteLength": 34440,
+			"fileName": "frame-00071.webp",
+			"index": 71
+		},
+		{
+			"blenderFrame": 73,
+			"byteLength": 33860,
+			"fileName": "frame-00072.webp",
+			"index": 72
+		},
+		{
+			"blenderFrame": 74,
+			"byteLength": 34268,
+			"fileName": "frame-00073.webp",
+			"index": 73
+		},
+		{
+			"blenderFrame": 75,
+			"byteLength": 34090,
+			"fileName": "frame-00074.webp",
+			"index": 74
+		},
+		{
+			"blenderFrame": 76,
+			"byteLength": 33470,
+			"fileName": "frame-00075.webp",
+			"index": 75
+		},
+		{
+			"blenderFrame": 77,
+			"byteLength": 34218,
+			"fileName": "frame-00076.webp",
+			"index": 76
+		},
+		{
+			"blenderFrame": 78,
+			"byteLength": 34224,
+			"fileName": "frame-00077.webp",
+			"index": 77
+		},
+		{
+			"blenderFrame": 79,
+			"byteLength": 34920,
+			"fileName": "frame-00078.webp",
+			"index": 78
+		},
+		{
+			"blenderFrame": 80,
+			"byteLength": 35406,
+			"fileName": "frame-00079.webp",
+			"index": 79
+		},
+		{
+			"blenderFrame": 81,
+			"byteLength": 35758,
+			"fileName": "frame-00080.webp",
+			"index": 80
+		},
+		{
+			"blenderFrame": 82,
+			"byteLength": 34908,
+			"fileName": "frame-00081.webp",
+			"index": 81
+		},
+		{
+			"blenderFrame": 83,
+			"byteLength": 35032,
+			"fileName": "frame-00082.webp",
+			"index": 82
+		},
+		{
+			"blenderFrame": 84,
+			"byteLength": 34378,
+			"fileName": "frame-00083.webp",
+			"index": 83
+		},
+		{
+			"blenderFrame": 85,
+			"byteLength": 34090,
+			"fileName": "frame-00084.webp",
+			"index": 84
+		},
+		{
+			"blenderFrame": 86,
+			"byteLength": 33692,
+			"fileName": "frame-00085.webp",
+			"index": 85
+		},
+		{
+			"blenderFrame": 87,
+			"byteLength": 33600,
+			"fileName": "frame-00086.webp",
+			"index": 86
+		},
+		{
+			"blenderFrame": 88,
+			"byteLength": 33172,
+			"fileName": "frame-00087.webp",
+			"index": 87
+		},
+		{
+			"blenderFrame": 89,
+			"byteLength": 33260,
+			"fileName": "frame-00088.webp",
+			"index": 88
+		},
+		{
+			"blenderFrame": 90,
+			"byteLength": 32528,
+			"fileName": "frame-00089.webp",
+			"index": 89
+		},
+		{
+			"blenderFrame": 91,
+			"byteLength": 32524,
+			"fileName": "frame-00090.webp",
+			"index": 90
+		},
+		{
+			"blenderFrame": 92,
+			"byteLength": 33320,
+			"fileName": "frame-00091.webp",
+			"index": 91
+		},
+		{
+			"blenderFrame": 93,
+			"byteLength": 32776,
+			"fileName": "frame-00092.webp",
+			"index": 92
+		},
+		{
+			"blenderFrame": 94,
+			"byteLength": 33348,
+			"fileName": "frame-00093.webp",
+			"index": 93
+		},
+		{
+			"blenderFrame": 95,
+			"byteLength": 33522,
+			"fileName": "frame-00094.webp",
+			"index": 94
+		},
+		{
+			"blenderFrame": 96,
+			"byteLength": 33818,
+			"fileName": "frame-00095.webp",
+			"index": 95
+		},
+		{
+			"blenderFrame": 97,
+			"byteLength": 33828,
+			"fileName": "frame-00096.webp",
+			"index": 96
+		},
+		{
+			"blenderFrame": 98,
+			"byteLength": 34076,
+			"fileName": "frame-00097.webp",
+			"index": 97
+		},
+		{
+			"blenderFrame": 99,
+			"byteLength": 34226,
+			"fileName": "frame-00098.webp",
+			"index": 98
+		},
+		{
+			"blenderFrame": 100,
+			"byteLength": 34888,
+			"fileName": "frame-00099.webp",
+			"index": 99
+		},
+		{
+			"blenderFrame": 101,
+			"byteLength": 34564,
+			"fileName": "frame-00100.webp",
+			"index": 100
+		},
+		{
+			"blenderFrame": 102,
+			"byteLength": 35268,
+			"fileName": "frame-00101.webp",
+			"index": 101
+		},
+		{
+			"blenderFrame": 103,
+			"byteLength": 34890,
+			"fileName": "frame-00102.webp",
+			"index": 102
+		},
+		{
+			"blenderFrame": 104,
+			"byteLength": 35396,
+			"fileName": "frame-00103.webp",
+			"index": 103
+		},
+		{
+			"blenderFrame": 105,
+			"byteLength": 35822,
+			"fileName": "frame-00104.webp",
+			"index": 104
+		},
+		{
+			"blenderFrame": 106,
+			"byteLength": 35920,
+			"fileName": "frame-00105.webp",
+			"index": 105
+		},
+		{
+			"blenderFrame": 107,
+			"byteLength": 35622,
+			"fileName": "frame-00106.webp",
+			"index": 106
+		},
+		{
+			"blenderFrame": 108,
+			"byteLength": 35236,
+			"fileName": "frame-00107.webp",
+			"index": 107
+		},
+		{
+			"blenderFrame": 109,
+			"byteLength": 35050,
+			"fileName": "frame-00108.webp",
+			"index": 108
+		},
+		{
+			"blenderFrame": 110,
+			"byteLength": 34012,
+			"fileName": "frame-00109.webp",
+			"index": 109
+		},
+		{
+			"blenderFrame": 111,
+			"byteLength": 33594,
+			"fileName": "frame-00110.webp",
+			"index": 110
+		},
+		{
+			"blenderFrame": 112,
+			"byteLength": 33132,
+			"fileName": "frame-00111.webp",
+			"index": 111
+		},
+		{
+			"blenderFrame": 113,
+			"byteLength": 33626,
+			"fileName": "frame-00112.webp",
+			"index": 112
+		},
+		{
+			"blenderFrame": 114,
+			"byteLength": 33250,
+			"fileName": "frame-00113.webp",
+			"index": 113
+		},
+		{
+			"blenderFrame": 115,
+			"byteLength": 33350,
+			"fileName": "frame-00114.webp",
+			"index": 114
+		},
+		{
+			"blenderFrame": 116,
+			"byteLength": 34108,
+			"fileName": "frame-00115.webp",
+			"index": 115
+		},
+		{
+			"blenderFrame": 117,
+			"byteLength": 33532,
+			"fileName": "frame-00116.webp",
+			"index": 116
+		},
+		{
+			"blenderFrame": 118,
+			"byteLength": 33440,
+			"fileName": "frame-00117.webp",
+			"index": 117
+		},
+		{
+			"blenderFrame": 119,
+			"byteLength": 33602,
+			"fileName": "frame-00118.webp",
+			"index": 118
+		},
+		{
+			"blenderFrame": 120,
+			"byteLength": 34340,
+			"fileName": "frame-00119.webp",
+			"index": 119
+		}
+	],
+	"height": 360,
+	"jobVersion": 1,
+	"seed": {
+		"particleSystems": [],
+		"requested": null
+	},
+	"settings": {
+		"colorDepth": "8",
+		"colorMode": "RGBA",
+		"displayDevice": "sRGB",
+		"engine": "BLENDER_EEVEE",
+		"fileFormat": "WEBP",
+		"filmTransparent": true,
+		"fps": 24,
+		"fpsBase": 1.0,
+		"pngCompression": null,
+		"resolutionPercentage": 100,
+		"resolutionX": 640,
+		"resolutionY": 360,
+		"useFileExtension": false,
+		"useStamp": false,
+		"viewTransform": "Standard",
+		"webpQuality": 100
+	},
+	"simulationFeatures": [],
+	"width": 640
+}

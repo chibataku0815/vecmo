@@ -1,0 +1,508 @@
+{
+	"label": "V6 gradient — gradient-filled artboard + full look graph",
+	"frame": 0,
+	"scene": {
+		"schemaVersion": 1,
+		"id": "alpha-probe-v6-gradient",
+		"name": "Alpha probe — v6-gradient",
+		"artboard": {
+			"id": "alpha-probe-artboard",
+			"name": "Alpha Probe",
+			"position": {
+				"x": 0,
+				"y": 0
+			},
+			"width": 1280,
+			"height": 720,
+			"background": "#000000",
+			"fills": [
+				{
+					"kind": "linear-gradient",
+					"from": {
+						"x": 0,
+						"y": 0
+					},
+					"to": {
+						"x": 1280,
+						"y": 720
+					},
+					"stops": [
+						{
+							"offset": 0,
+							"color": "#101024"
+						},
+						{
+							"offset": 1,
+							"color": "#301050"
+						}
+					]
+				}
+			],
+			"fps": 30,
+			"durationFrames": 360,
+			"cameraSpacePolicy": "screen_2d",
+			"effectIntent": {
+				"lookGraph": {
+					"schemaVersion": 1,
+					"nodes": [
+						{
+							"id": "source",
+							"kind": "source",
+							"label": "Source",
+							"enabled": true,
+							"inputs": [],
+							"outputs": [
+								{
+									"id": "source:out:image",
+									"name": "image",
+									"direction": "output",
+									"valueType": "image",
+									"cardinality": "single"
+								}
+							],
+							"payload": {
+								"kind": "source"
+							}
+						},
+						{
+							"id": "blur",
+							"kind": "blur",
+							"label": "Blur",
+							"enabled": true,
+							"inputs": [
+								{
+									"id": "blur:in:image",
+									"name": "image",
+									"direction": "input",
+									"valueType": "image",
+									"cardinality": "single"
+								},
+								{
+									"id": "blur:in:mask",
+									"name": "mask",
+									"direction": "input",
+									"valueType": "mask",
+									"cardinality": "single"
+								}
+							],
+							"outputs": [
+								{
+									"id": "blur:out:image",
+									"name": "image",
+									"direction": "output",
+									"valueType": "image",
+									"cardinality": "single"
+								}
+							],
+							"payload": {
+								"kind": "blur",
+								"radius": 60,
+								"radiusY": 60
+							}
+						},
+						{
+							"id": "wave-warp",
+							"kind": "wave-warp",
+							"label": "Wave Warp",
+							"enabled": true,
+							"inputs": [
+								{
+									"id": "wave-warp:in:image",
+									"name": "image",
+									"direction": "input",
+									"valueType": "image",
+									"cardinality": "single"
+								},
+								{
+									"id": "wave-warp:in:mask",
+									"name": "mask",
+									"direction": "input",
+									"valueType": "mask",
+									"cardinality": "single"
+								}
+							],
+							"outputs": [
+								{
+									"id": "wave-warp:out:image",
+									"name": "image",
+									"direction": "output",
+									"valueType": "image",
+									"cardinality": "single"
+								}
+							],
+							"payload": {
+								"kind": "wave-warp",
+								"waveType": "semicircle",
+								"height": 150,
+								"width": 380,
+								"direction": 35,
+								"phase": 0
+							}
+						},
+						{
+							"id": "colorama",
+							"kind": "colorama",
+							"label": "Colorama",
+							"enabled": true,
+							"inputs": [
+								{
+									"id": "colorama:in:image",
+									"name": "image",
+									"direction": "input",
+									"valueType": "image",
+									"cardinality": "single"
+								},
+								{
+									"id": "colorama:in:mask",
+									"name": "mask",
+									"direction": "input",
+									"valueType": "mask",
+									"cardinality": "single"
+								}
+							],
+							"outputs": [
+								{
+									"id": "colorama:out:image",
+									"name": "image",
+									"direction": "output",
+									"valueType": "image",
+									"cardinality": "single"
+								}
+							],
+							"payload": {
+								"kind": "colorama",
+								"stops": [
+									{
+										"offset": 0,
+										"color": "#05060f"
+									},
+									{
+										"offset": 0.12,
+										"color": "#1b2fd6"
+									},
+									{
+										"offset": 0.26,
+										"color": "#4a6cff"
+									},
+									{
+										"offset": 0.4,
+										"color": "#8f5fe8"
+									},
+									{
+										"offset": 0.55,
+										"color": "#d95bd0"
+									},
+									{
+										"offset": 0.68,
+										"color": "#ff9ec4"
+									},
+									{
+										"offset": 0.8,
+										"color": "#ffe9a8"
+									},
+									{
+										"offset": 0.9,
+										"color": "#fff8e0"
+									},
+									{
+										"offset": 0.97,
+										"color": "#0a0a2a"
+									}
+								],
+								"phase": 0,
+								"repetitions": 1,
+								"inputPhase": "alpha",
+								"mix": 1
+							}
+						},
+						{
+							"id": "bend-warp",
+							"kind": "bend-warp",
+							"label": "Bend Warp",
+							"enabled": true,
+							"inputs": [
+								{
+									"id": "bend-warp:in:image",
+									"name": "image",
+									"direction": "input",
+									"valueType": "image",
+									"cardinality": "single"
+								},
+								{
+									"id": "bend-warp:in:mask",
+									"name": "mask",
+									"direction": "input",
+									"valueType": "mask",
+									"cardinality": "single"
+								}
+							],
+							"outputs": [
+								{
+									"id": "bend-warp:out:image",
+									"name": "image",
+									"direction": "output",
+									"valueType": "image",
+									"cardinality": "single"
+								}
+							],
+							"payload": {
+								"kind": "bend-warp",
+								"bend": 0.45,
+								"distortionH": 0.7,
+								"distortionV": 0,
+								"scale": 1.6
+							}
+						},
+						{
+							"id": "output",
+							"kind": "output",
+							"label": "Output",
+							"enabled": true,
+							"inputs": [
+								{
+									"id": "output:in:image",
+									"name": "image",
+									"direction": "input",
+									"valueType": "image",
+									"cardinality": "single"
+								}
+							],
+							"outputs": [],
+							"payload": {
+								"kind": "output"
+							}
+						}
+					],
+					"edges": [
+						{
+							"id": "source:out:image->blur:in:image",
+							"from": {
+								"nodeId": "source",
+								"portId": "source:out:image"
+							},
+							"to": {
+								"nodeId": "blur",
+								"portId": "blur:in:image"
+							}
+						},
+						{
+							"id": "blur:out:image->wave-warp:in:image",
+							"from": {
+								"nodeId": "blur",
+								"portId": "blur:out:image"
+							},
+							"to": {
+								"nodeId": "wave-warp",
+								"portId": "wave-warp:in:image"
+							}
+						},
+						{
+							"id": "wave-warp:out:image->colorama:in:image",
+							"from": {
+								"nodeId": "wave-warp",
+								"portId": "wave-warp:out:image"
+							},
+							"to": {
+								"nodeId": "colorama",
+								"portId": "colorama:in:image"
+							}
+						},
+						{
+							"id": "colorama:out:image->bend-warp:in:image",
+							"from": {
+								"nodeId": "colorama",
+								"portId": "colorama:out:image"
+							},
+							"to": {
+								"nodeId": "bend-warp",
+								"portId": "bend-warp:in:image"
+							}
+						},
+						{
+							"id": "bend-warp:out:image->output:in:image",
+							"from": {
+								"nodeId": "bend-warp",
+								"portId": "bend-warp:out:image"
+							},
+							"to": {
+								"nodeId": "output",
+								"portId": "output:in:image"
+							}
+						}
+					],
+					"outputNodeId": "output"
+				}
+			}
+		},
+		"layers": [
+			{
+				"id": "alpha-probe-layer",
+				"name": "Alpha Probe",
+				"visible": true,
+				"locked": false,
+				"nodes": [
+					{
+						"id": "star-a-node",
+						"name": "star-a",
+						"geometry": {
+							"kind": "path",
+							"shape": {
+								"type": "Shape",
+								"closed": true,
+								"vertices": [
+									[2.8166876380389125e-14, -460],
+									[88.16778784387097, -121.35254915624212],
+									[437.4859974957706, -142.1478174124758],
+									[142.65847744427302, 46.35254915624211],
+									[270.3812160545376, 372.14781741247583],
+									[9.184850993605149e-15, 150],
+									[-270.3812160545376, 372.14781741247583],
+									[-142.65847744427302, 46.35254915624213],
+									[-437.4859974957706, -142.14781741247594],
+									[-88.16778784387098, -121.3525491562421]
+								],
+								"inTangents": [
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0]
+								],
+								"outTangents": [
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0]
+								]
+							}
+						},
+						"transform": {
+							"position": {
+								"x": 230,
+								"y": 140
+							},
+							"rotation": 0,
+							"scale": {
+								"x": 1,
+								"y": 1
+							},
+							"anchor": {
+								"x": 0,
+								"y": 0
+							}
+						},
+						"style": {
+							"fill": "none",
+							"stroke": "none",
+							"strokeWidth": 0,
+							"opacity": 1,
+							"fills": [
+								{
+									"kind": "solid",
+									"color": "#ffffff"
+								}
+							]
+						},
+						"visible": true,
+						"locked": false
+					},
+					{
+						"id": "star-b-node",
+						"name": "star-b",
+						"geometry": {
+							"kind": "path",
+							"shape": {
+								"type": "Shape",
+								"closed": true,
+								"vertices": [
+									[2.8166876380389125e-14, -460],
+									[88.16778784387097, -121.35254915624212],
+									[437.4859974957706, -142.1478174124758],
+									[142.65847744427302, 46.35254915624211],
+									[270.3812160545376, 372.14781741247583],
+									[9.184850993605149e-15, 150],
+									[-270.3812160545376, 372.14781741247583],
+									[-142.65847744427302, 46.35254915624213],
+									[-437.4859974957706, -142.14781741247594],
+									[-88.16778784387098, -121.3525491562421]
+								],
+								"inTangents": [
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0]
+								],
+								"outTangents": [
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0],
+									[0, 0]
+								]
+							}
+						},
+						"transform": {
+							"position": {
+								"x": 1050,
+								"y": 580
+							},
+							"rotation": 0,
+							"scale": {
+								"x": 1,
+								"y": 1
+							},
+							"anchor": {
+								"x": 0,
+								"y": 0
+							}
+						},
+						"style": {
+							"fill": "none",
+							"stroke": "none",
+							"strokeWidth": 0,
+							"opacity": 1,
+							"fills": [
+								{
+									"kind": "solid",
+									"color": "#ffffff"
+								}
+							]
+						},
+						"visible": true,
+						"locked": false
+					}
+				]
+			}
+		]
+	},
+	"motion": {
+		"schemaVersion": 1,
+		"fps": 30,
+		"durationFrames": 360,
+		"clips": [],
+		"tracks": [],
+		"lookNodeTracks": []
+	}
+}

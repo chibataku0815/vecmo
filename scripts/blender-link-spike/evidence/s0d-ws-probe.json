@@ -1,0 +1,44 @@
+{
+	"probe": "S0d loopback-connectivity probe (Blender + Vecmo integrated motion plan)",
+	"date": "2026-08-05",
+	"serverOrigin": "http://127.0.0.1:43219 (Bun.serve, hostname 127.0.0.1, fixed high port)",
+	"browserContext": {
+		"pageOrigin": "https://example.com",
+		"userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Claude/1.25927.0 Chrome/148.0.7778.280 Electron/42.7.0 Safari/537.36",
+		"engine": "Chromium 148 (Electron-embedded, via Claude in-app Browser pane)"
+	},
+	"results": {
+		"fetch_http_health": {
+			"request": "fetch(\"http://127.0.0.1:43219/health\") from https://example.com",
+			"outcome": "success",
+			"status": 200,
+			"body": "{\"ok\":true}",
+			"notes": "No mixed-content block, no Private Network Access (PNA) preflight block observed in this Chromium build."
+		},
+		"ws_open_ip": {
+			"request": "new WebSocket(\"ws://127.0.0.1:43219/ws\") from https://example.com",
+			"outcome": "success",
+			"eventFired": "open",
+			"readyState": 1
+		},
+		"ws_open_hostname": {
+			"request": "new WebSocket(\"ws://localhost:43219/ws\") from https://example.com",
+			"outcome": "success",
+			"eventFired": "open",
+			"readyState": 1
+		},
+		"ws_message_ip": {
+			"request": "message round-trip on ws://127.0.0.1:43219/ws",
+			"outcome": "success",
+			"eventFired": "message",
+			"data": "{\"type\":\"hello\",\"from\":\"ws-probe\"}"
+		},
+		"ws_message_hostname": {
+			"request": "message round-trip on ws://localhost:43219/ws",
+			"outcome": "success",
+			"eventFired": "message",
+			"data": "{\"type\":\"hello\",\"from\":\"ws-probe\"}"
+		}
+	},
+	"implication": "In this Chromium-based environment (Electron-embedded Chrome 148, no PNA enforcement observed), an https:// origin page can both fetch() and open a WebSocket to a plain ws://127.0.0.1 (or ws://localhost) local companion server with zero blocking — no mixed-content error, no Private Network Access preflight/permission prompt, no CORS failure (server sends permissive ACAO for the health check; WebSocket handshake itself is not subject to CORS). This particular browser build is therefore not a blocker for a ws://127.0.0.1 companion transport design. Caveat: standard desktop Chrome/Chromium (not this Electron-embedded build) has been rolling out Private Network Access, which as of recent versions can require a permission prompt or block private-network fetches from public https origins depending on version/flags; this probe environment appears to not enforce that gate, so results here may be more permissive than a end user's actual Chrome. Safari and Firefox were not tested in this probe and are known to have stricter or different local-network access behavior (Safari has no PNA gate today but local network access permission prompts exist on iOS/macOS Safari in some contexts). Recommendation: re-run this exact probe in a real end-user Chrome (stable channel, default flags) and in Safari before finalizing on ws://127.0.0.1 as the sole transport; a fallback (e.g. a small native helper registering a custom URL scheme, or a browser extension) should still be considered for browsers/versions that do enforce PNA blocking."
+}
