@@ -19,8 +19,10 @@ import {
 import {
 	type CSSProperties,
 	Fragment,
+	lazy,
 	type ReactNode,
 	type PointerEvent as ReactPointerEvent,
+	Suspense,
 	useCallback,
 	useEffect,
 	useLayoutEffect,
@@ -104,7 +106,6 @@ import type {
 import { commitArrangeNodes } from "@/features/arrange/model/actions";
 import { commitFramePreset } from "@/features/artboard/model/frame-commit";
 import { useFrameDraftStore } from "@/features/artboard/model/frame-draft-store";
-import { BillingEntry } from "@/features/billing/ui/BillingEntry";
 import { buildDuplicateClipboardCommand } from "@/features/clipboard/model/clipboard";
 import {
 	type ActiveCloudProject,
@@ -358,6 +359,12 @@ import {
 	type ScopedLookGraphCanvasContext,
 	ScopedLookGraphRun,
 } from "./SvgSceneNode";
+
+const BillingEntry = lazy(() =>
+	import("@/features/billing/ui/BillingEntry").then((m) => ({
+		default: m.BillingEntry,
+	})),
+);
 
 /**
  * Builds the host API handed to feature tool handlers. The selection mutators
@@ -6482,11 +6489,17 @@ export function CanvasShell({
 						<IpadAuthoringQuickbar
 							accountEntry={
 								platformCapabilities.account ? (
-									<BillingEntry
-										popoverSide={iPadQuickbarDock === "top" ? "bottom" : "top"}
-										tooltipSide={iPadQuickbarDock === "top" ? "bottom" : "top"}
-										variant="ipad"
-									/>
+									<Suspense fallback={null}>
+										<BillingEntry
+											popoverSide={
+												iPadQuickbarDock === "top" ? "bottom" : "top"
+											}
+											tooltipSide={
+												iPadQuickbarDock === "top" ? "bottom" : "top"
+											}
+											variant="ipad"
+										/>
+									</Suspense>
 								) : null
 							}
 							bridgeAvailable={iPadAuthoringSurface.bridgeAvailable}

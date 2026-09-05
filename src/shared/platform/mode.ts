@@ -23,8 +23,6 @@ export const platformCapabilities = Object.freeze({
 	cloudProjects: cloudEnabled,
 	/** Account bootstrap, sign in/out, account menu. */
 	account: cloudEnabled,
-	/** Billing entry, checkout, subscription management. */
-	billing: cloudEnabled,
 	/** Motion Copilot server planner (`/api/agent/plan`). */
 	copilotServerPlanner: cloudEnabled,
 	/** Production agent-bridge session endpoint (local relay is unaffected). */

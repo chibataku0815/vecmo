@@ -11,11 +11,9 @@ version = 1
 # expects a registered SPDX exception ID, and a LicenseRef- on the right side
 # does not validate in common tooling. See NOTICE and LICENSING.md.
 #
-# NOTE: packages/editor-kernel is MIT but lives outside this directory, so it
-# cannot be annotated here (REUSE.toml paths may not escape their own tree).
-# It carries a standalone packages/editor-kernel/LICENSE. When this repository
-# is published, move that annotation into the repository-root REUSE.toml as:
-#   path = ["packages/editor-kernel/**"], SPDX-License-Identifier = "MIT"
+# NOTE: packages/editor-kernel also carries a standalone
+# packages/editor-kernel/LICENSE (MIT). It is included in the MIT override
+# annotation's path list below.
 #
 # NOTE: worker/, drizzle/, wrangler*.jsonc and the private pages are denylisted
 # at export and do not ship in the public repository, so the ["**"] sweep below
@@ -29,8 +27,8 @@ SPDX-FileCopyrightText = "Copyright (C) 2026 Takumi Chiba (fores-tone)"
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 # Developer layer: MIT so integrators can vendor, fork, and ship these without
-# AGPL obligations. Scoped to files whose own code is self-contained player,
-# manifest, agent-contract or toolkit code. Deliberately excluded: the sampler
+# AGPL obligations. MIT covers each listed file's own text; several import
+# AGPL modules (see LICENSING.md). Deliberately excluded: the sampler
 # and player barrels, the *.generated.ts bundles, and the bundler/generator
 # scripts -- those embed or are built directly over AGPL-only sources, so an
 # MIT label on them would relicense AGPL-derived text.
@@ -44,6 +42,7 @@ path = [
   "src/features/export/model/runtime-manifest.ts",
   "src/features/export/model/runtime-react-template.ts",
   "src/entities/agent/model/**",
+  "packages/editor-kernel/**",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "Copyright (C) 2026 Takumi Chiba (fores-tone)"

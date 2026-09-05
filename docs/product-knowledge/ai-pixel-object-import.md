@@ -1,5 +1,7 @@
 # AI Pixel-Art Object Import
 
+> **Cloud-only.** This page describes the vecmo.dev hosted service. The backend is not part of this repository; in the open-source build these controls are hidden.
+
 Date: 2026-07-13
 Status: binding V1 product and implementation contract
 

@@ -1,5 +1,7 @@
 # Cloud project save/open
 
+> **Cloud-only.** This page describes the vecmo.dev hosted service. The backend is not part of this repository; in the open-source build these controls are hidden.
+
 Status: `beta`
 
 ## What changed

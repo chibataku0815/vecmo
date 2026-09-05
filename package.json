@@ -61,7 +61,6 @@
 		"@radix-ui/colors": "^3.0.0",
 		"@tailwindcss/vite": "^4.3.1",
 		"clsx": "^2.1.1",
-		"gsap": "^3.15.0",
 		"immer": "11.1.8",
 		"mediabunny": "^1.52.1",
 		"nanoid": "^5.1.11",

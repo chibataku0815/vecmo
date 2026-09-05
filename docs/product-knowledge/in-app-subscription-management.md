@@ -1,5 +1,7 @@
 # In-app subscription management (custom on-domain portal)
 
+> **Cloud-only.** This page describes the vecmo.dev hosted service. The backend is not part of this repository; in the open-source build these controls are hidden.
+
 Status: `beta` (built on this branch; needs production Polar provisioning to verify
 live). Source of truth for the full design: [`../embedded-billing-portal-spec.md`](../embedded-billing-portal-spec.md).
 

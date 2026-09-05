@@ -75,7 +75,7 @@ handler may register a given `ToolId`.
 
 ## Why It Matters
 
-These are the invariants `AGENTS.md`/`CLAUDE.md` describe in prose
+These are the invariants `CONTRIBUTING.md` describes in prose
 (downward-only imports, no feature-to-feature coupling, worker/client
 separation, the scene model as source of truth). Machine-checking them means
 a regression fails `bun run check` immediately instead of surfacing later as

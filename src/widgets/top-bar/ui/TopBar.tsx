@@ -28,7 +28,14 @@ import {
 	X,
 } from "@phosphor-icons/react";
 import type { ChangeEvent, MouseEvent } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+	lazy,
+	Suspense,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import {
 	canWriteCloudProject,
 	requestCloudWriterTakeover,
@@ -44,7 +51,6 @@ import { useMotionGrammarStore } from "@/entities/motion-grammar/model/store";
 import { createRenameDocumentCommand } from "@/entities/scene/model/node-commands";
 import { useSceneStore } from "@/entities/scene/model/store";
 import { fetchAccountBootstrap } from "@/features/billing/model/api";
-import { BillingEntry } from "@/features/billing/ui/BillingEntry";
 import { linkedProductionResolverForScene } from "@/features/blender-link/model/workflow";
 import {
 	type CloudProject,
@@ -213,6 +219,12 @@ import {
 	isTopBarVideoPlacementFile,
 	isUnsupportedTopBarVideoFile,
 } from "../model/video-placement";
+
+const BillingEntry = lazy(() =>
+	import("@/features/billing/ui/BillingEntry").then((m) => ({
+		default: m.BillingEntry,
+	})),
+);
 
 const reportCardClass =
 	"pointer-events-auto absolute top-8 right-0 z-40 w-[min(90vw,318px)] rounded-md border bg-surface-raised/96 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl";
@@ -2792,10 +2804,12 @@ export function TopBar({
 					<McpBridgeChip />
 					{platformCapabilities.account ? (
 						<div className="mr-0.5">
-							<BillingEntry
-								open={accountMenuOpen}
-								onOpenChange={setAccountMenuOpen}
-							/>
+							<Suspense fallback={null}>
+								<BillingEntry
+									open={accountMenuOpen}
+									onOpenChange={setAccountMenuOpen}
+								/>
+							</Suspense>
 						</div>
 					) : null}
 					{platformCapabilities.cloudProjects ? (

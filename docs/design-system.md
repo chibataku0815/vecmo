@@ -98,7 +98,7 @@ When you touch these by hand, apply Section 2 yourself.
 - Tokens & guard: `src/app/styles/index.css`, `scripts/check-design-tokens.ts`
 - Origin & rationale: `docs/design-system-tokens-and-headless-ui-plan.md`
 - UI/UX direction: `docs/figma-ui-ux-recommendations.md`
-- Repository task router and global safeguards: `AGENTS.md`
+- Repository task router and global safeguards: `CONTRIBUTING.md`
 
 This document is the sole detailed source of truth for editor-chrome design
-rules; `AGENTS.md` only declares when it must be read.
+rules; `CONTRIBUTING.md` only declares when it must be read.

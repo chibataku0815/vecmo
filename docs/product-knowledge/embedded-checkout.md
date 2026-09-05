@@ -1,5 +1,9 @@
 # Embedded checkout (upgrade inside the editor)
 
+> **Cloud-only.** This page describes the vecmo.dev hosted service. The backend is not part of this repository; in the open-source build these controls are hidden.
+
+Note: `BillingEntry` is lazy-loaded from `TopBar.tsx` and `CanvasShell.tsx` (both already gated behind `platformCapabilities.account`), so the checkout/Polar bundle is excluded from the open-source build's main entry chunk.
+
 Status: `beta` (built on this branch; needs production Polar provisioning to verify
 live). Source of truth for the full design: [`../embedded-billing-portal-spec.md`](../embedded-billing-portal-spec.md).
 
