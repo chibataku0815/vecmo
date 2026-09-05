@@ -154,6 +154,76 @@ const sharedColorControlsSource = {
 
 export const PRODUCT_UPDATES = [
 	{
+		slug: "motion-artifact-export-menu",
+		category: "Export",
+		date: "2026-09-06",
+		status: "beta",
+		title: "Embeddable Motion Artifact reaches the Export menu",
+		summary:
+			"The self-contained Motion Artifact runtime profile is now a first-class Motion / Code export menu item instead of a model-only capability.",
+		canonicalSources: [motionCodeRuntimeSource],
+		highlights: [
+			{
+				id: "motion-artifact-menu.entry",
+				publicText:
+					"The Export menu's Motion / Code section now lists Motion Artifact first, with an EMBED badge, alongside Web Embed, Production, and Editable.",
+				source: motionCodeRuntimeSource,
+			},
+			{
+				id: "motion-artifact-menu.payload",
+				publicText:
+					"Motion Artifact inlines scene and motion data into one runtime payload with no separate data file to keep in sync.",
+				source: motionCodeRuntimeSource,
+			},
+		],
+		workflow: [
+			{
+				id: "motion-artifact-menu.workflow",
+				publicText:
+					"Open Export, choose the Motion / Code item marked EMBED, and hand the downloaded runtime to a host page that only needs one motion.",
+				source: motionCodeRuntimeSource,
+			},
+		],
+		beforeAfter: [
+			{
+				label: "Before",
+				value:
+					"Motion Artifact existed in the export model but had no menu entry, so only internal/agent callers could reach it.",
+			},
+			{
+				label: "After",
+				value:
+					"Motion Artifact is a public Export menu choice next to Web Embed, Production, and Editable.",
+			},
+		],
+		details: [
+			{ label: "Menu badge", value: "EMBED" },
+			{
+				label: "Payload shape",
+				value: "One inlined runtime.js, no split data file",
+			},
+		],
+		whyItMatters: [
+			{
+				id: "motion-artifact-menu.why",
+				publicText:
+					"A host embedding a single motion no longer needs to reconstruct the artifact profile manually; it is one click in the same menu as the other profiles.",
+				source: motionCodeRuntimeSource,
+			},
+		],
+		limits: [
+			{
+				id: "motion-artifact-menu.limit",
+				publicText:
+					"The download still bundles the runtime alongside its declaration, HTML entrypoint, and manifest as a ZIP when more than one file is produced; it is not a single downloaded file.",
+				source: {
+					path: "docs/product-knowledge/motion-code-runtime-export.md",
+					heading: "What Users Can Do Now",
+				},
+			},
+		],
+	},
+	{
 		slug: "shared-color-controls",
 		category: "Design",
 		date: "2026-07-13",

@@ -3217,6 +3217,30 @@ export function TopBar({
 									<button
 										type="button"
 										className={exportMenuItemClass}
+										onClick={() => exportMotionCode("motion-artifact")}
+									>
+										<Command
+											aria-hidden="true"
+											size={13}
+											className="text-fg-muted"
+										/>
+										<span className="min-w-0">
+											<span className="block truncate font-medium text-fg">
+												Motion / Code
+											</span>
+											<span className="block truncate text-fg-muted">
+												{
+													exportOptimizationProfileDescription[
+														"motion-artifact"
+													]
+												}
+											</span>
+										</span>
+										<span className="font-mono text-fg-muted">EMBED</span>
+									</button>
+									<button
+										type="button"
+										className={exportMenuItemClass}
 										onClick={() => exportMotionCode("web-embed")}
 									>
 										<Command

@@ -8,9 +8,15 @@ generated declarations, and manifest discovery are complete.
 ## Summary
 
 The **motion/code** export produces a runtime module plus an HTML page, so a
-developer can drop a Vecmo motion into their own site. It now exposes three
+developer can drop a Vecmo motion into their own site. It now exposes four
 output profiles from the Top Bar export menu:
 
+- **Motion Artifact** (`EMBED` badge, listed first): self-contained embeddable
+  runtime that inlines scene/motion data into one `.runtime.js` payload (no
+  split data file to keep in sync), still downloaded alongside its `.d.ts`,
+  HTML entrypoint, and manifest. Measured gzip size scales with scene content
+  (117KB and 152KB gzip for the `grainy-gradient-orb` and `cycle-motion-system`
+  reference scenes).
 - **Web Embed**: compact runtime output for normal web use.
 - **Production**: smallest runtime bundle, excluding hidden content, editor-only
   metadata, production-only authoring names, side-car handoff files, and the
@@ -163,8 +169,8 @@ draws the editor canvas draws the exported frame.
 
 1. Author a scene and apply one or more motion techniques (e.g. Cycle or Ring
    Wave) from the Inspector Motion section.
-2. Export with the Web Embed, Production, or Editable motion/code profile from
-   the Top Bar export menu.
+2. Export with the Motion Artifact, Web Embed, Production, or Editable
+   motion/code profile from the Top Bar export menu.
 3. Unzip the archive when the export contains multiple files.
 4. Open the generated `*.html` from an HTTP-served directory for Web Embed or
    Production, or open the Editable HTML directly when a self-contained handoff
