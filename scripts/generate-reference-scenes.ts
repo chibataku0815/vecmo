@@ -5,9 +5,17 @@ import { produce } from "immer";
 import type { AgentDocumentContext } from "@/entities/agent/model/read-only";
 import type { AgentSceneCommand } from "@/entities/agent/model/types";
 import { applyAgentSceneCommands } from "@/entities/agent/model/write";
+import {
+	type EasingPreset,
+	withSegmentEasing,
+	withSegmentEasingCurve,
+} from "@/entities/motion/model/easing";
 import { initialMotionDocument } from "@/entities/motion/model/seed-motion";
 import { serializeMotionDocument } from "@/entities/motion/model/serialization";
-import type { MotionDocument } from "@/entities/motion/model/types";
+import type {
+	KeyframeTrack,
+	MotionDocument,
+} from "@/entities/motion/model/types";
 import { EMPTY_GRAMMAR_DOCUMENT } from "@/entities/motion-grammar/model/command";
 import { serializeMotionGrammarLayer } from "@/entities/motion-grammar/model/parse";
 import {
@@ -41,6 +49,7 @@ import {
 	createMotionCodeRuntimeAsset,
 } from "@/features/export/model/code";
 import { exportOptimizationOptionsForProfile } from "@/features/export/model/optimization";
+import type { AeKeyframe } from "@/shared/glammer/keyframe-track";
 import { STROKE_WIDTH_PROFILE_PRESETS } from "@/shared/stroke/width-profile";
 
 /**
@@ -2125,6 +2134,314 @@ const buildGrainyDissolveCoverSource = (): {
 	return { scene: finalScene, motion, idRemap: undefined };
 };
 
+const HELLO_MOTION_FPS = 30;
+const HELLO_MOTION_DURATION_FRAMES = HELLO_MOTION_FPS * 4; // a 4s loop
+
+/** easings.net "easeOutBack" overshoot cubic, for the diamond's settle beat. */
+const HELLO_MOTION_SETTLE_CURVE = { x1: 0.34, y1: 1.56, x2: 0.64, y2: 1 };
+
+const helloMotionEasedPair = (
+	time0: number,
+	value0: number,
+	time1: number,
+	value1: number,
+	preset: EasingPreset,
+): readonly [AeKeyframe<number>, AeKeyframe<number>] => {
+	const { left, right } = withSegmentEasing(
+		{ time: time0, value: value0 },
+		{ time: time1, value: value1 },
+		preset,
+	);
+	return [left, right as AeKeyframe<number>];
+};
+
+const helloMotionSettlePair = (
+	time0: number,
+	value0: number,
+	time1: number,
+	value1: number,
+): readonly [AeKeyframe<number>, AeKeyframe<number>] => {
+	const { left, right } = withSegmentEasingCurve(
+		{ time: time0, value: value0 },
+		{ time: time1, value: value1 },
+		HELLO_MOTION_SETTLE_CURVE,
+	);
+	return [left, right as AeKeyframe<number>];
+};
+
+let helloMotionTrackCounter = 0;
+const helloMotionTrack = (
+	nodeId: string,
+	property: KeyframeTrack["target"]["property"],
+	keyframes: readonly AeKeyframe<number>[],
+): KeyframeTrack => {
+	helloMotionTrackCounter += 1;
+	return {
+		id: `hello-motion-track-${helloMotionTrackCounter}`,
+		target: { nodeId, property },
+		keyframes,
+	};
+};
+
+const HELLO_MOTION_ORBIT_CENTER = { x: 640, y: 190 };
+const HELLO_MOTION_ORBIT_PATH_RADIUS = 80;
+
+/**
+ * An orbiting node's own geometry sits `HELLO_MOTION_ORBIT_PATH_RADIUS` away
+ * from its transform anchor (which stays at the default `{0,0}`), so a plain
+ * `rotation` keyframe track traces a perfect circle around
+ * `HELLO_MOTION_ORBIT_CENTER` — `matrixFromTransform`'s
+ * `position + anchor + R*(local - anchor)` collapses to `position + R*local`
+ * when anchor is `{0,0}`. This needs only one two-keyframe track per dot
+ * (linear, for constant angular speed) instead of separately keyframing x/y
+ * around the circle.
+ */
+const helloMotionOrbitNode = (
+	id: string,
+	dotRadius: number,
+	fill: string,
+): VectorNode => ({
+	id,
+	name: id,
+	geometry: ellipse(HELLO_MOTION_ORBIT_PATH_RADIUS, 0, dotRadius),
+	transform: {
+		position: { ...HELLO_MOTION_ORBIT_CENTER },
+		rotation: 0,
+		scale: { x: 1, y: 1 },
+		anchor: { x: 0, y: 0 },
+	},
+	style: { fill, stroke: "none", strokeWidth: 0, opacity: 1 },
+	visible: true,
+	locked: false,
+});
+
+const HELLO_MOTION_RECT_Y = 560;
+const HELLO_MOTION_RECT_ENTRANCE_OFFSET = 70;
+
+const helloMotionRectNode = (
+	id: string,
+	centerX: number,
+	fill: string,
+): VectorNode => ({
+	id,
+	name: id,
+	geometry: {
+		kind: "rect",
+		bounds: {
+			x: centerX - 85,
+			y: HELLO_MOTION_RECT_Y,
+			width: 170,
+			height: 100,
+		},
+		cornerRadius: 18,
+	},
+	transform: {
+		position: { x: 0, y: 0 },
+		rotation: 0,
+		scale: { x: 1, y: 1 },
+		anchor: { x: 0, y: 0 },
+	},
+	style: { fill, stroke: "none", strokeWidth: 0, opacity: 1 },
+	visible: true,
+	locked: false,
+});
+
+const HELLO_MOTION_DIAMOND_ID = "hm-diamond";
+const HELLO_MOTION_DIAMOND_CENTER = { x: 640, y: 360 };
+
+const helloMotionDiamondNode = (): VectorNode => {
+	const { x: cx, y: cy } = HELLO_MOTION_DIAMOND_CENTER;
+	const halfW = 110;
+	const halfH = 70;
+	const vertices: readonly (readonly [number, number])[] = [
+		[cx, cy - halfH],
+		[cx + halfW, cy],
+		[cx, cy + halfH],
+		[cx - halfW, cy],
+	];
+	return {
+		id: HELLO_MOTION_DIAMOND_ID,
+		name: HELLO_MOTION_DIAMOND_ID,
+		geometry: {
+			kind: "path",
+			shape: {
+				type: "Shape",
+				closed: true,
+				vertices,
+				inTangents: vertices.map(() => [0, 0] as const),
+				outTangents: vertices.map(() => [0, 0] as const),
+			},
+		},
+		transform: {
+			position: { x: 0, y: 0 },
+			rotation: 0,
+			scale: { x: 1, y: 1 },
+			anchor: { x: cx, y: cy },
+		},
+		style: { fill: "#12b8b0", stroke: "none", strokeWidth: 0, opacity: 1 },
+		visible: true,
+		locked: false,
+	};
+};
+
+/**
+ * Purpose-authored FLAT-tier reference scene: three rounded rects stagger in
+ * (ease-out slide + fade), a small orbiting pair loops the whole 4s duration
+ * (linear rotation around an off-anchor geometry offset, see
+ * {@link helloMotionOrbitNode}), and a diamond path settles in with an
+ * overshoot ease. Deliberately carries NONE of the capabilities
+ * `selectMotionArtifactRuntimeSamplerTier` gates on: no artboard/scene
+ * `effectIntent` (every sibling above wears the shared Analog Film look), no
+ * node `recipe`/`style.effects`, no masks, no mesh-gradient paint, no blend
+ * nodes, no interactions, no motion-grammar bindings, no look graph, and no
+ * scene camera — plus the explicit `cameraSpacePolicy: "screen_2d"` FLAT
+ * additionally requires. Every property here animates through ordinary
+ * `MotionDocument.tracks` keyframes, so this is the one fixture in the library
+ * that reaches the motion-artifact profile's narrowest FLAT sampler tier.
+ */
+const buildHelloMotionSource = (): {
+	scene: SceneDocument;
+	motion: MotionDocument;
+} => {
+	const rects = [
+		{ id: "hm-rect-1", centerX: 260, fill: "#f2545b", start: 0 },
+		{ id: "hm-rect-2", centerX: 640, fill: "#f4b400", start: 10 },
+		{ id: "hm-rect-3", centerX: 1020, fill: "#2ea44f", start: 20 },
+	];
+	const rectNodes = rects.map((rect) =>
+		helloMotionRectNode(rect.id, rect.centerX, rect.fill),
+	);
+	const rectTracks = rects.flatMap((rect) => {
+		const end = rect.start + 18;
+		const [yFrom, yTo] = helloMotionEasedPair(
+			rect.start,
+			HELLO_MOTION_RECT_ENTRANCE_OFFSET,
+			end,
+			0,
+			"easeOut",
+		);
+		const [opacityFrom, opacityTo] = helloMotionEasedPair(
+			rect.start,
+			0,
+			end,
+			1,
+			"easeOut",
+		);
+		return [
+			helloMotionTrack(rect.id, "y", [yFrom, yTo]),
+			helloMotionTrack(rect.id, "opacity", [opacityFrom, opacityTo]),
+		];
+	});
+
+	const orbitA = helloMotionOrbitNode("hm-orbit-a", 22, "#1f6feb");
+	const orbitB = helloMotionOrbitNode("hm-orbit-b", 14, "#8957e5");
+	const [orbitAFrom, orbitATo] = helloMotionEasedPair(
+		0,
+		0,
+		HELLO_MOTION_DURATION_FRAMES,
+		360,
+		"linear",
+	);
+	const [orbitBFrom, orbitBTo] = helloMotionEasedPair(
+		0,
+		180,
+		HELLO_MOTION_DURATION_FRAMES,
+		540,
+		"linear",
+	);
+	const orbitTracks = [
+		helloMotionTrack("hm-orbit-a", "rotation", [orbitAFrom, orbitATo]),
+		helloMotionTrack("hm-orbit-b", "rotation", [orbitBFrom, orbitBTo]),
+	];
+
+	const diamondNode = helloMotionDiamondNode();
+	const settleStart = 30;
+	const settleEnd = 58;
+	const [diamondOpacityFrom, diamondOpacityTo] = helloMotionEasedPair(
+		settleStart,
+		0,
+		settleEnd,
+		1,
+		"easeOut",
+	);
+	const [diamondRotationFrom, diamondRotationTo] = helloMotionSettlePair(
+		settleStart,
+		-18,
+		settleEnd,
+		0,
+	);
+	const [diamondScaleXFrom, diamondScaleXTo] = helloMotionSettlePair(
+		settleStart,
+		1.35,
+		settleEnd,
+		1,
+	);
+	const [diamondScaleYFrom, diamondScaleYTo] = helloMotionSettlePair(
+		settleStart,
+		1.35,
+		settleEnd,
+		1,
+	);
+	const diamondTracks = [
+		helloMotionTrack(HELLO_MOTION_DIAMOND_ID, "opacity", [
+			diamondOpacityFrom,
+			diamondOpacityTo,
+		]),
+		helloMotionTrack(HELLO_MOTION_DIAMOND_ID, "rotation", [
+			diamondRotationFrom,
+			diamondRotationTo,
+		]),
+		helloMotionTrack(HELLO_MOTION_DIAMOND_ID, "scaleX", [
+			diamondScaleXFrom,
+			diamondScaleXTo,
+		]),
+		helloMotionTrack(HELLO_MOTION_DIAMOND_ID, "scaleY", [
+			diamondScaleYFrom,
+			diamondScaleYTo,
+		]),
+	];
+
+	const artboard = {
+		id: "hello-motion-artboard",
+		name: "Hello Motion",
+		position: { x: 0, y: 0 },
+		width: ARTBOARD_WIDTH,
+		height: ARTBOARD_HEIGHT,
+		background: "#12141a",
+		fps: HELLO_MOTION_FPS,
+		durationFrames: HELLO_MOTION_DURATION_FRAMES,
+		cameraSpacePolicy: "screen_2d" as const,
+	};
+
+	const scene: SceneDocument = {
+		schemaVersion: SCENE_SCHEMA_VERSION,
+		id: "reference-hello-motion",
+		name: "Hello Motion",
+		artboard,
+		artboards: [artboard],
+		currentArtboardId: artboard.id,
+		layers: [
+			{
+				id: "hello-motion-layer",
+				name: "Hello Motion",
+				visible: true,
+				locked: false,
+				nodes: [...rectNodes, orbitA, orbitB, diamondNode],
+			},
+		],
+	};
+
+	const motion: MotionDocument = {
+		schemaVersion: 1,
+		fps: HELLO_MOTION_FPS,
+		durationFrames: HELLO_MOTION_DURATION_FRAMES,
+		tracks: [...rectTracks, ...orbitTracks, ...diamondTracks],
+		clips: [],
+	};
+
+	return { scene, motion };
+};
+
 type ReferenceFixtureSource = {
 	/** Matches the `REFERENCE_SCENES` registry slug (`model/registry.ts`). */
 	readonly slug: string;
@@ -2145,8 +2462,16 @@ const grainyDissolveCover = buildGrainyDissolveCoverSource();
 const signalHandoff = buildSignalHandoffSource();
 const materialSignalHandoff = buildMaterialSignalHandoffSource();
 const projectedSolidProbe = buildProjectedSolidProbeSource();
+const helloMotion = buildHelloMotionSource();
 
 const SOURCES: readonly ReferenceFixtureSource[] = [
+	{
+		slug: "hello-motion",
+		exportName: "helloMotionFixture",
+		fileStem: "hello-motion.fixture",
+		scene: helloMotion.scene,
+		motion: helloMotion.motion,
+	},
 	{
 		slug: "grainy-gradient-orb",
 		exportName: "grainyGradientOrbFixture",

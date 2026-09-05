@@ -11,6 +11,17 @@ import type { ReferenceSceneMeta } from "./types";
  */
 export const REFERENCE_SCENES: readonly ReferenceSceneMeta[] = [
 	{
+		slug: "hello-motion",
+		title: "Hello Motion",
+		summary:
+			"Three rounded rects stagger in, a small orbiting pair loops overhead, and a diamond settles with an overshoot ease — a plain vector motion piece with no look effects, masks, or camera. Open it and scrub the Timeline.",
+		category: "Motion",
+		status: "public",
+		posterFrame: 45,
+		productKnowledge: "hello-motion.md",
+		exportDemo: "hello-motion.html",
+	},
+	{
 		slug: "grainy-gradient-orb",
 		title: "Grainy gradient orb",
 		summary:

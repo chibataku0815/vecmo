@@ -149,6 +149,7 @@ Two cross-cutting rules:
 | 2026-07-07 | [iPad Pencil Pro authoring](./ipad-pencil-pro-authoring.md) | Apple Pencil Pro squeeze/double tap/haptics, radial QuickMenu, selected Delete, hover cursor, quick line recognition, pinch rotate, Quick Pinch, multi-touch undo/redo, three-finger QuickMenu, and four-finger focus mode are now first-class iPad authoring inputs. |
 | 2026-07-09 | [Agent Bridge Development Auto-Approval](./agent-bridge-dev-auto-approval.md) | Local dev bridge sessions auto-approve `apply_edit_plan_live` and `save_project_live` so agent implementation loops do not stall on the approval banner, while production bridge sessions remain human-gated by default. |
 | 2026-08-05 | [Blender-linked production](./blender-linked-production.md) | Internal, not user-facing yet: a linked `.blend` source with a local Bun companion rebuild, one Vecmo frame clock driving explicit GLB animation seek, published numeric controls with `control()` expression fan-out into camera focus/FOV and text-reveal offset, and a minimal frame-anchored audio lane. No public Import menu claim; neither expression field has an Inspector control yet. |
+| 2026-09-06 | [Hello Motion](./hello-motion.md) | New `/tutorials` reference scene (Motion category) purpose-authored with no look/mask/mesh-gradient/blend/interactions/grammar/camera capability, reaching the motion-artifact export profile's FLAT sampler tier so its Export → Motion / Code → EMBED runtime lands near ~50KB gzip instead of the 115-150KB every other gallery scene produces. |
 
 ## Public Surface
 

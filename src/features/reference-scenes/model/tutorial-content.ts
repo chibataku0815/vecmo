@@ -36,6 +36,33 @@ export type TutorialContent = {
 
 export const TUTORIAL_CONTENT: readonly TutorialContent[] = [
 	{
+		slug: "hello-motion",
+		goal: "You will play a plain vector motion loop and see its keyframes in the Timeline.",
+		estimatedMinutes: 3,
+		steps: [
+			{
+				title: "Open the Timeline and press Play",
+				detail:
+					"Open the Timeline panel and click Play. Watch the three rects stagger in, the small orbiting pair loop overhead, and the diamond settle with a slight bounce.",
+			},
+			{
+				title: "Select a staggered rect",
+				detail:
+					"Click one of the three rounded rects. The Timeline filters to that rect's Y and Opacity rows, each with two keyframes.",
+			},
+			{
+				title: "Select the diamond",
+				detail:
+					"Click the diamond shape. Its Rotate, Scale X, and Scale Y rows in the Timeline use an overshoot ease curve, visible as the settle's small bounce past its final size.",
+			},
+			{
+				title: "Scrub the Timeline",
+				detail:
+					"Drag the playhead across the 4-second loop to see the orbiting pair's constant-speed rotation and the rects/diamond hold their settled pose after entering.",
+			},
+		],
+	},
+	{
 		slug: "grainy-gradient-orb",
 		goal: "You will reshape a mesh-gradient glow and dial in its blur and grain.",
 		estimatedMinutes: 4,

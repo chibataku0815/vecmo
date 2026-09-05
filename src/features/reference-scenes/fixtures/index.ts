@@ -2,6 +2,7 @@ import { cornerRadiusFixture } from "./corner-radius-expansion.fixture";
 import { cycleMotionFixture } from "./cycle-motion-system.fixture";
 import { grainyDissolveCoverFixture } from "./grainy-dissolve-cover.fixture";
 import { grainyGradientOrbFixture } from "./grainy-gradient-orb.fixture";
+import { helloMotionFixture } from "./hello-motion.fixture";
 import { projectedSolidProbeFixture } from "./projected-solid-probe.fixture";
 import { signalHandoffFixture } from "./signal-handoff.fixture";
 import { signalHandoffMaterialFixture } from "./signal-handoff-material.fixture";
@@ -25,6 +26,7 @@ export type ReferenceSceneFixture = {
  * `model/registry.ts`. Generated payloads come from `gen:reference-scenes`.
  */
 export const REFERENCE_SCENE_FIXTURES: readonly ReferenceSceneFixture[] = [
+	{ slug: "hello-motion", ...helloMotionFixture },
 	{ slug: "grainy-gradient-orb", ...grainyGradientOrbFixture },
 	{ slug: "grainy-dissolve-cover", ...grainyDissolveCoverFixture },
 	{ slug: "cycle-motion-system", ...cycleMotionFixture },
