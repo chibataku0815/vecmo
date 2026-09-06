@@ -1,8 +1,12 @@
 import { createHash } from "node:crypto";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { gzipSync } from "node:zlib";
+import type { AgentDocumentContext } from "@/entities/agent/model/read-only";
+import type { AgentSceneCommand } from "@/entities/agent/model/types";
+import { applyAgentSceneCommands } from "@/entities/agent/model/write";
 import { deserializeMotionDocument } from "@/entities/motion/model/serialization";
+import type { MotionDocument } from "@/entities/motion/model/types";
 import { parseMotionGrammarLayer } from "@/entities/motion-grammar/model/parse";
 import { deserializeSceneDocument } from "@/entities/scene/model/serialization";
 import type { SceneDocument } from "@/entities/scene/model/types";
@@ -42,6 +46,7 @@ import {
 
 const EXPORT_PROFILE = "motion-artifact" as const;
 const EXPORT_CURRENT_FRAME = 0;
+const JSON_INDENT = 2;
 
 const RUNTIME_SAMPLER_SOURCE_BY_TIER = {
 	full: MOTION_RUNTIME_SAMPLER_SOURCE,
@@ -98,6 +103,44 @@ const runtimeSamplerTier = (runtimeContents: string): RuntimeSamplerTier => {
 	return matches[0][0] as RuntimeSamplerTier;
 };
 
+const readCommandPlan = (planPath: string): readonly AgentSceneCommand[] => {
+	const parsed: unknown = JSON.parse(readFileSync(planPath, "utf8"));
+	if (!Array.isArray(parsed) || parsed.length === 0) {
+		fail(`--commands "${planPath}" must hold a non-empty JSON array.`);
+	}
+	return parsed as readonly AgentSceneCommand[];
+};
+
+/**
+ * Runs an agent-authored plan through the SAME writer the MCP server's
+ * `apply_scene_commands` runs (`applyAgentSceneCommands`), so an artifact
+ * exported after an AI edit is the product's own command bus talking, not a
+ * bespoke patcher. Anything short of a clean full apply is fatal: a partially
+ * applied plan would ship a silently wrong artifact.
+ */
+const documentsAuthoredByPlan = (
+	context: AgentDocumentContext,
+	commands: readonly AgentSceneCommand[],
+): { readonly scene: SceneDocument; readonly motion: MotionDocument } => {
+	const result = applyAgentSceneCommands(context, { commands });
+	const errors = result.issues.filter((issue) => issue.severity === "error");
+	if (!result.ok || errors.length > 0) {
+		fail(
+			`command plan rejected: ${errors.map((issue) => `${issue.code} ${issue.message}`).join("; ") || "no issue detail"}.`,
+		);
+	}
+	if (result.data.appliedCommandCount !== commands.length) {
+		fail(
+			`command plan applied ${result.data.appliedCommandCount} of ${commands.length} commands.`,
+		);
+	}
+	if (!result.data.changed) fail("command plan changed nothing.");
+	return {
+		scene: result.data.scene,
+		motion: result.data.motion ?? context.motion,
+	};
+};
+
 const slug = flagValue("--ref");
 const outDir = flagValue("--out");
 if (!slug) fail("--ref <slug> is required.");
@@ -139,11 +182,44 @@ if (parsedGrammar.passthrough.length > 0) {
 	);
 }
 
-const naturalStem = fileStemForScene(sceneResult.document);
-const scene = sceneRenamedForStem(sceneResult.document, stem);
+const dumpDir = flagValue("--dump-documents");
+if (dumpDir) {
+	mkdirSync(dumpDir, { recursive: true });
+	// Raw `SceneDocument` / `MotionDocument` JSON, the shape `loadDocumentContext`
+	// expects behind MCP `scenePath` / `motionPath` — NOT the fixture envelope.
+	// The motion side keeps its `grammar` layer, which that loader reads.
+	writeFileSync(
+		path.join(dumpDir, `${stem}.scene.json`),
+		JSON.stringify(sceneResult.document, null, JSON_INDENT),
+		"utf8",
+	);
+	writeFileSync(
+		path.join(dumpDir, `${stem}.motion.json`),
+		JSON.stringify(motionResult.document, null, JSON_INDENT),
+		"utf8",
+	);
+}
+
+const planPath = flagValue("--commands");
+const authored = planPath
+	? documentsAuthoredByPlan(
+			{
+				scene: sceneResult.document,
+				motion,
+				grammar: {
+					bindings: parsedGrammar.bindings,
+					passthrough: parsedGrammar.passthrough,
+				},
+			},
+			readCommandPlan(planPath),
+		)
+	: { scene: sceneResult.document, motion };
+
+const naturalStem = fileStemForScene(authored.scene);
+const scene = sceneRenamedForStem(authored.scene, stem);
 const bundle = createExportBundle({
 	scene,
-	motion,
+	motion: authored.motion,
 	currentFrame: EXPORT_CURRENT_FRAME,
 	artboardScope: "current",
 	grammarBindings: parsedGrammar.bindings,
