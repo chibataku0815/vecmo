@@ -1,0 +1,12 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.chibataku0815/vecmo",
+  "title": "Vecmo",
+  "description": "Vector motion editor MCP: 26 typed tools to observe, validate and edit documents, then export code.",
+  "repository": {
+    "url": "https://github.com/chibataku0815/vecmo",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "websiteUrl": "https://github.com/chibataku0815/vecmo#mcp"
+}
