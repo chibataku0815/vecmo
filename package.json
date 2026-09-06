@@ -33,6 +33,7 @@
 		"gen:residual-motion-packets": "bun scripts/generate-residual-motion-packets.ts",
 		"gen:versioned-expression-binding-contract": "bun scripts/generate-versioned-expression-binding-contract.ts",
 		"gen:noise-gradient-cube-probe": "bun scripts/generate-noise-gradient-cube-probe.ts",
+		"export:motion-artifact": "bun scripts/export-motion-artifact.ts",
 		"gen:reference-scenes": "bun scripts/generate-reference-scenes.ts",
 		"gen:babylon-qa-probe": "bun scripts/gen-babylon-qa-probe.ts",
 		"gen:babylon-studio-env": "bun scripts/gen-babylon-studio-env.ts",
