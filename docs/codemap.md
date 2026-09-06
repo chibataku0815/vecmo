@@ -946,6 +946,18 @@ handles or treat external URL bytes as canonical document data.
   `compileMotionTimingTemplateForKeyframe`, and `motionTimingTemplateKeyframeHoldOf`. Labels are
   conventional easing words (`Linear`, `Ease in`, `Ease out`, `Ease in-out`, `Snap hold`); richer
   concepts stay profile-contextual. Hold-key semantics live in the motion command bus, not in React.
+- **Text Animator selector keys:** `features/motion/ui/timeline-adapter.ts::buildTimelineTextAnimatorLaneForNode`
+  projects the selected live-text node or prepared outline group as one compact Text Animator lane
+  with one Offset child row per ordered Range Selector. `timeline-model.ts::TextAnimatorOffsetSelectedKey`
+  addresses a key by `bindingId` + `selectorIndex` + `frame`; `TimelineTracks.tsx`,
+  `TemporalGraphEditor.tsx`, and `EasingPicker.tsx` resolve that address against the live Motion
+  document before every edit. Selecting one of these keys enters Timeline mode and opens its numeric
+  Value/Speed Graph through `MotionTimeline.tsx`. The entity commands
+  `{upsert,set,remove}TextAnimatorOffsetKeyframe*` mutate only the addressed selector through the
+  Motion command bus, including retime, value, temporal curve, and timing-template hold writes. A
+  stale binding, selector index, or key frame is a no-op rather than a nearest-owner fallback. Clip
+  windows are shown on the compact lane but remain read-only there; clip timing is still authored by
+  the Inspector because the current Motion model has no selector-safe trim/stretch command to reuse.
 - **Presentation (refresh/materialize-then-sample):** editor `entities/motion/model/presentation.ts::sampleMotionPresentationFrame`
   and export `features/export/model/render-presentation.ts::buildExportRenderPresentation` both call
   `refreshSceneBlendNodes` / `materializeLayoutFramesFor…` **before** sampling. Those projectors cache
