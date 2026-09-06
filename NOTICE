@@ -18,8 +18,9 @@ Three license components apply:
      LICENSES/LicenseRef-Vecmo-Runtime-Output-Exception.txt
 
 Third-party components: see package.json dependencies. Notable: Babylon.js
-(Apache-2.0), GSAP (no-charge license, not OSI-approved), React (MIT).
+(Apache-2.0), React (MIT), @polar-sh/checkout (Apache-2.0, loaded lazily and
+only in the hosted build).
 
-Security contact: security@vecmo.dev  [TODO confirm]
+Security contact: chiba@fores-tone.co.jp
 
-LEGAL REVIEW IS RECOMMENDED BEFORE PUBLICATION. Not reviewed by counsel.
+This license configuration has not yet been reviewed by legal counsel.

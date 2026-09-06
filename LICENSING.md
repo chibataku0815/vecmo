@@ -45,4 +45,4 @@ a program combining these files with the rest of Vecmo, the combined work is
 AGPL-3.0-only.
 
 Contributions are accepted under the license of the file you touch.
-Questions: security@vecmo.dev  [TODO confirm]
+Questions: chiba@fores-tone.co.jp

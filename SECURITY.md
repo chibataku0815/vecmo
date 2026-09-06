@@ -2,7 +2,7 @@
 
 Please report security issues privately, not as a public GitHub issue.
 
-Contact: security@vecmo.dev (placeholder — to be confirmed).
+Contact: chiba@fores-tone.co.jp.
 
 Include what you found, how to reproduce it, and the affected version/commit.
 
