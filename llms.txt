@@ -1,0 +1,32 @@
+# Vecmo
+
+> Browser vector-motion editor (React 19 + Vite + Bun, AGPL-3.0-only + MIT layer). Local-first: `/` opens the editor, nothing in this build talks to a server. Exports self-contained runtime code, not video.
+
+## Document formats
+
+- Scene document: `src/entities/scene/model/serialization.ts` (`vector-motion-author.scene-document`, v2)
+- Motion document: `src/entities/motion/model/serialization.ts` (`vector-motion-author.motion-document`, v1)
+- Project backup (scene + motion + grammar bundle): `src/features/project-backup/model/project-backup.ts` (`vector-motion-author.project-backup`)
+
+## MCP server
+
+Entry point: `scripts/vma-agent-mcp.ts`, run as `bun run mcp:agent`, launched via `.mcp.json` (stdio). 26 typed tools over the scene/motion document.
+
+Read/inspect (does not mutate the document): `observe_document`, `observe_node`, `observe_selection`, `observe_bridge_status`, `observe_document_live`, `observe_preview_state`, `load_reproduction_descriptor`, `list_artboards`, `list_layers`, `list_bindable_properties`, `list_appearance_effects`, `list_motion_grammar`, `list_look_graph`, `list_look_node_capabilities`, `run_validation`, `validate_edit_plan_live`, `propose_edit_plan` (plans a command set without applying it), `capture_editor_snapshot`, `export_artboard` (writes a file, not the document)
+
+Write (mutates the scene/motion document): `apply_scene_commands`, `apply_motion_commands`, `apply_motion_grammar_commands`, `apply_document_commands`, `apply_camera_commands`, `apply_edit_plan_live`, `save_project_live`
+
+Headless/scripted alternative to MCP: `bun run vmactl` (same command envelope; see `docs/agent-command-catalog.md`).
+
+## Export profiles (Export -> Motion / Code)
+
+Motion Artifact (EMBED, self-contained `<scene>.runtime.js`), Web Embed (compact, split data), Production (smallest, playback-only, shared `vector-motion-runtime.js`), Editable (full handoff bundle). Also: WebGL player, PDF, SVG, WebM, and a `.dctl` file for DaVinci Resolve Studio 18+ (Look Graph export).
+
+## Docs
+
+- [docs/architecture.md](docs/architecture.md) -- responsibility layers and stack
+- [docs/codemap.md](docs/codemap.md) -- where each subsystem lives
+- [docs/agent-command-catalog.md](docs/agent-command-catalog.md) -- full agent command reference
+- [docs/live-mcp-agent-runbook.md](docs/live-mcp-agent-runbook.md) -- live editing over the local relay
+- [docs/product-knowledge/README.md](docs/product-knowledge/README.md) -- per-feature capability docs
+- [LICENSING.md](LICENSING.md) -- AGPL + MIT layer + runtime-output exception
